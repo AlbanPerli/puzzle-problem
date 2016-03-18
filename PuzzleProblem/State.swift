@@ -6,6 +6,8 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
+// MARK: Define typealiases and constants
+
 ///
 /// Underlying data structure is an two-dimentional array of integers
 /// represented as a `row` in the first dimension and a `col` in the
@@ -18,10 +20,18 @@ typealias Matrix = [[Int]]
 ///
 let kEmptyTile: Int = 0
 
+// MARK: Define state struct
+
 ///
 /// Abstracts a current state of the search tree
 ///
-struct State: Equatable {
+struct State: Equatable, Hashable {
+    // MARK: Implement hashable
+    var hashValue: Int {
+        return self.matrix.description.hashValue +
+               self.leadingAction.debugDescription.hashValue
+    }
+
     ///
     /// Defines possible errors when a state is incorrectly accessed
     ///
@@ -96,7 +106,7 @@ struct State: Equatable {
         }
         return results
     }
-
+    
     ///
     /// The action which lead to this state
     ///
@@ -125,6 +135,8 @@ struct State: Equatable {
         self.matrix = matrix
         self.leadingAction = action
     }
+
+    // MARK: Define subscript and state access methods
 
     ///
     /// Finds and returns the element at the specified index
@@ -193,6 +205,8 @@ struct State: Equatable {
     subscript (pos: Position) -> Int? {
         return self[pos.row, pos.col]
     }
+
+    // MARK: Define action-related inputs to the state
     
     ///
     /// Checks if the provided move in the given direction at the given position
@@ -248,10 +262,8 @@ struct State: Equatable {
     }
 }
 
-///
-/// Implement `Equatable` protocol for `State` which compares each comparator's
-/// internal matrix
-///
+// MARK: Implement Equatable protocol
+
 func ==(lhs: State, rhs: State) -> Bool {
     for (rowIdx, row) in lhs.matrix.enumerate() {
         for (colIdx, _) in row.enumerate() {

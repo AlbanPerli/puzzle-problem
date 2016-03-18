@@ -21,7 +21,7 @@ class NodeTests: XCTestCase {
             [1,2],
             [3,0]
         ])
-        var node: Node = Node(initialState: state)
+        let node: Node = Node(initialState: state)
         XCTAssert(node.pathCost == 0)
         XCTAssert(node.state == state)
         let children = node.children
@@ -49,7 +49,7 @@ class NodeTests: XCTestCase {
             [3,0,5],
             [6,7,8]
         ])
-        var rootNode = Node(initialState: rootNodeState)
+        let rootNode = Node(initialState: rootNodeState)
         // 1 2 4 -> 1 0 4
         // 3 0 5    3 2 5
         // 6 7 8    6 7 8

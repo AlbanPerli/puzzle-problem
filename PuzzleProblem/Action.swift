@@ -13,6 +13,14 @@ struct Action {
     let position: Position
     let direction: Direction
 
+    ///
+    /// Returns a new action when the given position is moved in the provided
+    /// direction
+    ///
+    /// - Parameter position: Which position to move
+    /// - Parameter inDirection: The direction to move this position in
+    /// - Returns: A new action describing the action that can move this tile
+    ///
     static func move(position: Position, inDirection dir: Direction) -> Action {
         // How much to move the provided row or column by
         var row = position.row
@@ -33,6 +41,11 @@ struct Action {
         return Action(movingPosition: (row, col), inDirection: dir.inverse)
     }
 
+    ///
+    /// Creates a new instance of an Action
+    /// - Parameter movingPosition: Which position to move
+    /// - Parameter inDirection: Which direction to move in
+    ///
     init(movingPosition position: Position, inDirection direction: Direction) {
         self.direction = direction
         self.position = position

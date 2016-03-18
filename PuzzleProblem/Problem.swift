@@ -10,8 +10,12 @@ struct Problem {
     var initialState: State {
         return State(matrix: [[]])
     }
-//    var initialNode: Node {
-//        return Node(initialState: self.initialState, action: <#T##Action#>)
-//    }
-
+    var initialNode: Node {
+        let rootNodeState = State(matrix: [
+            [1,2,4],
+            [3,0,5],
+            [6,7,8]
+        ])
+        return Node(initialState: rootNodeState)
+    }
 }

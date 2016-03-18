@@ -13,11 +13,30 @@ let kPathCost: Int = 1
 ///
 /// The Node class
 ///
-struct Node: Equatable {
+class Node: Equatable, Hashable {
+    // MARK: Implement hashable
+    var hashValue: Int {
+        return self.state?.hashValue ?? 0
+    }
+
+    // MARK: Propertieis
+
+    ///
+    /// The state stored by this node
+    ///
+    let state: State?
+
     ///
     /// The path cost to get to this node
     ///
     let pathCost: Int
+
+    ///
+    /// The parent of this node
+    ///
+    let parent: Node?
+
+    // MARK: Lazy-computed properties
 
     ///
     /// The children this node has
@@ -36,9 +55,33 @@ struct Node: Equatable {
     }()
 
     ///
-    /// The state stored by this node
+    /// Determines whether the node is empty or not
     ///
-    let state: State?
+    lazy var isEmpty: Bool = {
+        return self.children.isEmpty
+    }()
+
+    ///
+    /// Computes the actions that lead to this node's state
+    ///
+    lazy var actionsToThisNode: [Action] = {
+        var result: [Action] = []
+        var ancestor: Node? = self.parent
+        // Keep backtracking up to my parent's parent, adding their actions
+        // to get to their state
+        while (ancestor != nil) {
+            if let leadingAction = ancestor?.state?.leadingAction {
+                result.append(leadingAction)
+            } else {
+                // Cannot get the state!
+                assertionFailure("There is always a state or leading action for a non-nil ancestor")
+            }
+            ancestor = ancestor?.parent
+        }
+        return result
+    }()
+
+    // MARK: Initialisers for nodes
 
     ///
     /// The initialiser of a node
@@ -46,6 +89,7 @@ struct Node: Equatable {
     init(parent: Node, state: State?) {
         self.pathCost = parent.pathCost + kPathCost
         self.state = state
+        self.parent = parent
     }
 
     ///
@@ -54,12 +98,13 @@ struct Node: Equatable {
     init(initialState: State) {
         self.pathCost = 0
         self.state = initialState
+        self.parent = nil
     }
 }
 
-///
-/// Implement the Equatable protocol for Node
-///
+
+// MARK: Implement the Equatable protocol for Node
+
 func ==(lhs: Node, rhs: Node) -> Bool {
     return lhs.state == rhs.state
 }

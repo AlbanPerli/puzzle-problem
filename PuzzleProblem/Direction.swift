@@ -13,7 +13,9 @@ enum Direction {
     case Down
     case Left
     case Right
-
+    ///
+    /// The inverse of the current direction, e.g. `Up`'s inverse is `Down`
+    ///
     var inverse: Direction {
         switch self {
         case .Up:
