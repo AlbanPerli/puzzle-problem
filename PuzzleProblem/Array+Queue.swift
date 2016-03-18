@@ -13,6 +13,6 @@ extension Array {
         self.append(newElement)
     }
     mutating func dequeue() -> Element? {
-        return self.popLast()
+        return self.removeFirst()
     }
 }

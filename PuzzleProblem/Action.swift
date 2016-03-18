@@ -9,8 +9,22 @@
 ///
 /// An abstraction of a single `position` moved in a given `direction`
 ///
-struct Action {
+struct Action: CustomStringConvertible {
+    // MARK: Implement CustomStringConvertible
+    var description: String {
+        return "Moving {\(self.position.row), \(self.position.col)} \(self.direction)"
+    }
+
+    // MARK: Implement action methods
+
+    ///
+    /// The position this action affects
+    ///
     let position: Position
+
+    ///
+    /// The direction that will be applied to the `position`
+    ///
     let direction: Direction
 
     ///

@@ -8,7 +8,7 @@
 ///
 /// A direction for `up`, `down`, `left`, and `right`
 ///
-enum Direction {
+enum Direction: String, CustomStringConvertible {
     case Up
     case Down
     case Left
@@ -27,5 +27,9 @@ enum Direction {
         case .Right:
             return .Left
         }
+    }
+    // MARK: Implement CustomStringConvertible
+    var description: String {
+        return self.rawValue
     }
 }

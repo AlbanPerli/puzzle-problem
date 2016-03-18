@@ -67,14 +67,14 @@ class Node: Equatable, Hashable {
     lazy var actionsToThisNode: [Action] = {
         var result: [Action] = []
         var ancestor: Node? = self.parent
+        if let currentLeadingAction = self.state?.leadingAction {
+            result.append(currentLeadingAction)
+        }
         // Keep backtracking up to my parent's parent, adding their actions
         // to get to their state
         while (ancestor != nil) {
             if let leadingAction = ancestor?.state?.leadingAction {
                 result.append(leadingAction)
-            } else {
-                // Cannot get the state!
-                assertionFailure("There is always a state or leading action for a non-nil ancestor")
             }
             ancestor = ancestor?.parent
         }

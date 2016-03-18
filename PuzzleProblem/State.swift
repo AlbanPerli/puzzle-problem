@@ -25,11 +25,26 @@ let kEmptyTile: Int = 0
 ///
 /// Abstracts a current state of the search tree
 ///
-struct State: Equatable, Hashable {
+struct State: Equatable, Hashable, CustomStringConvertible {
+    // MARK: Implement CustomStringConvertible
+    var description: String {
+        var result = ""
+        for (rowIdx, row) in self.matrix.enumerate() {
+            for (colIdx, _) in row.enumerate() {
+                let value: Int = (self[rowIdx,colIdx] ?? -1)
+                result += "\(value) "
+            }
+        }
+        return result
+    }
+
     // MARK: Implement hashable
     var hashValue: Int {
-        return self.matrix.description.hashValue +
-               self.leadingAction.debugDescription.hashValue
+        let matrixHash = self.matrix.description.hashValue
+        if let leadingAction = self.leadingAction {
+            return matrixHash / leadingAction.description.hashValue
+        }
+        return matrixHash
     }
 
     ///
