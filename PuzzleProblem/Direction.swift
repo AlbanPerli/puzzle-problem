@@ -13,4 +13,17 @@ enum Direction {
     case Down
     case Left
     case Right
+
+    var inverse: Direction {
+        switch self {
+        case .Up:
+            return .Down
+        case .Down:
+            return .Up
+        case .Left:
+            return .Right
+        case .Right:
+            return .Left
+        }
+    }
 }

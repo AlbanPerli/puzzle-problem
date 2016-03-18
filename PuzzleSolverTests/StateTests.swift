@@ -99,13 +99,60 @@ class StateTest: XCTestCase {
 
     func testPerformAction() {
         let state: State = State(matrix: testMatrix)
-        let expectedStateMatrix: Matrix = [
+        let action = Action(movingPosition: (0,1), inDirection: .Left)
+        let newState = state.performAction(action)
+        // Expected state
+        let expectedState = State(matrix: [
             [1,0,2 ,3 ],
             [4,5,6 ,7 ],
             [8,9,10,11]
-        ]
-        let newState = state.performAction((0,1), direction: .Left)
-        let expectedState = State(matrix: expectedStateMatrix)
+        ])
         XCTAssert(newState == expectedState)
+        // No answer
+        let noAnswerState = State(matrix: [
+            [1,2,2 ,3 ],
+            [4,5,6 ,7 ],
+            [8,9,10,11]
+        ])
+        let noState = noAnswerState.performAction(action)
+        XCTAssertNil(noState)
+    }
+
+    func testBlankTile() {
+        // Top left
+        var pos: Position? = State(matrix: [
+            [0,2,3 ,4 ],
+            [4,5,6 ,3 ],
+            [8,9,10,11]
+        ]).blankTilePosition
+        XCTAssert(pos! == (0,0))
+        // Bottom right
+        pos = State(matrix: [
+            [1,2,3 ,4 ],
+            [4,5,6 ,9 ],
+            [3,9,10,0 ]
+            ]).blankTilePosition
+        XCTAssert(pos! == (2,3))
+        // No blank tile
+        pos = State(matrix: [
+            [1,2,3 ,4 ],
+            [4,5,6 ,5 ],
+            [8,9,10,11]
+            ]).blankTilePosition
+        XCTAssertNil(pos)
+    }
+
+    func testWidth() {
+        let state: State = State(matrix: testMatrix)
+        XCTAssert(state.width == 4)
+        let emptyState: State = State(matrix: [])
+        XCTAssert(emptyState.width == 0)
+    }
+
+    func testHeight() {
+        let state: State = State(matrix: testMatrix)
+        XCTAssert(state.height == 3)
+        let emptyState: State = State(matrix: [])
+        XCTAssert(emptyState.height == 0)
     }
 }
