@@ -28,17 +28,13 @@ struct Action: CustomStringConvertible {
     let direction: Direction
 
     ///
-    /// Returns a new action when the given position is moved in the provided
-    /// direction
+    /// The inverse of performing this action
     ///
-    /// - Parameter position: Which position to move
-    /// - Parameter inDirection: The direction to move this position in
-    /// - Returns: A new action describing the action that can move this tile
-    ///
-    static func move(position: Position, inDirection dir: Direction) -> Action {
+    var inverse: Action {
         // How much to move the provided row or column by
-        var row = position.row
-        var col = position.col
+        var row = self.position.row
+        var col = self.position.col
+        let dir = self.direction
 
         // Use the directive to determine which element we are looking at
         switch dir {

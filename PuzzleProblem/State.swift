@@ -104,19 +104,19 @@ struct State: Equatable, Hashable, CustomStringConvertible {
             let lastCol  = position.col == self.width - 1
             // Not the first row? Then we can move up
             if !firstRow {
-                results.append(Action.move(position, inDirection: .Up))
+                results.append(Action(movingPosition: position, inDirection: .Up))
             }
             // Not the first column? Then we can move left
             if !firstCol {
-                results.append(Action.move(position, inDirection: .Left))
+                results.append(Action(movingPosition: position, inDirection: .Left))
             }
             // Not the last row? Then we can move down
             if !lastRow {
-                results.append(Action.move(position, inDirection: .Down))
+                results.append(Action(movingPosition: position, inDirection: .Down))
             }
             // Not the last column? Then we can move right
             if !lastCol {
-                results.append(Action.move(position, inDirection: .Right))
+                results.append(Action(movingPosition: position, inDirection: .Right))
             }
         }
         return results
@@ -224,29 +224,28 @@ struct State: Equatable, Hashable, CustomStringConvertible {
     // MARK: Define action-related inputs to the state
     
     ///
-    /// Checks if the provided move in the given direction at the given position
-    /// can be made
+    /// Checks if the provided action can be made
     ///
-    /// - Parameter position: The specified position to access
-    /// - Parameter direction: The specified direction to move
-    /// - Returns: A boolean indicating if the move is valid
+    /// - Parameter action: The specified action to make
+    /// - Returns: A boolean indicating if the action is valid
     ///
-    func isValidMove(position: Position, direction: Direction) -> Bool {
-        // Ask the position to move in the given direction
-        let swapAction: Position = Action.move(position, inDirection: direction).position
-        // If the element at the updated row and column is the empty tile
-        // then it is a valid move
-        return self[swapAction.row, swapAction.col] == kEmptyTile
+    func isValidAction(action: Action) -> Bool {
+        // The two tiles we are moving
+        let movingTiles = (self[action.position], self[action.inverse.position])
+        // Only valid if all tiles exist in movingTiles and at least one of the
+        // tiles are the blank tile
+        return  (movingTiles.0 != nil && movingTiles.1 != nil) &&
+                (movingTiles.0 == kEmptyTile || movingTiles.1 == kEmptyTile)
     }
 
     ///
-    /// Swaps an element in the state model from one position to the next
+    /// Swaps a tile in the state model from one position to the next
     ///
     /// - Parameter firstPosition: The first element's pos in the pair to swap
     /// - Parameter secondPosition: The second element's pos in the pair to swap
     /// - Returns a new `Matrix` representing the state after the swap
     ///
-    private func swapElementAt(firstPosition: Position, with secondPosition: Position) -> Matrix {
+    private func swapTileAt(firstPosition: Position, with secondPosition: Position) -> Matrix {
         // Create new matrix for new state post swap
         var newMatrix = self.matrix
         // Swap second element for first element using the swap function
@@ -259,20 +258,17 @@ struct State: Equatable, Hashable, CustomStringConvertible {
     /// Performs an action on the state, returning a new state after the action
     /// has been performed
     /// 
-    /// - Parameter position: The specified position to move
-    /// - Parameter direction: The specified direction to move
-    /// - Returns: A new state, or `nil` if the state could not be moved
+    /// - Parameter action: The action to perform
+    /// - Returns: A new state, or `nil` if the state could not be moved due to
+    //             an invalid action
     ///
     func performAction(action: Action) -> State? {
-        let position = action.position
-        let direction = action.direction
-        if !isValidMove(position, direction: direction) {
+        // Ensure this is a valid move, otherwise return nil
+        if !self.isValidAction(action) {
             return nil
         }
-        // The swap position is the current position moved in the new direction
-        let action = Action.move(position, inDirection: direction)
-        // Swap the two elements at position and newPosition
-        let newMatrix = swapElementAt(position, with: action.position)
+        // Use the inverse action to find which positions we are moving
+        let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)
         return State(matrix: newMatrix, fromAction: action)
     }
 }

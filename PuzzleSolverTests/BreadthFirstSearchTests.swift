@@ -12,15 +12,17 @@ class BreadthFirstSearchTests: XCTestCase {
     func testFourChildNodes() {
         // Set up a multidirectional node
         let rootNodeState = State(matrix: [
-            [1,2,3,4,5,0],
-            [1,3,4,3,2,1]
+            [6,7,4],
+            [1,5,3],
+            [8,0,2],
         ])
         let rootNode = Node(initialState: rootNodeState)
         let goalState = State(matrix: [
-            [0,2,3,4,5,4],
-            [1,3,4,3,2,1]
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
         ])
         let bfs = BreadthFirstSearch(goalState: goalState)
-        bfs.traverse(rootNode)
+        XCTAssert(bfs.traverse(rootNode)?.count == 2)
     }
 }

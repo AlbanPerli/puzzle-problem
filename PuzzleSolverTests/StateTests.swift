@@ -61,19 +61,23 @@ class StateTest: XCTestCase {
         let state: State = State(matrix: testMatrix)
         
         // Cannot move tile off board
-        var test = state.isValidMove((0,0), direction: .Up) == false
+        var actn = Action(movingPosition: (0,0), inDirection: .Up)
+        var test = state.isValidAction(actn) == false
         XCTAssert(test, "Tile at {0,0} cannot move up")
 
         // Swap 0 and 4 - valid move as 0 is blank tile
-        test = state.isValidMove((1,0), direction: .Up) == true
+        actn = Action(movingPosition: (1,0), inDirection: .Up)
+        test = state.isValidAction(actn) == true
         XCTAssert(test, "Tile at {1,0} can move up")
         
         // Swap 0 and 1 - valid move as 0 is blank tile
-        test = state.isValidMove((0,1), direction: .Left) == true
+        actn = Action(movingPosition: (0,1), inDirection: .Left)
+        test = state.isValidAction(actn) == true
         XCTAssert(test, "Tile at {0,1} can move left")
         
         // Swap 1 and 2 - not valid move as not moving blank tile
-        test = state.isValidMove((1,0), direction: .Right) == false
+        actn = Action(movingPosition: (1,0), inDirection: .Right)
+        test = state.isValidAction(actn) == false
         XCTAssert(test, "Tile at {1,0} cannot move up")
     }
     

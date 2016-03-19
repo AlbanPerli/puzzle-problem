@@ -21,7 +21,7 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
 
     func traverse(node: Node) -> [Action]? {
         let node = node
-
+        return nil
         // Cannot traverse through the empty tree (recursive teminator clause)
         if node.isEmpty {
             return nil
@@ -47,7 +47,6 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
                             // Progress the state using the current action
                             let newState =
                                 currentRootNode.state?.performAction(action)
-                                print("New state is", currentRootNode.state)
                             // Create a new node using the new state and parent
                             let childNode =
                                 Node(parent: currentRootNode, state: newState)
@@ -61,7 +60,8 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
                                 !exploredSet.contains { node -> Bool in
                                     return node.state == childNode.state
                                 }
-                            if childNotInFrontier || childNotExplored {
+                            if childNotExplored {
+                                print("!explored - \(childNode.state)")
                                 // Is the child the goal node?
                                 if self.isGoalState(childNode) {
                                     print("BINGO", childNode.state)
@@ -69,11 +69,10 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
                                     return childNode.actionsToThisNode
                                 } else {
                                     // Otherwise add it to the frontier
-                                    print("Not goal state")
                                     frontierQueue.append(childNode)
                                 }
                             } else {
-                                print("Not in frontier or not explored")
+                                print(" explored - \(childNode.state)")
                             }
                         }
                     }
