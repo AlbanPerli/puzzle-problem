@@ -13,7 +13,9 @@
 ///
 protocol Frontier {
     ///
-    /// Underlying data set is array of nodes
+    /// Underlying data set is array of nodes.
+    /// **The collection considers older elements to be at the start
+    /// of the array**
     ///
     var collection: [Node] { get set }
     ///
@@ -26,16 +28,18 @@ protocol Frontier {
     /// - Returns: The next element in the frontier or `nil` if empty
     ///
     mutating func pop() -> Node?
-    ///
-    /// Sees which node is next in the frontier but does not mutate the frontier
-    /// - Returns: The next element in the frontier or `nil` if empty
-    ///
-    func peek() -> Node?
 }
 
 // MARK: Protocol extension to Frontier
 
 extension Frontier {
+    ///
+    /// Sees which node is next in the frontier but does not mutate the frontier
+    /// - Returns: The next element in the frontier or `nil` if empty
+    ///
+    func peek() -> Node? {
+        return self.collection.first
+    }
     ///
     /// Returns true iff the frontier is empty
     ///
@@ -43,15 +47,16 @@ extension Frontier {
         return self.peek() == nil
     }
     ///
-    /// Pushes multiple nodes at once
-    ///
-    mutating func push<S : SequenceType where S.Generator.Element == Node>(nodes: S) {
-        self.collection.appendContentsOf(nodes)
-    }
-    ///
     /// Returns true iff the frontier contains the element
     ///
     func contains(node: Node) -> Bool {
         return self.collection.contains(node)
+    }
+    ///
+    /// Pushes multiple nodes at once
+    /// - Parameter nodes: Collection of nodes to add
+    ///
+    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
+        self.collection.appendContentsOf(nodes)
     }
 }

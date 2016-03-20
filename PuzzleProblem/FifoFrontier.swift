@@ -13,16 +13,12 @@
 struct FifoFrontier: Frontier {
     var collection: [Node] = []
     mutating func push(node: Node) {
-        // Enqueue element at start of array
-        self.collection.insert(node, atIndex: 0)
+        // Enqueue new at end of array
+        self.collection.append(node)
     }
 
     mutating func pop() -> Node? {
-        // Dequeue element at end of array
-        return self.collection.popLast()
-    }
-
-    func peek() -> Node? {
-        return self.collection.last
+        // Dequeue element at start of array
+        return self.collection.removeFirst()
     }
 }

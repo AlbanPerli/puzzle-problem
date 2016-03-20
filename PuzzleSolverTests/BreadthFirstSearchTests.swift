@@ -44,7 +44,7 @@ class BreadthFirstSearchTests: XCTestCase {
 
         var actions: [Action] = []
 
-        measureBlock() {
+        measureBlock {
             actions = bfs.traverse(rootNode)!
         }
 

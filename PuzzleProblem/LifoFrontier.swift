@@ -21,9 +21,5 @@ struct LifoFrontier: Frontier {
         // Pop from the end of the stack
         return self.collection.popLast()
     }
-
-    func peek() -> Node? {
-        return self.collection.last
-    }
 }
 

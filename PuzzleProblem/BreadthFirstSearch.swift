@@ -26,17 +26,17 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
         while (!frontier.isEmpty) {
             // Force unwrap of optional as frontier isn't empty
             let currentNode = frontier.pop()!
+            print("exploring \(currentNode.state!)")
             // We are exploring this node
             explored.insert(currentNode)
             // Check if this node is the goal
             if self.isGoalState(currentNode) {
                 return currentNode.actionsToThisNode
             } else {
-                let union = explored.union(frontier.collection)
-                // Only add the children who are not in the union of frontier
-                // or explored
+                // Only add the children to the frontier given they are not
+                // in the union of frontier + explored
                 let childrenToAdd = currentNode.children.filter {
-                    !union.contains($0)
+                    !(frontier.contains($0) || explored.contains($0))
                 }
                 frontier.push(childrenToAdd)
             }

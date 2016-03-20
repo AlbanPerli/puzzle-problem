@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA01330B1C9E61FA002268F1 /* TimedTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01330A1C9E61FA002268F1 /* TimedTestCase.swift */; };
 		FA0BE8301C9B9D270007E49D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE82F1C9B9D270007E49D /* Action.swift */; };
 		FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE82F1C9B9D270007E49D /* Action.swift */; };
 		FA5A2E331C9AE3020041F55E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E321C9AE3020041F55E /* main.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FA01330A1C9E61FA002268F1 /* TimedTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimedTestCase.swift; path = ../../../.Trash/TimedTestCase.swift; sourceTree = "<group>"; };
 		FA0BE82F1C9B9D270007E49D /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		FA5A2E2F1C9AE3020041F55E /* PuzzleProblem */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PuzzleProblem; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5A2E321C9AE3020041F55E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */,
 				FAD276311C9BD6AA006819FF /* NodeTests.swift */,
 				FAD2763B1C9C0BBF006819FF /* BreadthFirstSearchTests.swift */,
+				FA01330A1C9E61FA002268F1 /* TimedTestCase.swift */,
 				FA5A2E861C9AEC6A0041F55E /* Info.plist */,
 			);
 			path = PuzzleSolverTests;
@@ -314,6 +317,7 @@
 			files = (
 				FAD2763F1C9C0ED1006819FF /* SearchMethod.swift in Sources */,
 				FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */,
+				FA01330B1C9E61FA002268F1 /* TimedTestCase.swift in Sources */,
 				FAD2763E1C9C0ECF006819FF /* Traversable.swift in Sources */,
 				FA5A2E851C9AEC6A0041F55E /* StateTests.swift in Sources */,
 				FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */,

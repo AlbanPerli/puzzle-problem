@@ -35,7 +35,7 @@ struct State: Equatable, CustomDebugStringConvertible {
                 result += "\(value) "
             }
         }
-        return result
+        return result.substringToIndex(result.endIndex.predecessor())
     }
 
     ///
