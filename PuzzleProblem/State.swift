@@ -15,12 +15,6 @@
 ///
 typealias Matrix = [[Int]]
 
-func checkSolvability(state: State) {
-    let width = state.width
-    let height = state.height
-    let matrix = state.matrix.flatMap { $0 }
-}
-
 ///
 /// The number of the empty tile element
 ///

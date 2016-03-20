@@ -13,9 +13,9 @@
 ///
 protocol Frontier {
     ///
-    /// The internal data representation
+    /// Underlying data set is array of nodes
     ///
-    var collection: [Node] { get }
+    var collection: [Node] { get set }
     ///
     /// Push a node to the frontier
     /// - Parameter node: The node to add to the frontier
@@ -33,6 +33,8 @@ protocol Frontier {
     func peek() -> Node?
 }
 
+// MARK: Protocol extension to Frontier
+
 extension Frontier {
     ///
     /// Returns true iff the frontier is empty
@@ -43,59 +45,13 @@ extension Frontier {
     ///
     /// Pushes multiple nodes at once
     ///
-    mutating func push(nodes: [Node]) {
-        for node in nodes {
-            self.push(node)
-        }
+    mutating func push<S : SequenceType where S.Generator.Element == Node>(nodes: S) {
+        self.collection.appendContentsOf(nodes)
     }
     ///
-    /// Check if this collection contains the provided node
+    /// Returns true iff the frontier contains the element
     ///
-    func contains(nodeToCheck: Node) -> Bool {
-        return self.collection.contains({ node -> Bool in
-            return nodeToCheck == node
-        })
-    }
-}
-
-///
-/// A last-in-first-out frontier ensures that each node that the most recently
-/// added node is removed first
-///
-struct LifoFrontier: Frontier {
-    var collection: [Node] = []
-    mutating func push(node: Node) {
-        // Push to the top of the stack
-        self.collection.append(node)
-    }
-
-    mutating func pop() -> Node? {
-        // Pop from the end of the stack
-        return self.collection.popLast()
-    }
-
-    func peek() -> Node? {
-        return self.collection.last
-    }
-}
-
-///
-/// A first-in-first-out frontier ensures that each node that the node that has
-/// been in the frontier longest is removed first
-///
-struct FifoFrontier: Frontier {
-    var collection: [Node] = []
-    mutating func push(node: Node) {
-        // Enqueue element at start of array
-        self.collection.insert(node, atIndex: 0)
-    }
-
-    mutating func pop() -> Node? {
-        // Dequeue element at end of array
-        return self.collection.popLast()
-    }
-
-    func peek() -> Node? {
-        return self.collection.last
+    func contains(node: Node) -> Bool {
+        return self.collection.contains(node)
     }
 }

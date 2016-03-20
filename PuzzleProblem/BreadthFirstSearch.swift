@@ -21,23 +21,24 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
 
     func traverse(node: Node) -> [Action]? {
         var frontier: FifoFrontier = FifoFrontier()
-        var explored: FifoFrontier = FifoFrontier()
+        var explored: Set<Node> = []
         frontier.push(node)
         while (!frontier.isEmpty) {
             // Force unwrap of optional as frontier isn't empty
             let currentNode = frontier.pop()!
             // We are exploring this node
-            explored.push(currentNode)
+            explored.insert(currentNode)
             // Check if this node is the goal
             if self.isGoalState(currentNode) {
                 return currentNode.actionsToThisNode
             } else {
-                let children = currentNode.children
-                for node in children {
-                    if !(frontier.contains(node) || explored.contains(node)) {
-                        frontier.push(node)
-                    }
+                let union = explored.union(frontier.collection)
+                // Only add the children who are not in the union of frontier
+                // or explored
+                let childrenToAdd = currentNode.children.filter {
+                    !union.contains($0)
                 }
+                frontier.push(childrenToAdd)
             }
         }
         return nil

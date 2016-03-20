@@ -32,6 +32,12 @@
 		FAD2763F1C9C0ED1006819FF /* SearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276361C9BF30A006819FF /* SearchMethod.swift */; };
 		FAE0F9CD1C9D35D40036C436 /* Frontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9CC1C9D35D40036C436 /* Frontier.swift */; };
 		FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9CC1C9D35D40036C436 /* Frontier.swift */; };
+		FAE0F9D21C9E2BD00036C436 /* NodeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D11C9E2BD00036C436 /* NodeSet.swift */; };
+		FAE0F9D41C9E2C380036C436 /* LifoFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */; };
+		FAE0F9D61C9E2C480036C436 /* FifoFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */; };
+		FAE0F9D91C9E2C800036C436 /* FifoFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */; };
+		FAE0F9DA1C9E2C820036C436 /* LifoFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */; };
+		FAE0F9DB1C9E2C840036C436 /* NodeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D11C9E2BD00036C436 /* NodeSet.swift */; };
 		FAFB45EB1C9B6E6D0093DB92 /* DepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +83,9 @@
 		FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
 		FAD2763B1C9C0BBF006819FF /* BreadthFirstSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearchTests.swift; sourceTree = "<group>"; };
 		FAE0F9CC1C9D35D40036C436 /* Frontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frontier.swift; sourceTree = "<group>"; };
+		FAE0F9D11C9E2BD00036C436 /* NodeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeSet.swift; sourceTree = "<group>"; };
+		FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifoFrontier.swift; sourceTree = "<group>"; };
+		FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FifoFrontier.swift; sourceTree = "<group>"; };
 		FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepthFirstSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,18 +129,11 @@
 			isa = PBXGroup;
 			children = (
 				FA5A2E321C9AE3020041F55E /* main.swift */,
-				FA5A2E451C9AE32F0041F55E /* Node.swift */,
-				FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */,
-				FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */,
-				FAE0F9CC1C9D35D40036C436 /* Frontier.swift */,
-				FAD276361C9BF30A006819FF /* SearchMethod.swift */,
-				FAD276341C9BF0D9006819FF /* Traversable.swift */,
-				FAD2762F1C9BA7FB006819FF /* Problem.swift */,
-				FA5A2E471C9AE3470041F55E /* State.swift */,
-				FA88CEC81C9B831600DF8B66 /* Position.swift */,
-				FA5A2E491C9AE3530041F55E /* Direction.swift */,
+				FAE0F9DC1C9E2CD40036C436 /* Search Methods */,
+				FAE0F9DF1C9E2D200036C436 /* Tree Models */,
+				FAE0F9DE1C9E2D080036C436 /* Search Data Structures */,
+				FAE0F9E01C9E2D9D0036C436 /* Search Models */,
 				FA5A2E931C9AF2570041F55E /* FileParser.swift */,
-				FA0BE82F1C9B9D270007E49D /* Action.swift */,
 			);
 			path = PuzzleProblem;
 			sourceTree = "<group>";
@@ -146,6 +148,56 @@
 				FA5A2E861C9AEC6A0041F55E /* Info.plist */,
 			);
 			path = PuzzleSolverTests;
+			sourceTree = "<group>";
+		};
+		FAE0F9DC1C9E2CD40036C436 /* Search Methods */ = {
+			isa = PBXGroup;
+			children = (
+				FAE0F9DD1C9E2CF00036C436 /* Protocols */,
+				FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */,
+				FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */,
+			);
+			name = "Search Methods";
+			sourceTree = "<group>";
+		};
+		FAE0F9DD1C9E2CF00036C436 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				FAD276341C9BF0D9006819FF /* Traversable.swift */,
+				FAD276361C9BF30A006819FF /* SearchMethod.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		FAE0F9DE1C9E2D080036C436 /* Search Data Structures */ = {
+			isa = PBXGroup;
+			children = (
+				FAE0F9CC1C9D35D40036C436 /* Frontier.swift */,
+				FAE0F9D11C9E2BD00036C436 /* NodeSet.swift */,
+				FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */,
+				FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */,
+			);
+			name = "Search Data Structures";
+			sourceTree = "<group>";
+		};
+		FAE0F9DF1C9E2D200036C436 /* Tree Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA5A2E451C9AE32F0041F55E /* Node.swift */,
+				FA5A2E471C9AE3470041F55E /* State.swift */,
+				FA88CEC81C9B831600DF8B66 /* Position.swift */,
+				FA5A2E491C9AE3530041F55E /* Direction.swift */,
+				FA0BE82F1C9B9D270007E49D /* Action.swift */,
+			);
+			name = "Tree Models";
+			sourceTree = "<group>";
+		};
+		FAE0F9E01C9E2D9D0036C436 /* Search Models */ = {
+			isa = PBXGroup;
+			children = (
+				FAD2762F1C9BA7FB006819FF /* Problem.swift */,
+			);
+			name = "Search Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,14 +293,17 @@
 				FAD276351C9BF0D9006819FF /* Traversable.swift in Sources */,
 				FA5A2E941C9AF2570041F55E /* FileParser.swift in Sources */,
 				FA0BE8301C9B9D270007E49D /* Action.swift in Sources */,
+				FAE0F9D21C9E2BD00036C436 /* NodeSet.swift in Sources */,
 				FAD276301C9BA7FB006819FF /* Problem.swift in Sources */,
 				FA5A2E331C9AE3020041F55E /* main.swift in Sources */,
 				FA5A2E461C9AE32F0041F55E /* Node.swift in Sources */,
 				FAE0F9CD1C9D35D40036C436 /* Frontier.swift in Sources */,
 				FA5A2E481C9AE3470041F55E /* State.swift in Sources */,
+				FAE0F9D61C9E2C480036C436 /* FifoFrontier.swift in Sources */,
 				FAFB45EB1C9B6E6D0093DB92 /* DepthFirstSearch.swift in Sources */,
 				FA88CEC91C9B831600DF8B66 /* Position.swift in Sources */,
 				FA5A2E4A1C9AE3530041F55E /* Direction.swift in Sources */,
+				FAE0F9D41C9E2C380036C436 /* LifoFrontier.swift in Sources */,
 				FAD276391C9BF3D1006819FF /* BreadthFirstSearch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,8 +322,11 @@
 				FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */,
 				FA5A2E921C9AECD40041F55E /* Direction.swift in Sources */,
 				FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */,
+				FAE0F9DB1C9E2C840036C436 /* NodeSet.swift in Sources */,
+				FAE0F9D91C9E2C800036C436 /* FifoFrontier.swift in Sources */,
 				FAD2763D1C9C0D26006819FF /* BreadthFirstSearch.swift in Sources */,
 				FAD276321C9BD6AA006819FF /* NodeTests.swift in Sources */,
+				FAE0F9DA1C9E2C820036C436 /* LifoFrontier.swift in Sources */,
 				FAD2763C1C9C0BBF006819FF /* BreadthFirstSearchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

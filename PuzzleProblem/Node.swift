@@ -13,8 +13,19 @@ let kPathCost: Int = 1
 ///
 /// The Node class
 ///
-class Node: Equatable {
-    // MARK: Propertieis
+class Node: Equatable, CustomDebugStringConvertible, Hashable {
+    // MARK: Implement Hashable
+    var hashValue: Int {
+        return (self.state?.debugDescription ?? "nil").hashValue
+    }
+
+    // MARK: Implement CustomDebugStringConvertible
+
+    var debugDescription: String {
+        return "State: \(self.state?.debugDescription ?? "nil") PC: \(self.pathCost)"
+    }
+    
+    // MARK: Properties
 
     ///
     /// The state stored by this node
