@@ -9,7 +9,7 @@
 ///
 /// An abstraction of a single `position` moved in a given `direction`
 ///
-struct Action: CustomStringConvertible {
+struct Action: Equatable, CustomStringConvertible {
     // MARK: Implement CustomStringConvertible
     var description: String {
         return "Moving {\(self.position.row), \(self.position.col)} \(self.direction)"
@@ -60,4 +60,9 @@ struct Action: CustomStringConvertible {
         self.direction = direction
         self.position = position
     }
+}
+
+// MARK: - Implement Equatable
+func ==(lhs: Action, rhs: Action) -> Bool {
+    return lhs.position == rhs.position && lhs.direction == rhs.direction
 }

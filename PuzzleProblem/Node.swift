@@ -13,12 +13,7 @@ let kPathCost: Int = 1
 ///
 /// The Node class
 ///
-class Node: Equatable, Hashable {
-    // MARK: Implement hashable
-    var hashValue: Int {
-        return self.state?.hashValue ?? 0
-    }
-
+class Node: Equatable {
     // MARK: Propertieis
 
     ///
@@ -78,7 +73,7 @@ class Node: Equatable, Hashable {
             }
             ancestor = ancestor?.parent
         }
-        return result
+        return result.reverse()
     }()
 
     // MARK: Initialisers for nodes

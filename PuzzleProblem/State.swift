@@ -15,6 +15,12 @@
 ///
 typealias Matrix = [[Int]]
 
+func checkSolvability(state: State) {
+    let width = state.width
+    let height = state.height
+    let matrix = state.matrix.flatMap { $0 }
+}
+
 ///
 /// The number of the empty tile element
 ///
@@ -25,9 +31,9 @@ let kEmptyTile: Int = 0
 ///
 /// Abstracts a current state of the search tree
 ///
-struct State: Equatable, Hashable, CustomStringConvertible {
+struct State: Equatable, CustomDebugStringConvertible {
     // MARK: Implement CustomStringConvertible
-    var description: String {
+    var debugDescription: String {
         var result = ""
         for (rowIdx, row) in self.matrix.enumerate() {
             for (colIdx, _) in row.enumerate() {
@@ -36,15 +42,6 @@ struct State: Equatable, Hashable, CustomStringConvertible {
             }
         }
         return result
-    }
-
-    // MARK: Implement hashable
-    var hashValue: Int {
-        let matrixHash = self.matrix.description.hashValue
-        if let leadingAction = self.leadingAction {
-            return matrixHash / leadingAction.description.hashValue
-        }
-        return matrixHash
     }
 
     ///
