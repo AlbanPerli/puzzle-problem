@@ -6,8 +6,6 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
-import Foundation
-
 struct BreadthFirstSearch: SearchMethod, Traversable {
     // MARK: Implement SearchMethod
     var name: String = "Breadth First Search"
@@ -15,31 +13,10 @@ struct BreadthFirstSearch: SearchMethod, Traversable {
 
     // MARK: Impelement Traversable
     var goalState: State
+    var frontier: Frontier
     init(goalState: State) {
         self.goalState = goalState
-    }
-
-    func traverse(node: Node) -> [Action]? {
-        var frontier: FifoFrontier = FifoFrontier()
-        var explored: Set<Node> = []
-        frontier.push(node)
-        while (!frontier.isEmpty) {
-            // Force unwrap of optional as frontier isn't empty
-            let currentNode = frontier.pop()!
-            // We are exploring this node
-            explored.insert(currentNode)
-            // Check if this node is the goal
-            if self.isGoalState(currentNode) {
-                return currentNode.actionsToThisNode
-            } else {
-                // Only add the children to the frontier given they are not
-                // in the union of frontier + explored
-                let childrenToAdd = currentNode.children.filter {
-                    !(frontier.contains($0) || explored.contains($0))
-                }
-                frontier.push(childrenToAdd)
-            }
-        }
-        return nil
+        // Breadth First Search uses a FIFO frontier
+        self.frontier = FifoFrontier()
     }
 }

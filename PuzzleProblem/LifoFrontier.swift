@@ -12,10 +12,6 @@
 ///
 struct LifoFrontier: Frontier {
     var collection: [Node] = []
-    mutating func push(node: Node) {
-        // Push to the top of the stack
-        self.collection.append(node)
-    }
 
     mutating func pop() -> Node? {
         // Pop from the end of the stack

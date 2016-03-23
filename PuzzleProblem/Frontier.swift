@@ -59,4 +59,12 @@ extension Frontier {
     mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
         self.collection.appendContentsOf(nodes)
     }
+
+    // Implement default behaviour of push. It should just append to the
+    // end of the collection. Popping the element will change how it pops
+    // (i.e., queue or stack) or overriding push will change how the element
+    // the stack
+    mutating func push(node: Node) {
+        self.collection.append(node)
+    }
 }
