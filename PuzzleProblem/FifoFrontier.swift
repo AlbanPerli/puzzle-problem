@@ -17,4 +17,9 @@ struct FifoFrontier: Frontier {
         // Dequeue element at start of array
         return self.collection.removeFirst()
     }
+
+    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
+        // Enqueue collection to the end of the queue
+        self.collection.appendContentsOf(nodes)
+    }
 }

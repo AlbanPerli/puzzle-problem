@@ -17,5 +17,12 @@ struct LifoFrontier: Frontier {
         // Pop from the end of the stack
         return self.collection.popLast()
     }
+
+    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
+        // We need to reverse the queue to ensure the nodes
+        // are added such that the leftmost node is inserted toward the
+        // end of the array
+        self.collection.appendContentsOf(nodes.reverse())
+    }
 }
 

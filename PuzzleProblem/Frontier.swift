@@ -28,6 +28,11 @@ protocol Frontier {
     /// - Returns: The next element in the frontier or `nil` if empty
     ///
     mutating func pop() -> Node?
+    ///
+    /// Pushes multiple nodes at once
+    /// - Parameter nodes: Collection of nodes to add
+    ///
+    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C)
 }
 
 // MARK: Protocol extension to Frontier
@@ -52,14 +57,6 @@ extension Frontier {
     func contains(node: Node) -> Bool {
         return self.collection.contains(node)
     }
-    ///
-    /// Pushes multiple nodes at once
-    /// - Parameter nodes: Collection of nodes to add
-    ///
-    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
-        self.collection.appendContentsOf(nodes)
-    }
-
     // Implement default behaviour of push. It should just append to the
     // end of the collection. Popping the element will change how it pops
     // (i.e., queue or stack) or overriding push will change how the element

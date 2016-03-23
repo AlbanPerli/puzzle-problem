@@ -20,7 +20,6 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     }
 
     // MARK: Implement CustomDebugStringConvertible
-
     var debugDescription: String {
         return "State: \(self.state?.debugDescription ?? "nil") PC: \(self.pathCost)"
     }
