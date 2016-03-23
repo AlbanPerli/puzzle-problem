@@ -25,17 +25,19 @@ let kEmptyTile: Int = 0
 ///
 /// Abstracts a current state of the search tree
 ///
-struct State: Equatable, CustomDebugStringConvertible {
+struct State: Equatable, Hashable, CustomDebugStringConvertible {
+    // MARK: Implement Hashable
+    var hashValue: Int {
+        return Int(self.matrix.flatMap { $0 }.reduce("") { (memo, value) -> String in
+            return memo + "\(value)"
+        }) ?? 0
+    }
+
     // MARK: Implement CustomStringConvertible
     var debugDescription: String {
-        var result = ""
-        for (rowIdx, row) in self.matrix.enumerate() {
-            for (colIdx, _) in row.enumerate() {
-                let value: Int = (self[rowIdx,colIdx] ?? -1)
-                result += "\(value) "
-            }
+        return self.matrix.flatMap { $0 }.reduce("") { (memo, value) -> String in
+            return memo + "\(value) "
         }
-        return result.substringToIndex(result.endIndex.predecessor())
     }
 
     ///

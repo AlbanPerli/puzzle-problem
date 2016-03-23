@@ -16,7 +16,7 @@ let kPathCost: Int = 1
 class Node: Equatable, CustomDebugStringConvertible, Hashable {
     // MARK: Implement Hashable
     var hashValue: Int {
-        return (self.state?.debugDescription ?? "nil").hashValue
+        return self.state?.hashValue ?? 0
     }
 
     // MARK: Implement CustomDebugStringConvertible
