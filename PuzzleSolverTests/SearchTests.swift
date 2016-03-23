@@ -8,8 +8,15 @@
 
 import XCTest
 
-class BreadthFirstSearchTests: XCTestCase {
-    func testFourChildNodes() {
+class StaticStateSearchTests: XCTestCase {
+    // Goal state for static tests
+    private let goalState = State(matrix: [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8]
+    ])
+
+    private func search(method: SearchMethod) {
         // Set up a multidirectional node
         let rootNodeState = State(matrix: [
             [3,4,1],
@@ -17,12 +24,7 @@ class BreadthFirstSearchTests: XCTestCase {
             [5,7,8]
         ])
         let rootNode = Node(initialState: rootNodeState)
-        let goalState = State(matrix: [
-            [0,1,2],
-            [3,4,5],
-            [6,7,8]
-        ])
-        let bfs = BreadthFirstSearch(goalState: goalState)
+
         XCTestCase.defaultPerformanceMetrics()
 
         let expectedActions: [Action] = [
@@ -45,10 +47,18 @@ class BreadthFirstSearchTests: XCTestCase {
         var actions: [Action] = []
 
         measureBlock {
-            actions = bfs.traverse(rootNode)!
+            actions = method.traverse(rootNode)!
         }
 
         XCTAssert(actions.count == expectedActions.count)
         XCTAssert(actions == expectedActions)
+    }
+    func testBFS() {
+        let method = BreadthFirstSearch(goalState: self.goalState)
+        search(method)
+    }
+    func testDFS() {
+        let method = DepthFirstSearch(goalState: self.goalState)
+        search(method)
     }
 }
