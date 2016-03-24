@@ -70,13 +70,12 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     /// Returns the position of the blank tile in the current state
     ///
     var blankTilePosition: Position? {
-        for (rowIdx, row) in self.matrix.enumerate() {
-            for (colIdx, _) in row.enumerate() {
-                let pos: Position = (rowIdx, colIdx)
-                if let element = self[pos] where element == kEmptyTile {
-                    return pos
-                }
-            }
+        let sequence = self.matrix.flatMap({$0})
+        // Find the empty tile index based off of the sequence
+        if let index = sequence.indexOf(kEmptyTile) {
+            let row = index / self.width
+            let col = index % self.width
+            return (row, col)
         }
         return nil
     }
@@ -123,7 +122,7 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     /// The internal data structure
     ///
-    private let matrix: Matrix
+    let matrix: Matrix
     
     ///
     /// Initialise the state model with a provided matrix structure

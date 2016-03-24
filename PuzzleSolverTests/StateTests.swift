@@ -130,6 +130,27 @@ class StateTest: XCTestCase {
             [8,9,10,11]
         ]).blankTilePosition
         XCTAssert(pos! == (0,0))
+        // 1 x 4
+        pos = State(matrix: [
+            [1,2,0 ,4 ]
+        ]).blankTilePosition
+        XCTAssert(pos! == (0,2))
+        // 4 x 1
+        pos = State(matrix: [
+            [1],
+            [2],
+            [0],
+            [4]
+        ]).blankTilePosition
+        XCTAssert(pos! == (2,0))
+        // 4 x 3
+        pos = State(matrix: [
+            [1,3,4],
+            [2,5,6],
+            [1,0,9],
+            [6,7,4]
+        ]).blankTilePosition
+        XCTAssert(pos! == (2,1))
         // Bottom right
         pos = State(matrix: [
             [1,2,3 ,4 ],
@@ -142,8 +163,23 @@ class StateTest: XCTestCase {
             [1,2,3 ,4 ],
             [4,5,6 ,5 ],
             [8,9,10,11]
-            ]).blankTilePosition
+        ]).blankTilePosition
         XCTAssertNil(pos)
+    }
+
+    func testAnyBlankTile() {
+        let state: State = randomState(width: 6)
+        var expected: Position = (0,0)
+        for (rowIdx, row) in state.matrix.enumerate() {
+            for (colIdx, _) in row.enumerate() {
+                let pos: Position = (rowIdx, colIdx)
+                if let element = state[pos] where element == kEmptyTile {
+                    expected = pos
+                }
+            }
+        }
+        print(state)
+        XCTAssert(expected == state.blankTilePosition!)
     }
 
     func testWidth() {
