@@ -269,12 +269,7 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
 // MARK: Implement Equatable protocol
 
 func ==(lhs: State, rhs: State) -> Bool {
-    for (rowIdx, row) in lhs.matrix.enumerate() {
-        for (colIdx, _) in row.enumerate() {
-            if lhs[rowIdx, colIdx] != rhs[rowIdx, colIdx] {
-                return false
-            }
-        }
+    return lhs.matrix.elementsEqual(rhs.matrix) { (lhsRow, rhsRow) -> Bool in
+        lhsRow.elementsEqual(rhsRow)
     }
-    return true
 }
