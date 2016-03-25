@@ -10,7 +10,12 @@ import XCTest
 
 class StaticStateSearchTests: XCTestCase {
     // Goal state for static tests
-    private let goalState = State(matrix:[
+    private let easyGoalState = State(matrix:[
+        [5,6,1],
+        [7,0,2],
+        [4,3,8]
+    ])
+    private let hardGoalState = State(matrix:[
         [0,1,2],
         [3,4,5],
         [6,7,8]
@@ -18,12 +23,8 @@ class StaticStateSearchTests: XCTestCase {
 
     private func doSearch(method: SearchMethod, rootNodeState: State, expectedActions: [Action]) {
         let rootNode = Node(initialState: rootNodeState)
-        var node = rootNodeState
-        for a in expectedActions {
-            node = node.performAction(a)!
-            print(node)
-        }
         var actions: [Action]? = []
+        var i = 0
         measureBlock {
             actions = method.traverse(rootNode)
         }
@@ -43,9 +44,8 @@ class StaticStateSearchTests: XCTestCase {
             Action(movingPosition: (0,1), inDirection: .Left),
             Action(movingPosition: (0,0), inDirection: .Down),
             Action(movingPosition: (1,0), inDirection: .Down),
-            Action(movingPosition: (2,0), inDirection: .Left),
+            Action(movingPosition: (2,0), inDirection: .Right),
             Action(movingPosition: (2,1), inDirection: .Up),
-            Action(movingPosition: (1,1), inDirection: .Down)
         ]
         doSearch(method, rootNodeState: rootNodeState, expectedActions: expectedActions)
     }
@@ -76,19 +76,19 @@ class StaticStateSearchTests: XCTestCase {
     }
 
     func testBFSEasy() {
-        let method = BreadthFirstSearch(goalState: goalState)
+        let method = BreadthFirstSearch(goalState: easyGoalState)
         easySearch(method)
     }
     func testDFSEasy() {
-        let method = DepthFirstSearch(goalState: goalState)
+        let method = DepthFirstSearch(goalState: easyGoalState)
         easySearch(method)
     }
     func testBFSHard() {
-        let method = BreadthFirstSearch(goalState: goalState)
+        let method = BreadthFirstSearch(goalState: hardGoalState)
         hardSearch(method)
     }
     func testDFSHard() {
-        let method = DepthFirstSearch(goalState: goalState)
+        let method = DepthFirstSearch(goalState: hardGoalState)
         hardSearch(method)
     }
 }
