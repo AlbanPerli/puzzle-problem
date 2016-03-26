@@ -68,7 +68,7 @@ func parseMethod(method: String, rootState: State) throws -> SearchMethod? {
     let goalStateSequence = rootState.sequence.sort()
     let goalState = State(sequence: goalStateSequence, height: rootState.height, width: rootState.width)
     // Match the state against the code provided
-    switch method.lowercaseString {
+    switch method.uppercaseString {
     case DepthFirstSearch.code:
         return DepthFirstSearch(goalState: goalState)
     case BreadthFirstSearch.code:
