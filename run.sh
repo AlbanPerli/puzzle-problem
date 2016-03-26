@@ -8,6 +8,7 @@
 
 EXECUTABLE="bin/puzzle-problem"
 SOURCE_CODE="src/*.swift"
+OS=$(uname)
 
 #
 # Check that swift 2.2 is installed
@@ -32,7 +33,11 @@ function check_swift_version() {
 function compile_src() {
   echo "Compiling Swift source code..."
   mkdir -p $(dirname $EXECUTABLE)
-  swiftc $SOURCE_CODE -o $EXECUTABLE
+  if [ "$OS" == "Darwin" ]; then
+    xcrun -sdk macosx swiftc $SOURCE_CODE -o $EXECUTABLE
+  elif [ "$OS" == "Linux" ]; then
+    swiftc $SOURCE_CODE -o $EXECUTABLE
+  fi
   if [ $? -ne 0 ]; then
     echo "Couldn't build my code on your machine :'("
     echo "Please don't fail me - I tried!"
@@ -41,15 +46,15 @@ function compile_src() {
   fi
 }
 
-#
-# Runs the executable
-#
-function run_executable() {
-  $EXECUTABLE "$@"
-}
+# Don't even bother if not OS X or Linux
+if [ "$OS" != "Darwin" ] && [ "$OS" != "Linux" ]; then
+  echo "This OS cannot compile or run the required software. Use Linux (Ubuntu) or OS X."
+  exit 1
+fi
 
 # Make sure we run wherever the shell script is
 cd "$(dirname $0)"
+
 # Build the executable if it is not yet build
 if [ ! -x $EXECUTABLE ]; then
   echo "Source not yet compiled!"
@@ -57,5 +62,6 @@ if [ ! -x $EXECUTABLE ]; then
   compile_src
   echo "Compied! Running $EXECUTABLE"
 fi
+
 # Now run it
-run_executable $@
+$EXECUTABLE "$@"
