@@ -105,7 +105,7 @@ func parseFile(path: String) throws -> [State]? {
         throw LaunchError.NoSizeLine
     }
     var result: [State] = []
-    for line in lines {
+    for line in dataLines {
         let sequence = line.split(" ").map { Int(String($0)) }
         if sequence.contains({ $0 == nil }) {
             throw LaunchError.UnexpectedCharacterInDataLine
