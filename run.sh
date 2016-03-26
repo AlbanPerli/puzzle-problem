@@ -6,7 +6,7 @@
 # Run Script
 #
 
-EXECUTABLE="bin/puzzle-solver"
+EXECUTABLE="bin/puzzle-problem"
 SOURCE_CODE="src/*.swift"
 
 #
