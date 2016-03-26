@@ -13,11 +13,11 @@ protocol SearchMethod {
     ///
     /// The code of this search method used to run the search method
     ///
-    var code: String { get set }
+    static var code: String { get set }
     ///
     /// The name of this search method
     ///
-    var name: String { get set }
+    static var name: String { get set }
     ///
     /// The frontier which stores next traversable items
     ///

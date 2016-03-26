@@ -14,7 +14,7 @@ struct MisplacedTileHeuristic: HeuristicFunction {
     var goalState: State
     init(goalState: State) {
         self.goalSequence = goalState.sequence
-        self.goalSequence = goalState.sequence
+        self.goalState = goalState
     }
     func visit(state: State) -> Int {
         let sequence = state.sequence

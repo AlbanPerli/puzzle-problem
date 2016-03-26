@@ -8,8 +8,8 @@
 
 struct BreadthFirstSearch: SearchMethod {
     // MARK: Implement SearchMethod
-    var name: String = "Breadth First Search"
-    var code: String = "BFS"
+    static var name: String = "Breadth First Search"
+    static var code: String = "BFS"
     var goalState: State
     var frontier: Frontier
 

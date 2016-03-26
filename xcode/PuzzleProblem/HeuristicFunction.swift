@@ -13,7 +13,7 @@ protocol HeuristicFunction {
     ///
     /// The goal state the heuristic estimates toward
     ///
-    var goalSequence: State { get set }
+    var goalState: State { get set }
     ///
     /// Initialiser for a HeuristicFunction
     /// - Parameter goalState: Starting goal state to estimate toward
@@ -36,10 +36,7 @@ extension HeuristicFunction {
     /// - Remarks: Throws a `fatalError` if the two states cannot be compared
     ///
     func isSameSequence(sequence: [Int]) -> Bool {
-        if sequence.count != self.goalSequence.count {
-            fatalError("Sequence is not the same length goal sequence")
-        }
         // If the two sequences are the same then no need
-        return sequence == goalSequence
+        return sequence == goalState.sequence
     }
 }

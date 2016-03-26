@@ -8,8 +8,8 @@
 
 struct DepthFirstSearch: SearchMethod {
     // MARK: Implement SearchMethod
-    var name: String = "Depth First Search"
-    var code: String = "DFS"
+    static var name: String = "Depth First Search"
+    static var code: String = "DFS"
     var goalState: State
     var frontier: Frontier
 
