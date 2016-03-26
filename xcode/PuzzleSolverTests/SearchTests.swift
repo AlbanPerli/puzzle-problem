@@ -24,7 +24,6 @@ class StaticStateSearchTests: XCTestCase {
     private func doSearch(method: SearchMethod, rootNodeState: State, expectedActions: [Action]) {
         let rootNode = Node(initialState: rootNodeState)
         var actions: [Action]? = []
-        var i = 0
         measureBlock {
             actions = method.traverse(rootNode)
         }

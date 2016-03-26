@@ -25,6 +25,13 @@
 		FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */; };
 		FA88CEC91C9B831600DF8B66 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88CEC81C9B831600DF8B66 /* Position.swift */; };
 		FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88CEC81C9B831600DF8B66 /* Position.swift */; };
+		FAD0AEAC1CA54C24005BA51E /* HeuristicFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEAB1CA54C24005BA51E /* HeuristicFunction.swift */; };
+		FAD0AEAE1CA54D56005BA51E /* MisplacedTileHeuristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEAD1CA54D56005BA51E /* MisplacedTileHeuristic.swift */; };
+		FAD0AEAF1CA5507E005BA51E /* HeuristicFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEAB1CA54C24005BA51E /* HeuristicFunction.swift */; };
+		FAD0AEB01CA55597005BA51E /* MisplacedTileHeuristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEAD1CA54D56005BA51E /* MisplacedTileHeuristic.swift */; };
+		FAD0AEB21CA555A8005BA51E /* HeuristicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEB11CA555A8005BA51E /* HeuristicTests.swift */; };
+		FAD0AEB41CA55B46005BA51E /* DistanceToGoalHeuristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */; };
+		FAD0AEB51CA55C85005BA51E /* DistanceToGoalHeuristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */; };
 		FAD276301C9BA7FB006819FF /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2762F1C9BA7FB006819FF /* Problem.swift */; };
 		FAD276321C9BD6AA006819FF /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276311C9BD6AA006819FF /* NodeTests.swift */; };
 		FAD276331C9BD837006819FF /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
@@ -78,6 +85,10 @@
 		FA7439381CA424ED009411C2 /* RandomState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomState.swift; path = PuzzleSolverTests/RandomState.swift; sourceTree = "<group>"; };
 		FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionTests.swift; sourceTree = "<group>"; };
 		FA88CEC81C9B831600DF8B66 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		FAD0AEAB1CA54C24005BA51E /* HeuristicFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicFunction.swift; sourceTree = "<group>"; };
+		FAD0AEAD1CA54D56005BA51E /* MisplacedTileHeuristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MisplacedTileHeuristic.swift; sourceTree = "<group>"; };
+		FAD0AEB11CA555A8005BA51E /* HeuristicTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicTests.swift; sourceTree = "<group>"; };
+		FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceToGoalHeuristic.swift; sourceTree = "<group>"; };
 		FAD2762F1C9BA7FB006819FF /* Problem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Problem.swift; sourceTree = "<group>"; };
 		FAD276311C9BD6AA006819FF /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
@@ -154,15 +165,29 @@
 				FA5A2E841C9AEC6A0041F55E /* StateTests.swift */,
 				FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */,
 				FAD276311C9BD6AA006819FF /* NodeTests.swift */,
+				FAD2763B1C9C0BBF006819FF /* SearchTests.swift */,
+				FA7439381CA424ED009411C2 /* RandomState.swift */,
+				FAD0AEB11CA555A8005BA51E /* HeuristicTests.swift */,
 				FA5A2E861C9AEC6A0041F55E /* Info.plist */,
 			);
 			name = PuzzleProblemUnitTests;
 			path = PuzzleSolverTests;
 			sourceTree = "<group>";
 		};
+		FAD0AEAA1CA54C12005BA51E /* Heuristic Functions */ = {
+			isa = PBXGroup;
+			children = (
+				FAD0AEAB1CA54C24005BA51E /* HeuristicFunction.swift */,
+				FAD0AEAD1CA54D56005BA51E /* MisplacedTileHeuristic.swift */,
+				FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */,
+			);
+			name = "Heuristic Functions";
+			sourceTree = "<group>";
+		};
 		FAE0F9DC1C9E2CD40036C436 /* Search Methods */ = {
 			isa = PBXGroup;
 			children = (
+				FAD0AEAA1CA54C12005BA51E /* Heuristic Functions */,
 				FA7439341CA285C1009411C2 /* SearchMethod.swift */,
 				FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */,
 				FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */,
@@ -292,6 +317,7 @@
 			files = (
 				FA7439351CA285C1009411C2 /* SearchMethod.swift in Sources */,
 				FA5A2E941C9AF2570041F55E /* FileParser.swift in Sources */,
+				FAD0AEB41CA55B46005BA51E /* DistanceToGoalHeuristic.swift in Sources */,
 				FA0BE8301C9B9D270007E49D /* Action.swift in Sources */,
 				FAE0F9D21C9E2BD00036C436 /* NodeSet.swift in Sources */,
 				FAD276301C9BA7FB006819FF /* Problem.swift in Sources */,
@@ -300,7 +326,9 @@
 				FAE0F9CD1C9D35D40036C436 /* Frontier.swift in Sources */,
 				FA5A2E481C9AE3470041F55E /* State.swift in Sources */,
 				FAE0F9D61C9E2C480036C436 /* FifoFrontier.swift in Sources */,
+				FAD0AEAC1CA54C24005BA51E /* HeuristicFunction.swift in Sources */,
 				FAFB45EB1C9B6E6D0093DB92 /* DepthFirstSearch.swift in Sources */,
+				FAD0AEAE1CA54D56005BA51E /* MisplacedTileHeuristic.swift in Sources */,
 				FA88CEC91C9B831600DF8B66 /* Position.swift in Sources */,
 				FA5A2E4A1C9AE3530041F55E /* Direction.swift in Sources */,
 				FAE0F9D41C9E2C380036C436 /* LifoFrontier.swift in Sources */,
@@ -316,10 +344,14 @@
 				FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */,
 				FA5A2E851C9AEC6A0041F55E /* StateTests.swift in Sources */,
 				FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */,
+				FAD0AEAF1CA5507E005BA51E /* HeuristicFunction.swift in Sources */,
 				FA7439371CA286B3009411C2 /* DepthFirstSearch.swift in Sources */,
 				FA124EC11CA6203F00CAACC5 /* SearchTests.swift in Sources */,
+				FAD0AEB21CA555A8005BA51E /* HeuristicTests.swift in Sources */,
 				FA5A2E911C9AECD20041F55E /* State.swift in Sources */,
 				FAD276331C9BD837006819FF /* Node.swift in Sources */,
+				FAD0AEB01CA55597005BA51E /* MisplacedTileHeuristic.swift in Sources */,
+				FAD0AEB51CA55C85005BA51E /* DistanceToGoalHeuristic.swift in Sources */,
 				FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */,
 				FA5A2E921C9AECD40041F55E /* Direction.swift in Sources */,
 				FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */,
