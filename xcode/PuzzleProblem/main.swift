@@ -89,7 +89,9 @@ func parseFile(path: String) throws -> [State]? {
     guard let contents = FileParser.readFile(path) else {
         throw LaunchError.FileUnreadable
     }
-    let lines = contents.characters.split("\n")
+    // Support Windows carriage–returns
+    let splitBy = Character(contents.characters.contains("\r\n") ? "\r\n" : "\n")
+    let lines = contents.characters.split(splitBy)
     let dataLines = lines.suffixFrom(1)
     // Need at least one data line
     if dataLines.count == 0 {
