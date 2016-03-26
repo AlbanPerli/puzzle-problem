@@ -123,7 +123,7 @@ func run() throws {
     let parameters = Process.arguments.suffixFrom(1)
     
     // Ask for help?
-    if parameters.count == 0 || ["help", "h", "--help", "-help", "-h"].contains(parameters[0]) {
+    if parameters.count == 0 || ["help", "h", "--help", "-help", "-h"].contains(parameters[1]) {
         print("Puzzle problem search solver\n")
         print("Usage:")
         print("  search file method")
@@ -147,13 +147,13 @@ func run() throws {
     
     do {
         // Try parse provided file
-        let file = parameters[0]
+        let file = parameters[1]
         let rootStates = try parseFile(file)!
         
         // Validate search method
         var methods: [SearchMethod] = []
         for state in rootStates {
-            let method = try parseMethod(parameters[1], rootState: state)!
+            let method = try parseMethod(parameters[2], rootState: state)!
             methods.append(method)
         }
     } catch let error as LaunchError {
