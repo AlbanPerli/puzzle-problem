@@ -38,7 +38,7 @@ enum LaunchError: ErrorType {
     var message: String {
         switch self {
         case .NotEnoughArgumentsProvided:
-            return "Invalid arguments. Usage:\n  [file] [method]"
+            return "Invalid arguments. Use `help` for more info."
         case .InvalidMethodProvided:
             return "Invalid search method provided. Expects one of\n\(searchMethodDescriptions())"
         case .FileUnreadable:
