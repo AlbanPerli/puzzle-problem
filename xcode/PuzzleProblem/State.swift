@@ -125,6 +125,22 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     let matrix: Matrix
     
     ///
+    /// Initialise the state model with a provided width, height and sequence of numbers
+    /// - Parameter sequence: A sequence of numbers representing the state
+    /// - Parameter height: The number of rows the state will have
+    /// - Parameter width: The number of columns the state will have
+    ///
+    init(sequence: [Int], height: Int, width: Int) {
+        var data = sequence
+        self.matrix = (0...height-1).map { index -> [Int] in
+            return (0...width-1).reduce([]) { (memo, value) -> [Int] in
+                return memo + [data.popLast()!]
+            }
+        }
+        self.leadingAction = nil
+    }
+    
+    ///
     /// Initialise the state model with a provided matrix structure
     /// - Parameter matrix: An representation of the state
     ///

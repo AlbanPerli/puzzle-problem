@@ -76,6 +76,6 @@ func randomState(width inputWidth: UInt32) -> State {
     while !validateSequence(seq) {
         seq = generateSequence()
     }
-    return State(matrix: generateMatrix(seq))
+    return State(sequence: seq, height: width, width: width)
 }
 
