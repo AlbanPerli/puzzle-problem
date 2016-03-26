@@ -70,7 +70,7 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     /// Returns the position of the blank tile in the current state
     ///
     var blankTilePosition: Position? {
-        let sequence = self.matrix.flatMap({$0})
+        let sequence = self.sequence
         // Find the empty tile index based off of the sequence
         if let index = sequence.indexOf(kEmptyTile) {
             let row = index / self.width
@@ -123,7 +123,14 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     /// The internal data structure
     ///
     let matrix: Matrix
-    
+
+    ///
+    /// Returns the matrix of elements represented as a sequence
+    ///
+    var sequence: [Int] {
+        return self.matrix.flatMap({$0})
+    }
+
     ///
     /// Initialise the state model with a provided width, height and sequence of numbers
     /// - Parameter sequence: A sequence of numbers representing the state
@@ -278,6 +285,16 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
         // Use the inverse action to find which positions we are moving
         let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)
         return State(matrix: newMatrix, fromAction: action)
+    }
+
+    ///
+    /// Performs a heuristic function on this state to estimate its cost to the
+    /// goal state provided
+    /// - Parameter function: The heuristic function to perform
+    /// - Returns: The estimated path cost
+    ///
+    func performHeuristic(function: HeuristicFunction) -> Int {
+        return function.visit(self)
     }
 }
 
