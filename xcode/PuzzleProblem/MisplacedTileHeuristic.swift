@@ -18,9 +18,6 @@ struct MisplacedTileHeuristic: HeuristicFunction {
     }
     func visit(state: State) -> Int {
         let sequence = state.sequence
-        if isSameSequence(sequence) {
-            return 0
-        }
         // Calculate the differences
         return sequence.enumerate().reduce(0) { (diff, iteratee) -> Int in
             // If the index at goalSequence isn't the current element, add one

@@ -70,14 +70,7 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     /// Returns the position of the blank tile in the current state
     ///
     var blankTilePosition: Position? {
-        let sequence = self.sequence
-        // Find the empty tile index based off of the sequence
-        if let index = sequence.indexOf(kEmptyTile) {
-            let row = index / self.width
-            let col = index % self.width
-            return (row, col)
-        }
-        return nil
+        return self.positionOf(kEmptyTile)
     }
 
     ///
@@ -295,6 +288,23 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     func performHeuristic(function: HeuristicFunction) -> Int {
         return function.visit(self)
+    }
+    
+    ///
+    /// Finds the position of the provided tile, or `nil` if the given
+    /// tile number could not be found
+    /// - Parameter tile: Value of the tile to find
+    /// - Returns: The position of the tile, or `nil` if the tile could not be found
+    ///
+    func positionOf(tile: Int) -> Position? {
+        let sequence = self.sequence
+        // Find the empty tile index based off of the sequence
+        if let index = sequence.indexOf(tile) {
+            let row = index / self.width
+            let col = index % self.width
+            return (row, col)
+        }
+        return nil
     }
 }
 

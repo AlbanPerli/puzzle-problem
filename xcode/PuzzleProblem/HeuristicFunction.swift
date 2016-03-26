@@ -26,17 +26,3 @@ protocol HeuristicFunction {
     ///
     func visit(state: State) -> Int
 }
-
-// MARK: Add extension to validate sequence
-extension HeuristicFunction {
-    ///
-    /// Validates the provided sequence with the goal state
-    /// - Parameter sequence: The sequence to compare
-    /// - Returns: Returns true only if state matches
-    /// - Remarks: Throws a `fatalError` if the two states cannot be compared
-    ///
-    func isSameSequence(sequence: [Int]) -> Bool {
-        // If the two sequences are the same then no need
-        return sequence == goalState.sequence
-    }
-}
