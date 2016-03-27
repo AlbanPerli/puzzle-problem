@@ -13,6 +13,10 @@
 struct LifoFrontier: Frontier {
     var collection: [Node] = []
 
+    func peek() -> Node? {
+        return self.collection.last
+    }
+    
     mutating func pop() -> Node? {
         // Pop from the end of the stack
         return self.collection.popLast()
