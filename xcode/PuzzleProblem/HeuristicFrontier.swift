@@ -77,8 +77,8 @@ struct HeuristicFrontier: Frontier {
         //
         // So insert at index 1
         let indexToInsert = (self.collection.indexOf { node -> Bool in
-            evaluationFunction(node.state!) >= distanceToGoal
-        } ?? 0) - 1
+            self.evaluationFunction(node.state!) >= distanceToGoal
+        } ?? 1) - 1
         self.collection.insert(node, atIndex: indexToInsert)
     }
     
