@@ -15,7 +15,7 @@ struct FifoFrontier: Frontier {
 
     mutating func pop() -> Node? {
         // Dequeue element at start of array
-        return self.collection.removeFirst()
+        return self.isEmpty ? nil : self.collection.removeFirst()
     }
 
     mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {

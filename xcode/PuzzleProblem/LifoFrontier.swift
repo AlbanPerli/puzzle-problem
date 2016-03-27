@@ -19,7 +19,7 @@ struct LifoFrontier: Frontier {
     
     mutating func pop() -> Node? {
         // Pop from the end of the stack
-        return self.collection.popLast()
+        return self.isEmpty ? nil : self.collection.popLast()
     }
 
     mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {

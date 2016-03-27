@@ -54,7 +54,7 @@ struct HeuristicFrontier: Frontier {
     
     mutating func pop() -> Node? {
         // Dequeue element at start of array
-        return self.collection.removeFirst()
+        return self.isEmpty ? nil : self.collection.removeFirst()
     }
     
     mutating func push(node: Node) {
