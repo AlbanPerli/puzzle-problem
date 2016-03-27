@@ -16,7 +16,7 @@ let kPathCost: Int = 1
 class Node: Equatable, CustomDebugStringConvertible, Hashable {
     // MARK: Implement Hashable
     var hashValue: Int {
-        return self.state?.hashValue ?? 0
+        return self.state?.hashValue ?? 0 + self.pathCost
     }
 
     // MARK: Implement CustomDebugStringConvertible
@@ -111,5 +111,6 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
 // MARK: Implement the Equatable protocol for Node
 
 func ==(lhs: Node, rhs: Node) -> Bool {
-    return lhs.state == rhs.state
+    return  lhs.pathCost == rhs.pathCost &&
+            lhs.state == rhs.state
 }
