@@ -13,6 +13,7 @@
 		FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439381CA424ED009411C2 /* RandomState.swift */; };
 		FA22936D1CA6A48400032463 /* HeuristicFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22936C1CA6A48400032463 /* HeuristicFrontier.swift */; };
 		FA2293701CA6AF3500032463 /* FrontierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22936E1CA6AF2000032463 /* FrontierTests.swift */; };
+		FA2293711CA7EA5400032463 /* HeuristicFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA22936C1CA6A48400032463 /* HeuristicFrontier.swift */; };
 		FA5A2E331C9AE3020041F55E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E321C9AE3020041F55E /* main.swift */; };
 		FA5A2E461C9AE32F0041F55E /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
 		FA5A2E481C9AE3470041F55E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E471C9AE3470041F55E /* State.swift */; };
@@ -366,6 +367,7 @@
 				FAD0AEB01CA55597005BA51E /* MisplacedTileHeuristic.swift in Sources */,
 				FAD0AEB51CA55C85005BA51E /* DistanceToGoalHeuristic.swift in Sources */,
 				FA2293701CA6AF3500032463 /* FrontierTests.swift in Sources */,
+				FA2293711CA7EA5400032463 /* HeuristicFrontier.swift in Sources */,
 				FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */,
 				FA5A2E921C9AECD40041F55E /* Direction.swift in Sources */,
 				FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */,
