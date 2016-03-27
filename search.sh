@@ -6,7 +6,7 @@
 # Run Script
 #
 
-EXECUTABLE="bin/puzzle-problem"
+EXECUTABLE="bin/search"
 SOURCE_CODE="src/*.swift"
 OS=$(uname)
 
