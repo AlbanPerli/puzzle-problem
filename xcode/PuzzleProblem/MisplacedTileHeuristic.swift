@@ -24,8 +24,8 @@ struct MisplacedTileHeuristic: HeuristicFunction {
             // to the differences granted the current element isn't the empty
             // tile element
             diff +
-                (goalSequence[iteratee.index] == iteratee.element ||
-                iteratee.element == kEmptyTile ? 0 : 1)
+                (goalSequence[iteratee.index] != iteratee.element &&
+                iteratee.element != kEmptyTile ? 1 : 0)
         }
     }
 }
