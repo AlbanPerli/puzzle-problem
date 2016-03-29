@@ -267,13 +267,13 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     /// has been performed
     /// 
     /// - Parameter action: The action to perform
-    /// - Returns: A new state, or `nil` if the state could not be moved due to
-    //             an invalid action
+    /// - Returns: A new state
+    /// - Remarks: A `fatalError` is thrown if an invalid action is applied to the state
     ///
-    func performAction(action: Action) -> State? {
-        // Ensure this is a valid move, otherwise return nil
+    func performAction(action: Action) -> State {
+        // Ensure this is a valid move, otherwise throw fatal error
         if !self.isValidAction(action) {
-            return nil
+            fatalError("Apply an invalid action \(action) to state \(self)")
         }
         // Use the inverse action to find which positions we are moving
         let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)

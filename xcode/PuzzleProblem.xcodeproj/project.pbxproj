@@ -18,6 +18,8 @@
 		FA4335091CAA0C2F00FE5C24 /* EvaluationFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4335081CAA0C2F00FE5C24 /* EvaluationFunction.swift */; };
 		FA43350C1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43350B1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift */; };
 		FA43350E1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */; };
+		FA43350F1CAA13B900FE5C24 /* EvaluationFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4335081CAA0C2F00FE5C24 /* EvaluationFunction.swift */; };
+		FA4335101CAA140200FE5C24 /* HeuristicOnlyEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43350B1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift */; };
 		FA5A2E331C9AE3020041F55E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E321C9AE3020041F55E /* main.swift */; };
 		FA5A2E461C9AE32F0041F55E /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
 		FA5A2E481C9AE3470041F55E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E471C9AE3470041F55E /* State.swift */; };
@@ -379,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA7439361CA285E6009411C2 /* SearchMethod.swift in Sources */,
+				FA4335101CAA140200FE5C24 /* HeuristicOnlyEvaluation.swift in Sources */,
 				FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */,
 				FA5A2E851C9AEC6A0041F55E /* StateTests.swift in Sources */,
 				FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */,
@@ -395,6 +398,7 @@
 				FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */,
 				FA5A2E921C9AECD40041F55E /* Direction.swift in Sources */,
 				FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */,
+				FA43350F1CAA13B900FE5C24 /* EvaluationFunction.swift in Sources */,
 				FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */,
 				FAE0F9DB1C9E2C840036C436 /* NodeSet.swift in Sources */,
 				FAE0F9D91C9E2C800036C436 /* FifoFrontier.swift in Sources */,

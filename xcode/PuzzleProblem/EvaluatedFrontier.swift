@@ -36,19 +36,19 @@ struct EvaluatedFrontier: Frontier {
     }
     
     ///
-    /// Returns the result when apply the evaluation function for the provided state
+    /// Returns the result when apply the evaluation function for the provided node's state
     /// - Remarks: Looks up the evaluation function from a stored cache, and
     ///            calculates and then caches's the result of the evaluation
     ///            function instead if it cannot be found in cache
-    /// - Paramater state: The state to calculate for
+    /// - Paramater node: The node to calculate for
     /// - Returns: The estimated path cost 
     ///
-    private mutating func distanceToGoal(state: State) -> Int {
-        let hash = state.hashValue
+    private mutating func distanceToGoal(node: Node) -> Int {
+        let hash = node.hashValue
         if let result = evaluationFunctionCache[hash] {
             return result
         } else {
-            let distanceToGoal = self.evaluationFunction.calculateDistanceToGoal(state)
+            let distanceToGoal = self.evaluationFunction.calculateDistanceToGoal(node)
             evaluationFunctionCache[hash] = distanceToGoal
             return distanceToGoal
         }
@@ -60,11 +60,8 @@ struct EvaluatedFrontier: Frontier {
     }
     
     mutating func push(node: Node) {
-        guard let state = node.state else {
-            fatalError("Cannot push node without state")
-        }
         // Evaluate the distance of the state
-        let distanceToGoal = self.distanceToGoal(state)
+        let distanceToGoal = self.distanceToGoal(node)
         // Find the index to insert at by finding that whose distance to goal result
         // is equal to or larger than the distanceToGoal calculated for this particular
         // state. If not found, then it's added to the end.
@@ -80,7 +77,7 @@ struct EvaluatedFrontier: Frontier {
         //
         // So insert at index 2, which will result in [ 3, 5, 7, 8 ]
         let indexToInsert = (self.collection.indexOf { node -> Bool in
-            self.distanceToGoal(node.state!) >= distanceToGoal
+            self.distanceToGoal(node) >= distanceToGoal
         } ?? self.collection.count) 
         self.collection.insert(node, atIndex: indexToInsert)
     }

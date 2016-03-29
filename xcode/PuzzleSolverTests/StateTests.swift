@@ -112,14 +112,6 @@ class StateTest: XCTestCase {
             [8,9,10,11]
         ])
         XCTAssert(newState == expectedState)
-        // No answer
-        let noAnswerState = State(matrix: [
-            [1,2,2 ,3 ],
-            [4,5,6 ,7 ],
-            [8,9,10,11]
-        ])
-        let noState = noAnswerState.performAction(action)
-        XCTAssertNil(noState)
     }
 
     func testBlankTile() {

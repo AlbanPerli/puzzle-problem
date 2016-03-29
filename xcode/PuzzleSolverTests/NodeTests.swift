@@ -87,10 +87,10 @@ class NodeTests: XCTestCase {
         // following order: the agent should try to move the empty cell UP 
         // before attempting LEFT, before attempting DOWN, before attempting
         // RIGHT, in that order. Let's test that now:
-        XCTAssert(rootNode.children[0].state! == moveBlankUp)
-        XCTAssert(rootNode.children[1].state! == moveBlankLeft)
-        XCTAssert(rootNode.children[2].state! == moveBlankDown)
-        XCTAssert(rootNode.children[3].state! == moveBlankRight)
+        XCTAssert(rootNode.children[0].state == moveBlankUp)
+        XCTAssert(rootNode.children[1].state == moveBlankLeft)
+        XCTAssert(rootNode.children[2].state == moveBlankDown)
+        XCTAssert(rootNode.children[3].state == moveBlankRight)
         // Assert we only have 4 children
         XCTAssert(rootNode.children.count == 4)
     }

@@ -71,7 +71,7 @@ class FrontierTests: XCTestCase {
         XCTAssertEqual(nodes[2], frontier.pop())
     }
     
-    func testHeuristicFrontierMisplaced() {
+    func testEvaluatedFrontierMisplaced() {
         let rootState = State(matrix: [
             [1, 3, 6],
             [7, 4, 5],
@@ -91,35 +91,35 @@ class FrontierTests: XCTestCase {
             // 1 3 6    0 3 6
             // 0 4 5 => 1 4 5 => 6 misplaced tiles (1.1.1)
             // 7 8 2    7 8 2
-            firstActionStates[0]!.performAction(Action(movingPosition: (1,0), inDirection: .Up)),
+            firstActionStates[0].performAction(Action(movingPosition: (1,0), inDirection: .Up)),
             // 1 3 6    1 3 6
             // 0 4 2 => 4 0 5 => 4 misplaced tiles (1.1.2)
             // 7 8 2    7 8 2
-            firstActionStates[0]!.performAction(Action(movingPosition: (1,0), inDirection: .Right))
+            firstActionStates[0].performAction(Action(movingPosition: (1,0), inDirection: .Right))
         ]
         let thirdActionStates = [
             // 1 3 6    1 0 6
             // 4 0 5 => 4 3 5 => 4 misplaced tiles (1.1.2.1)
             // 7 8 2    7 8 2
-            secondActionStates[1]!.performAction(Action(movingPosition: (1,1), inDirection: .Up)),
+            secondActionStates[1].performAction(Action(movingPosition: (1,1), inDirection: .Up)),
             // 1 3 6    1 3 6
             // 4 0 5 => 4 8 5 => 5 misplaced tiles (1.1.2.2)
             // 7 8 2    7 0 2
-            secondActionStates[1]!.performAction(Action(movingPosition: (1,1), inDirection: .Down)),
+            secondActionStates[1].performAction(Action(movingPosition: (1,1), inDirection: .Down)),
             // 1 3 6    1 3 6
             // 4 0 5 => 4 5 0 => 3 misplaced tiles (1.1.2.3)
             // 7 8 2    7 8 2
-            secondActionStates[1]!.performAction(Action(movingPosition: (1,1), inDirection: .Right))
+            secondActionStates[1].performAction(Action(movingPosition: (1,1), inDirection: .Right))
         ]
         let fourthActionStates = [
             // 1 3 6    1 3 0
             // 4 5 0 => 4 5 6 => 2 misplaced tiles (1.1.2.3.1)
             // 7 8 2    7 8 2
-            thirdActionStates[2]!.performAction(Action(movingPosition: (1,2), inDirection: .Up)),
+            thirdActionStates[2].performAction(Action(movingPosition: (1,2), inDirection: .Up)),
             // 1 3 6    1 3 6
             // 4 5 0 => 4 5 2 => 3 misplaced tiles (1.1.2.3.2)
             // 7 8 2    7 8 0
-            thirdActionStates[2]!.performAction(Action(movingPosition: (1,2), inDirection: .Down)),
+            thirdActionStates[2].performAction(Action(movingPosition: (1,2), inDirection: .Down)),
         ]
         // Order should be
         // pop root     1.1       (5), 1.2       (7)
@@ -131,19 +131,21 @@ class FrontierTests: XCTestCase {
             [4, 5, 6],
             [7, 8, 0],
         ])
+        // Just use simple heuristic and evaluation
         let heuristic = MisplacedTileHeuristic(goalState: goalState)
-        let frontier = HeuristicFrontier(heuristicFunction: heuristic)
+        let evaluationFunction = HeuristicOnlyEvaluation(heuristicFunction: heuristic)
+        let frontier = EvaluatedFrontier(evaluationFunction: evaluationFunction)
         var nodes: Dictionary<String, Node> = [:]
         nodes.updateValue(Node(initialState: rootState), forKey: "root")
-        nodes.updateValue(Node(parent: nodes["root"]!, state: firstActionStates[0]!), forKey: "1.1")
-        nodes.updateValue(Node(parent: nodes["root"]!, state: firstActionStates[1]!), forKey: "1.2")
-        nodes.updateValue(Node(parent: nodes["1.1"]!, state: secondActionStates[0]!), forKey: "1.1.1")
-        nodes.updateValue(Node(parent: nodes["1.1"]!, state: secondActionStates[1]!), forKey: "1.1.2")
-        nodes.updateValue(Node(parent: nodes["1.1.2"]!, state: thirdActionStates[0]!), forKey: "1.1.2.1")
-        nodes.updateValue(Node(parent: nodes["1.1.2"]!, state: thirdActionStates[1]!), forKey: "1.1.2.2")
-        nodes.updateValue(Node(parent: nodes["1.1.2"]!, state: thirdActionStates[2]!), forKey: "1.1.2.3")
-        nodes.updateValue(Node(parent: nodes["1.1.2.3"]!, state: fourthActionStates[0]!), forKey: "1.1.2.3.1")
-        nodes.updateValue(Node(parent: nodes["1.1.2.3"]!, state: fourthActionStates[1]!), forKey: "1.1.2.3.2")
+        nodes.updateValue(Node(parent: nodes["root"]!, state: firstActionStates[0]), forKey: "1.1")
+        nodes.updateValue(Node(parent: nodes["root"]!, state: firstActionStates[1]), forKey: "1.2")
+        nodes.updateValue(Node(parent: nodes["1.1"]!, state: secondActionStates[0]), forKey: "1.1.1")
+        nodes.updateValue(Node(parent: nodes["1.1"]!, state: secondActionStates[1]), forKey: "1.1.2")
+        nodes.updateValue(Node(parent: nodes["1.1.2"]!, state: thirdActionStates[0]), forKey: "1.1.2.1")
+        nodes.updateValue(Node(parent: nodes["1.1.2"]!, state: thirdActionStates[1]), forKey: "1.1.2.2")
+        nodes.updateValue(Node(parent: nodes["1.1.2"]!, state: thirdActionStates[2]), forKey: "1.1.2.3")
+        nodes.updateValue(Node(parent: nodes["1.1.2.3"]!, state: fourthActionStates[0]), forKey: "1.1.2.3.1")
+        nodes.updateValue(Node(parent: nodes["1.1.2.3"]!, state: fourthActionStates[1]), forKey: "1.1.2.3.2")
         
         // Pop, should give us root, then add root children
         var search = MockSearch(frontier: frontier, nodesToConsider: nodes)

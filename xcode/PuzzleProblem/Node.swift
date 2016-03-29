@@ -16,12 +16,12 @@ let kPathCost: Int = 1
 class Node: Equatable, CustomDebugStringConvertible, Hashable {
     // MARK: Implement Hashable
     var hashValue: Int {
-        return self.state?.hashValue ?? 0 + self.pathCost
+        return self.state.hashValue ?? 0 + self.pathCost
     }
 
     // MARK: Implement CustomDebugStringConvertible
     var debugDescription: String {
-        return "State: \(self.state?.debugDescription ?? "nil") PC: \(self.pathCost)"
+        return "State: \(self.state.debugDescription ?? "nil") PC: \(self.pathCost)"
     }
     
     // MARK: Properties
@@ -29,7 +29,7 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     ///
     /// The state stored by this node
     ///
-    let state: State?
+    let state: State
 
     ///
     /// The path cost to get to this node
@@ -49,13 +49,9 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     ///            marked with a `lazy` initialiser
     ///
     lazy var children: [Node] = {
-        if let unwrappedState = self.state {
-            return unwrappedState.possibleActions.map { action -> Node in
-                let nextState: State? = unwrappedState.performAction(action)
-                return Node(parent: self, state: nextState)
-            }
-        } else {
-            return []
+        return self.state.possibleActions.map { action -> Node in
+            let nextState = self.state.performAction(action)
+            return Node(parent: self, state: nextState)
         }
     }()
 
@@ -72,13 +68,13 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     lazy var actionsToThisNode: [Action] = {
         var result: [Action] = []
         var ancestor: Node? = self.parent
-        if let currentLeadingAction = self.state?.leadingAction {
+        if let currentLeadingAction = self.state.leadingAction {
             result.append(currentLeadingAction)
         }
         // Keep backtracking up to my parent's parent, adding their actions
         // to get to their state
         while (ancestor != nil) {
-            if let leadingAction = ancestor?.state?.leadingAction {
+            if let leadingAction = ancestor?.state.leadingAction {
                 result.append(leadingAction)
             }
             ancestor = ancestor?.parent
@@ -91,7 +87,7 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     ///
     /// The initialiser of a node
     ///
-    init(parent: Node, state: State?) {
+    init(parent: Node, state: State) {
         self.pathCost = parent.pathCost + kPathCost
         self.state = state
         self.parent = parent
