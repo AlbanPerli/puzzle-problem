@@ -263,34 +263,6 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     }
 
     ///
-    /// Performs an action on the state, returning a new state after the action
-    /// has been performed
-    /// 
-    /// - Parameter action: The action to perform
-    /// - Returns: A new state
-    /// - Remarks: A `fatalError` is thrown if an invalid action is applied to the state
-    ///
-    func performAction(action: Action) -> State {
-        // Ensure this is a valid move, otherwise throw fatal error
-        if !self.isValidAction(action) {
-            fatalError("Apply an invalid action \(action) to state \(self)")
-        }
-        // Use the inverse action to find which positions we are moving
-        let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)
-        return State(matrix: newMatrix, fromAction: action)
-    }
-
-    ///
-    /// Performs a heuristic function on this state to estimate its cost to the
-    /// goal state provided
-    /// - Parameter function: The heuristic function to perform
-    /// - Returns: The estimated path cost
-    ///
-    func performHeuristic(function: HeuristicFunction) -> Int {
-        return function.visit(self)
-    }
-    
-    ///
     /// Finds the position of the provided tile, or `nil` if the given
     /// tile number could not be found
     /// - Parameter tile: Value of the tile to find
@@ -305,6 +277,24 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
             return (row, col)
         }
         return nil
+    }
+    
+    ///
+    /// Performs an action on the state, returning a new state after the action
+    /// has been performed
+    ///
+    /// - Parameter action: The action to perform
+    /// - Returns: A new state
+    /// - Remarks: A `fatalError` is thrown if an invalid action is applied to the state
+    ///
+    func performAction(action: Action) -> State {
+        // Ensure this is a valid move, otherwise throw fatal error
+        if !self.isValidAction(action) {
+            fatalError("Apply an invalid action \(action) to state \(self)")
+        }
+        // Use the inverse action to find which positions we are moving
+        let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)
+        return State(matrix: newMatrix, fromAction: action)
     }
 }
 

@@ -20,9 +20,9 @@ protocol HeuristicFunction {
     ///
     init(goalState: State)
     ///
-    /// Estimates the path cost of the provided state to the goal state
-    /// - Parameter matrix: Starting state to estimate
+    /// Estimates the path cost of the provided node to the goal state
+    /// - Parameter node: The node to visit and estimate path cost
     /// - Returns: The estimated path cost
     ///
-    func visit(state: State) -> Int
+    func visit(node: Node) -> Int
 }

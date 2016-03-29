@@ -101,6 +101,16 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
         self.state = initialState
         self.parent = nil
     }
+    
+    ///
+    /// Performs a heuristic function on this node to estimate its cost to the
+    /// goal state provided in the `function`
+    /// - Parameter function: The heuristic function to perform
+    /// - Returns: The estimated path cost to get to the goal state
+    ///
+    func performHeuristic(function: HeuristicFunction) -> Int {
+        return function.visit(self)
+    }
 }
 
 

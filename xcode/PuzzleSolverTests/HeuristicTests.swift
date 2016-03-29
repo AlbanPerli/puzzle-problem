@@ -20,8 +20,9 @@ class HeuristicTests: XCTestCase {
             [4, 5, 6],
             [7, 8, 0],
         ])
+        let rootNode = Node(initialState: rootState)
         let function = MisplacedTileHeuristic(goalState: goalState)
-        let numMisplacedTiles = rootState.performHeuristic(function)
+        let numMisplacedTiles = rootNode.performHeuristic(function)
         XCTAssertEqual(numMisplacedTiles, 6)
     }
 
@@ -36,8 +37,9 @@ class HeuristicTests: XCTestCase {
             [4, 5, 6],
             [7, 8, 0],
         ])
+        let rootNode = Node(initialState: rootState)
         let function = DistanceToGoalHeuristic(goalState: goalState)
-        let numMisplacedTiles = rootState.performHeuristic(function)
+        let numMisplacedTiles = rootNode.performHeuristic(function)
         XCTAssertEqual(numMisplacedTiles, 13)
     }
 }
