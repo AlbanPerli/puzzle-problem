@@ -35,9 +35,9 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
 
     // MARK: Implement CustomStringConvertible
     var debugDescription: String {
-        return self.matrix.flatMap { $0 }.reduce("") { (memo, value) -> String in
-            return memo + "\(value) "
-        }
+        return String(self.sequence.reduce("") { (memo, value) -> String in
+            memo + "\(value) "
+        }.characters.dropLast(1))
     }
 
     ///
