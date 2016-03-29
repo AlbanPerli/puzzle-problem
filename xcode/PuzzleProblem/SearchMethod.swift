@@ -27,11 +27,6 @@ protocol SearchMethod {
     ///
     var goalState: State { get set }
     ///
-    /// Initialiser with a goal state
-    /// - Parameter goalState: The goal state to traverse to
-    ///
-    init(goalState: State)
-    ///
     /// The traverse method accepts a node to traverse and returns back a set
     /// of actions needed to take the node provided into the goal state
     ///
