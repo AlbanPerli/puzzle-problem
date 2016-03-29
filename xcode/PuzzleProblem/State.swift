@@ -28,9 +28,9 @@ let kEmptyTile: Int = 0
 struct State: Equatable, Hashable, CustomDebugStringConvertible {
     // MARK: Implement Hashable
     var hashValue: Int {
-        return Int(self.matrix.flatMap { $0 }.reduce("") { (memo, value) -> String in
-            return memo + "\(value)"
-        }) ?? 0
+        return self.sequence.reduce(0) { (memo, value) -> Int in
+            10 * memo + value
+        }
     }
 
     // MARK: Implement CustomStringConvertible
