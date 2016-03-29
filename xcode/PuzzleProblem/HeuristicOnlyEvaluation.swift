@@ -19,7 +19,7 @@ struct HeuristicOnlyEvaluation: EvaluationFunction {
     init(heuristicFunction: HeuristicFunction) {
         self.heuristicFunction = heuristicFunction
     }
-    func calculateDistanceToGoal(state: State) -> Int {
-        return state.performHeuristic(self.heuristicFunction)
+    func calculateDistanceToGoal(node: Node) -> Int {
+        return node.state!.performHeuristic(self.heuristicFunction) ?? 0
     }
 }

@@ -17,6 +17,7 @@
 		FA4335071CAA064D00FE5C24 /* GreedyBestFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4335061CAA064D00FE5C24 /* GreedyBestFirstSearch.swift */; };
 		FA4335091CAA0C2F00FE5C24 /* EvaluationFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4335081CAA0C2F00FE5C24 /* EvaluationFunction.swift */; };
 		FA43350C1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43350B1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift */; };
+		FA43350E1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */; };
 		FA5A2E331C9AE3020041F55E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E321C9AE3020041F55E /* main.swift */; };
 		FA5A2E461C9AE32F0041F55E /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
 		FA5A2E481C9AE3470041F55E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E471C9AE3470041F55E /* State.swift */; };
@@ -83,6 +84,7 @@
 		FA4335061CAA064D00FE5C24 /* GreedyBestFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreedyBestFirstSearch.swift; sourceTree = "<group>"; };
 		FA4335081CAA0C2F00FE5C24 /* EvaluationFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationFunction.swift; sourceTree = "<group>"; };
 		FA43350B1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicOnlyEvaluation.swift; sourceTree = "<group>"; };
+		FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicAndPathCostEvaluation.swift; sourceTree = "<group>"; };
 		FA5A2E2F1C9AE3020041F55E /* PuzzleProblem */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PuzzleProblem; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5A2E321C9AE3020041F55E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FA5A2E451C9AE32F0041F55E /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			children = (
 				FA4335081CAA0C2F00FE5C24 /* EvaluationFunction.swift */,
 				FA43350B1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift */,
+				FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */,
 			);
 			name = "Evaluation Functions";
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				FA4335091CAA0C2F00FE5C24 /* EvaluationFunction.swift in Sources */,
 				FAD0AEB41CA55B46005BA51E /* DistanceToGoalHeuristic.swift in Sources */,
 				FA0BE8301C9B9D270007E49D /* Action.swift in Sources */,
+				FA43350E1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */,
 				FAE0F9D21C9E2BD00036C436 /* NodeSet.swift in Sources */,
 				FAD276301C9BA7FB006819FF /* Problem.swift in Sources */,
 				FA5A2E331C9AE3020041F55E /* main.swift in Sources */,
