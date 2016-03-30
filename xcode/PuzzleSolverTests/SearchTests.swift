@@ -82,20 +82,60 @@ class StaticStateSearchTests: XCTestCase {
         doSearch(method, rootNodeState: rootNodeState, expectedActions: expectedActions)
     }
 
-    func testBFSEasy() {
+    func testBFS_Easy() {
         let method = BreadthFirstSearch(goalState: easyGoalState)
         easySearch(method)
     }
-    func testDFSEasy() {
+    func testDFS_Easy() {
         let method = DepthFirstSearch(goalState: easyGoalState)
         easySearch(method)
     }
-    func testBFSHard() {
+    func testGBFS_Easy_MisplacedTileHeuristic() {
+        let heuristic = MisplacedTileHeuristic(goalState: easyGoalState)
+        let method = GreedyBestFirstSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testGBFS_Easy_DistanceToGoalHeuristic() {
+        let heuristic = DistanceToGoalHeuristic(goalState: easyGoalState)
+        let method = GreedyBestFirstSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testAS_Easy_MisplacedTileHeuristic() {
+        let heuristic = MisplacedTileHeuristic(goalState: easyGoalState)
+        let method = AStarSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testAS_Easy_DistanceToGoalHeuristic() {
+        let heuristic = DistanceToGoalHeuristic(goalState: easyGoalState)
+        let method = AStarSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testBFS_Hard() {
         let method = BreadthFirstSearch(goalState: hardGoalState)
         hardSearch(method)
     }
-    func testDFSHard() {
+    func testDFS_Hard() {
         let method = DepthFirstSearch(goalState: hardGoalState)
+        hardSearch(method)
+    }
+    func testGBFS_Hard_MisplacedTileHeuristic() {
+        let heuristic = MisplacedTileHeuristic(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testGBFS_Hard_DistanceToGoalHeuristic() {
+        let heuristic = DistanceToGoalHeuristic(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testAS_Hard_MisplacedTileHeuristic() {
+        let heuristic = MisplacedTileHeuristic(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testAS_Hard_DistanceToGoalHeuristic() {
+        let heuristic = DistanceToGoalHeuristic(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         hardSearch(method)
     }
 }
