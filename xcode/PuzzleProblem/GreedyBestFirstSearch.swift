@@ -15,7 +15,7 @@ struct GreedyBestFirstSearch: SearchMethod {
     
     init(goalState: State, heuristicFunction: HeuristicFunction) {
         self.goalState = goalState
-        // Breadth First Search uses a heuristic frontier with a heuristic-only
+        // Greedy Best First Search uses a heuristic frontier with a heuristic-only
         // evaluation function, that is f(n) = h(n)
         let evaluationFunction = HeuristicOnlyEvaluation(heuristicFunction: heuristicFunction)
         self.frontier = EvaluatedFrontier(evaluationFunction: evaluationFunction)
