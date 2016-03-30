@@ -29,6 +29,8 @@ class StaticStateSearchTests: XCTestCase {
         var now = NSDate()
         measureBlock {
             actions = method.traverse(rootNode)
+            self.stopMeasuring()
+            
             i += 1
             print("Completed performance test \(i) in \(-now.timeIntervalSinceNow)s")
             now = NSDate()
