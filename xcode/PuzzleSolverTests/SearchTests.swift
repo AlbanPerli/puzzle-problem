@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Foundation
 
 class StaticStateSearchTests: XCTestCase {
     // Goal state for static tests
@@ -24,8 +25,13 @@ class StaticStateSearchTests: XCTestCase {
     private func doSearch(method: SearchMethod, rootNodeState: State, expectedActions: [Action]) {
         let rootNode = Node(initialState: rootNodeState)
         var actions: [Action]? = []
+        var i = 0
+        var now = NSDate()
         measureBlock {
             actions = method.traverse(rootNode)
+            i += 1
+            print("Completed performance test \(i) in \(-now.timeIntervalSinceNow)s")
+            now = NSDate()
         }
         XCTAssert(actions?.count == expectedActions.count)
         XCTAssert(actions! == expectedActions)
