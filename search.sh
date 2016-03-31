@@ -21,6 +21,12 @@ function check_swift_version() {
   if [ $SWIFT_INSTALLED -ne 0 ] || [ $SWIFT_VERSION_22 -ne 1  ]; then
     echo "You do not have the Swift 2.2 compiler installed on this machine"
     echo "Please download and install Swift 2.2 from http://swift.org/download"
+    if [ "$OS" == "Darwin" ]; then
+      OS_INSTALL_DOWNLOAD="installation"
+    elif [ "$OS" == "Linux" ]; then
+      OS_INSTALL_DOWNLOAD="installation-1"
+    fi
+    echo "and follow installation instructions here https://swift.org/download/#$OS_INSTALL_DOWNLOAD"
     exit 1
   else
     echo "OK - Swift 2.2 is installed!"
