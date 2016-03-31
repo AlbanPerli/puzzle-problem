@@ -20,6 +20,6 @@ struct HeuristicOnlyEvaluation: EvaluationFunction {
         self.heuristicFunction = heuristicFunction
     }
     func calculateDistanceToGoal(node: Node) -> Int {
-        return node.performHeuristic(self.heuristicFunction) ?? 0
+        return node.performHeuristic(self.heuristicFunction)
     }
 }
