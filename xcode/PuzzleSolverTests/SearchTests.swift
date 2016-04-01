@@ -86,6 +86,10 @@ class StaticStateSearchTests: XCTestCase {
         let method = AStarSearch(goalState: easyGoalState, heuristicFunction: heuristic)
         easySearch(method)
     }
+    func testBOGO_Easy() {
+        let method = BogosortSearch(goalState: easyGoalState)
+        easySearch(method)
+    }
     func testBFS_Hard() {
         let method = BreadthFirstSearch(goalState: hardGoalState)
         hardSearch(method)
@@ -112,6 +116,10 @@ class StaticStateSearchTests: XCTestCase {
     func testAS_Hard_DistanceToGoalHeuristic() {
         let heuristic = DistanceToGoalHeuristic(goalState: hardGoalState)
         let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testBOGO_Hard() {
+        let method = BogosortSearch(goalState: hardGoalState)
         hardSearch(method)
     }
 }
