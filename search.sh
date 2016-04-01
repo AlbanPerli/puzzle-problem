@@ -66,7 +66,7 @@ if [ ! -x $EXECUTABLE ]; then
   echo "Source not yet compiled!"
   check_swift_version
   compile_src
-  echo "Compied! Running $EXECUTABLE"
+  echo "Compiled! Running $EXECUTABLE"
 fi
 
 # Now run it
