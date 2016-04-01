@@ -39,31 +39,27 @@ protocol SearchMethod {
     func traverse(node: Node) -> (actions: [Action]?, nodesTraversed: [Node])
 }
 
-// MARK: Provide default behaviour to the Traversable protocol
+// MARK: Provide default behaviour to the SearchMethod protocol
 
 extension SearchMethod {
     func isGoalState(node: Node) -> Bool {
-        // If there is a state in this node
-        if let nodeState: State = node.state {
-            // Then the states must match
-            return self.goalState == nodeState
-        } else {
-            return false
-        }
+        return node.state == goalState
     }
     func traverse(node: Node) -> (actions: [Action]?, nodesTraversed: [Node]) {
         // Make a copy of frontier (frontier is a struct, so we aren't
         // just copying a pointer here)
         var frontier: Frontier = self.frontier
-        var explored: Set<Node> = []
+        // Maintain a dictionary of hash values to test where the node has come from
+        // The root node has not come from anything, thus nil
+        var nodesCameFrom: Dictionary<Int, Int?> = [node.hashValue: nil]
         var nodesTraversed: [Node] = []
-        // Maintain a list of the current nodes in anscestor
+        // Maintain a list of the nodes we have traversed
         frontier.push(node)
-        while (!frontier.isEmpty) {
+        // While the search method condition is true
+        while !frontier.isEmpty {
             // Force unwrap of optional as frontier isn't empty
             let currentNode = frontier.pop()!
-            // We are exploring this node
-            explored.insert(currentNode)
+            // Add to the list of nodes traversed this popped node
             nodesTraversed.append(currentNode)
             // Check if this node is the goal
             if self.isGoalState(currentNode) {
@@ -72,12 +68,15 @@ extension SearchMethod {
                 // Only add the children to the frontier given they are not
                 // in the union of frontier + explored
                 let childrenToAdd = currentNode.children.filter {
-                    !(frontier.contains($0) || explored.contains($0))
+                    !(nodesCameFrom.keys.contains($0.hashValue))
+                }
+                // Update the nodesComeFrom for all the children we are about to add
+                for child in childrenToAdd {
+                    nodesCameFrom.updateValue(child.hashValue, forKey: currentNode.hashValue)
                 }
                 frontier.push(childrenToAdd)
             }
         }
         return (nil, nodesTraversed)
     }
-    
 }
