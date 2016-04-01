@@ -27,6 +27,13 @@ protocol SearchMethod {
     ///
     var goalState: State { get set }
     ///
+    /// The should try expand node method returns whether or not the node provided
+    /// should be expanded.
+    /// - Parameter node: The node to try and expand
+    /// - Returns: Whether or not the node should be expanded
+    ///
+    func shouldTryToExpandNode(node: Node) -> Bool
+    ///
     /// The traverse method accepts a node to traverse and returns back a set
     /// of actions needed to take the node provided into the goal state
     ///
@@ -44,6 +51,10 @@ protocol SearchMethod {
 extension SearchMethod {
     func isGoalState(node: Node) -> Bool {
         return node.state == goalState
+    }
+    func shouldTryToExpandNode(node: Node) -> Bool {
+        // Usually we always expand nodes, except if overriden with a special condition
+        return true
     }
     func traverse(node: Node) -> (actions: [Action]?, nodesTraversed: [Node]) {
         // Make a copy of frontier (frontier is a struct, so we aren't
@@ -64,9 +75,9 @@ extension SearchMethod {
             // Check if this node is the goal
             if self.isGoalState(currentNode) {
                 return (currentNode.actionsToThisNode, nodesTraversed)
-            } else {
-                // Only add the children to the frontier given they are not
-                // in the union of frontier + explored
+            } else if self.shouldTryToExpandNode(currentNode) {
+                // Only add the children whos hash values are not stored as keys
+                // in the nodes that this node has come from
                 let childrenToAdd = currentNode.children.filter {
                     !(nodesCameFrom.keys.contains($0.hashValue))
                 }
