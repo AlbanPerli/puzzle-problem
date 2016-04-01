@@ -42,6 +42,8 @@
 		FA5C59671CAE9BF700B7048C /* RandomisedFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C595E1CAE98A500B7048C /* RandomisedFrontier.swift */; };
 		FA5C59681CAE9C0400B7048C /* MutableCollectionType+Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C59601CAE994000B7048C /* MutableCollectionType+Shuffle.swift */; };
 		FA5C59691CAE9C0A00B7048C /* CrossPlatformRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C59621CAE99D100B7048C /* CrossPlatformRandom.swift */; };
+		FA5C596C1CAE9EC900B7048C /* X11.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C596B1CAE9EC900B7048C /* X11.swift */; };
+		FA5C596E1CAE9F0900B7048C /* libX11.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5C596D1CAE9F0900B7048C /* libX11.6.dylib */; };
 		FA7439351CA285C1009411C2 /* SearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439341CA285C1009411C2 /* SearchMethod.swift */; };
 		FA7439361CA285E6009411C2 /* SearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439341CA285C1009411C2 /* SearchMethod.swift */; };
 		FA7439371CA286B3009411C2 /* DepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */; };
@@ -115,6 +117,8 @@
 		FA5C59601CAE994000B7048C /* MutableCollectionType+Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MutableCollectionType+Shuffle.swift"; sourceTree = "<group>"; };
 		FA5C59621CAE99D100B7048C /* CrossPlatformRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossPlatformRandom.swift; sourceTree = "<group>"; };
 		FA5C59641CAE9AF200B7048C /* BogosortSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BogosortSearch.swift; sourceTree = "<group>"; };
+		FA5C596B1CAE9EC900B7048C /* X11.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = X11.swift; sourceTree = "<group>"; };
+		FA5C596D1CAE9F0900B7048C /* libX11.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libX11.6.dylib; path = ../../../../../opt/X11/lib/libX11.6.dylib; sourceTree = "<group>"; };
 		FA7439341CA285C1009411C2 /* SearchMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMethod.swift; sourceTree = "<group>"; };
 		FA7439381CA424ED009411C2 /* RandomState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomState.swift; path = PuzzleSolverTests/RandomState.swift; sourceTree = "<group>"; };
 		FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionTests.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA5C596E1CAE9F0900B7048C /* libX11.6.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +189,7 @@
 		FA5A2E261C9AE3020041F55E = {
 			isa = PBXGroup;
 			children = (
+				FA5C596D1CAE9F0900B7048C /* libX11.6.dylib */,
 				FA5A2E311C9AE3020041F55E /* PuzzleProblem */,
 				FA5A2E831C9AEC6A0041F55E /* PuzzleProblemUnitTests */,
 				FA124EC01CA61FFA00CAACC5 /* PuzzleProblemSearchTests */,
@@ -203,6 +209,7 @@
 		FA5A2E311C9AE3020041F55E /* PuzzleProblem */ = {
 			isa = PBXGroup;
 			children = (
+				FA5C596A1CAE9E8500B7048C /* GUI */,
 				FA5A2E321C9AE3020041F55E /* main.swift */,
 				FA22936B1CA6A46000032463 /* Utilities */,
 				FAE0F9DC1C9E2CD40036C436 /* Search Methods */,
@@ -226,6 +233,14 @@
 			);
 			name = PuzzleProblemUnitTests;
 			path = PuzzleSolverTests;
+			sourceTree = "<group>";
+		};
+		FA5C596A1CAE9E8500B7048C /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				FA5C596B1CAE9EC900B7048C /* X11.swift */,
+			);
+			name = GUI;
 			sourceTree = "<group>";
 		};
 		FAD0AEAA1CA54C12005BA51E /* Heuristic Functions */ = {
@@ -375,6 +390,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA5C596C1CAE9EC900B7048C /* X11.swift in Sources */,
 				FA7439351CA285C1009411C2 /* SearchMethod.swift in Sources */,
 				FA5A2E941C9AF2570041F55E /* FileParser.swift in Sources */,
 				FA4335131CAB540500FE5C24 /* AStarSearch.swift in Sources */,
@@ -541,8 +557,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/lib/X11,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/lib/CX11";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
 			};
 			name = Debug;
 		};
@@ -550,8 +571,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/lib/X11,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/lib/CX11";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
 			};
 			name = Release;
 		};
