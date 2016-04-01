@@ -13,6 +13,10 @@ struct BreadthFirstSearch: SearchMethod {
     var goalState: State
     var frontier: Frontier
 
+    ///
+    /// Initaliser for a Breadth First Search
+    /// - Parameter goalState: The search's goal state
+    ///
     init(goalState: State) {
         self.goalState = goalState
         // Breadth First Search uses a FIFO frontier

@@ -12,10 +12,15 @@ struct DepthFirstSearch: SearchMethod {
     static var code: String = "DFS"
     var goalState: State
     var frontier: Frontier
-
+    
+    ///
+    /// Initaliser for a Depth First Search
+    /// - Parameter goalState: The search's goal state
+    ///
     init(goalState: State) {
         self.goalState = goalState
         // Breadth First Search uses a LIFO frontier
         self.frontier = LifoFrontier()
     }
+
 }

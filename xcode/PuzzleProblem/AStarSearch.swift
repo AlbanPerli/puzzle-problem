@@ -13,6 +13,11 @@ struct AStarSearch: SearchMethod {
     var goalState: State
     var frontier: Frontier
     
+    ///
+    /// Initaliser for a Depth First Search
+    /// - Parameter goalState: The search's goal state
+    /// - Parameter heuristicFunction: The heuristic used in the evaluation function
+    ///
     init(goalState: State, heuristicFunction: HeuristicFunction) {
         self.goalState = goalState
         // A Star uses a heuristic frontier with a heuristic and path cost
@@ -20,4 +25,5 @@ struct AStarSearch: SearchMethod {
         let evaluationFunction = HeuristicAndPathCostEvaluation(heuristicFunction: heuristicFunction)
         self.frontier = EvaluatedFrontier(evaluationFunction: evaluationFunction)
     }
+    
 }
