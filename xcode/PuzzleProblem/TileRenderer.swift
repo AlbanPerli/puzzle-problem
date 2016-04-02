@@ -28,7 +28,18 @@ class TileRenderer {
     ///
     /// The position of the tile on screen
     ///
-    private var position: (x: Int, y: Int)
+    private var onScreenPosition: (x: Int, y: Int)
+    
+    ///
+    /// Tile position
+    ///
+    var position: Position {
+        didSet {
+            let xPos = position.col * Int(kSizeOfTile)
+            let yPos = position.row * Int(kSizeOfTile)
+            self.onScreenPosition = (xPos, yPos)
+        }
+    }
     
     ///
     /// Initialises a drawable tile
@@ -39,19 +50,10 @@ class TileRenderer {
     init(value: Int, position: Position, color: Color) {
         self.value = value
         self.color = color
-        let xPos = position.row * Int(kSizeOfTile)
-        let yPos = position.col * Int(kSizeOfTile)
-        self.position = (xPos, yPos)
-    }
-    
-    ///
-    /// Moves the tile on screen to the position provided
-    /// - Parameter position: The position to move to
-    ///
-    func moveTo(position: Position) {
-        let xPos = position.row * Int(kSizeOfTile)
-        let yPos = position.col * Int(kSizeOfTile)
-        self.position = (xPos, yPos)
+        self.position = position
+        let xPos = position.col * Int(kSizeOfTile)
+        let yPos = position.row * Int(kSizeOfTile)
+        self.onScreenPosition = (xPos, yPos)
     }
     
     ///
@@ -63,18 +65,18 @@ class TileRenderer {
         let sizeOfOutline = (kSizeOfTile - 1, kSizeOfTile - 1)
         let rectangle = Rectangle(color: color,
                                   filled: true,
-                                  position: position,
+                                  position: onScreenPosition,
                                   size: size)
         let rectangleOutline = Rectangle(color: Color.black,
                                          filled: false,
-                                         position: position,
+                                         position: onScreenPosition,
                                          size: sizeOfOutline)
         window.drawShape(rectangle)
         window.drawShape(rectangleOutline)
         
         let positionOfText = (
-            x: self.position.x + 5 + Int(kSizeOfTile / 2),
-            y: self.position.y + 5 + Int(kSizeOfTile / 2)
+            x: self.onScreenPosition.x + 5 + Int(kSizeOfTile / 2),
+            y: self.onScreenPosition.y + 5 + Int(kSizeOfTile / 2)
         )
         
         // Dark color?
@@ -86,5 +88,6 @@ class TileRenderer {
         }
         
         window.drawText(String(self.value), position: positionOfText, color: textColor)
+        window.flush()
     }
 }

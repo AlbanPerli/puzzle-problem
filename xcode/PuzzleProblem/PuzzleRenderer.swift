@@ -1,4 +1,4 @@
-//
+ //
 //  StateRenderer.swift
 //  PuzzleProblem
 //
@@ -11,12 +11,9 @@ class PuzzleRenderer {
     /// Current node to render
     ///
     var node: Node {
-        willSet(newNode) {
-            // TODO: Find difference only
-            updateTiles()
-        }
         didSet {
             self.window.setTitle("Node - PC \(node.pathCost)")
+            updateTiles()
         }
     }
     
@@ -50,17 +47,28 @@ class PuzzleRenderer {
     /// Updates tiles to render
     ///
     func updateTiles() {
-        for tileValue in self.sequence {
-            let position = node.state.positionOf(tileValue)
+        self.updateTiles(self.sequence)
+    }
+    
+    ///
+    /// Updates specific tiles to render
+    /// - Parameter tiles: The tiles to update
+    ///
+    func updateTiles(tiles: [Int]) {
+        for tileValue in tiles {
+            let position = node.state.positionOf(tileValue)!
             // Look up if this tile exists
-            if let tile = tiles[tileValue] {
-                tile.moveTo(position!)
-                tile.drawIn(self.window)
+            if let tile = self.tiles[tileValue] {
+                // Only move if it has moved
+                if tile.position != position {
+                    tile.position = position
+                    tile.drawIn(self.window)
+                }
             } else {
                 let tile = TileRenderer(value: tileValue,
-                                        position: position!,
+                                        position: position,
                                         color: colorForTile(tileValue))
-                tiles[tileValue] = tile
+                self.tiles[tileValue] = tile
                 tile.drawIn(self.window)
             }
         }

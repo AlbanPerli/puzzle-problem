@@ -44,7 +44,10 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
     }
 
     func testDrawNode() {
-        let state = randomState(width: 4)
+        let state = State(matrix: [
+            [0,8,9,1,4],
+            [6,5,7,3,2]
+        ])
         let node = Node(initialState: state)
         renderer = PuzzleRenderer(node: node)
         while renderer!.window.nextEvent != MapNotify {}
@@ -58,19 +61,21 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
     
     func testBFSDraw() {
         let state = State(matrix: [
-            [0,8,9,1,4],
-            [6,5,7,3,2]
+            [3,4,1],
+            [6,0,2],
+            [5,7,8]
         ])
         let goal = State(matrix: [
-            [0,1,2,3,4],
-            [5,6,7,8,9]
+            [0,1,2],
+            [3,4,5],
+            [6,7,8]
         ])
         let node = Node(initialState: state)
         renderer = PuzzleRenderer(node: node)
         while renderer!.window.nextEvent != MapNotify {}
         renderer?.updateTiles()
-        var method = BreadthFirstSearch(goalState: goal)
-        method.traverse(node)
+        AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)
+        loop {}
     }
 
 }
