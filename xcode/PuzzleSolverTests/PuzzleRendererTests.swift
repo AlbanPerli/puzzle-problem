@@ -10,8 +10,16 @@ import XCTest
 import CX11.Xlib
 import CX11.X
 
-class GuiTests: XCTestCase {
+class GuiTests: XCTestCase, SearchMethodSubscriber {
     private var renderer: PuzzleRenderer?
+    
+    override func setUp() {
+        SearchMethodObserver.sharedObserver.subscribers.append(self)
+    }
+    
+    func didTraverseNode(node: Node, isSolved: Bool) {
+        self.renderer!.node = node
+    }
     
     func loop(onKeyDown: ()->()) {
         // User has requested quit?
@@ -58,15 +66,11 @@ class GuiTests: XCTestCase {
             [5,6,7,8,9]
         ])
         let node = Node(initialState: state)
-        var method = BreadthFirstSearch(goalState: goal)
-        method.traverse(node)
-        var traversed = method.nodesTraversed
         renderer = PuzzleRenderer(node: node)
         while renderer!.window.nextEvent != MapNotify {}
         renderer?.updateTiles()
-        loop {
-            self.renderer!.node = traversed.removeFirst()
-        }
+        var method = BreadthFirstSearch(goalState: goal)
+        method.traverse(node)
     }
 
 }

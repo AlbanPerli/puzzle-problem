@@ -74,6 +74,7 @@ extension SearchMethod {
             nodesTraversed.append(currentNode)
             // Check if this node is the goal
             if self.isGoalState(currentNode) {
+                SearchMethodObserver.sharedObserver.notify(currentNode, isSolved: true)
                 return (currentNode.actionsToThisNode, nodesTraversed)
             } else if self.shouldTryToExpandNode(currentNode) {
                 // Only add the children whos hash values are not stored as keys
@@ -85,6 +86,7 @@ extension SearchMethod {
                 for child in childrenToAdd {
                     nodesCameFrom.updateValue(child.hashValue, forKey: currentNode.hashValue)
                 }
+                SearchMethodObserver.sharedObserver.notify(currentNode, isSolved: false)
                 frontier.push(childrenToAdd)
             }
         }
