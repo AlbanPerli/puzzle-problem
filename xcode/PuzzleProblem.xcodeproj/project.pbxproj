@@ -13,7 +13,7 @@
 		FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439381CA424ED009411C2 /* RandomState.swift */; };
 		FA17F5931CAF66AB009D3EBD /* PuzzleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5921CAF66AB009D3EBD /* PuzzleRenderer.swift */; };
 		FA17F5951CAF69DB009D3EBD /* TileRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5941CAF69DB009D3EBD /* TileRenderer.swift */; };
-		FA17F5991CAF7948009D3EBD /* GuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5981CAF7948009D3EBD /* GuiTests.swift */; };
+		FA17F5991CAF7948009D3EBD /* PuzzleRendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5981CAF7948009D3EBD /* PuzzleRendererTests.swift */; };
 		FA17F59A1CAF797B009D3EBD /* X11.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C596B1CAE9EC900B7048C /* X11.swift */; };
 		FA17F59B1CAF797D009D3EBD /* PuzzleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5921CAF66AB009D3EBD /* PuzzleRenderer.swift */; };
 		FA17F59C1CAF7980009D3EBD /* TileRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5941CAF69DB009D3EBD /* TileRenderer.swift */; };
@@ -105,7 +105,7 @@
 		FA0BE82F1C9B9D270007E49D /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		FA17F5921CAF66AB009D3EBD /* PuzzleRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleRenderer.swift; sourceTree = "<group>"; };
 		FA17F5941CAF69DB009D3EBD /* TileRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileRenderer.swift; sourceTree = "<group>"; };
-		FA17F5981CAF7948009D3EBD /* GuiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GuiTests.swift; path = PuzzleSolverTests/GuiTests.swift; sourceTree = "<group>"; };
+		FA17F5981CAF7948009D3EBD /* PuzzleRendererTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PuzzleRendererTests.swift; path = PuzzleSolverTests/PuzzleRendererTests.swift; sourceTree = "<group>"; };
 		FA22936C1CA6A48400032463 /* EvaluatedFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatedFrontier.swift; sourceTree = "<group>"; };
 		FA22936E1CA6AF2000032463 /* FrontierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontierTests.swift; sourceTree = "<group>"; };
 		FA4335061CAA064D00FE5C24 /* GreedyBestFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreedyBestFirstSearch.swift; sourceTree = "<group>"; };
@@ -180,7 +180,7 @@
 		FA17F5961CAF7901009D3EBD /* PuzzleGuiTests */ = {
 			isa = PBXGroup;
 			children = (
-				FA17F5981CAF7948009D3EBD /* GuiTests.swift */,
+				FA17F5981CAF7948009D3EBD /* PuzzleRendererTests.swift */,
 			);
 			name = PuzzleGuiTests;
 			sourceTree = "<group>";
@@ -457,7 +457,7 @@
 				FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */,
 				FA4335151CAB54A900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */,
 				FAD0AEAF1CA5507E005BA51E /* HeuristicFunction.swift in Sources */,
-				FA17F5991CAF7948009D3EBD /* GuiTests.swift in Sources */,
+				FA17F5991CAF7948009D3EBD /* PuzzleRendererTests.swift in Sources */,
 				FA7439371CA286B3009411C2 /* DepthFirstSearch.swift in Sources */,
 				FA5C59661CAE9BD000B7048C /* BogosortSearch.swift in Sources */,
 				FA124EC11CA6203F00CAACC5 /* SearchTests.swift in Sources */,

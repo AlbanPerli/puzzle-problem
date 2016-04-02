@@ -6,20 +6,33 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
-struct PuzzleRenderer {   
+class PuzzleRenderer {
     ///
-    /// Current state to render
+    /// Current node to render
     ///
-    var state: State {
-        didSet {
-            drawAllTiles()
+    var node: Node {
+        willSet(newNode) {
+            // TODO: Find difference only
+            updateTiles()
         }
+        didSet {
+            self.window.setTitle("Node - PC \(node.pathCost)")
+        }
+    }
+    
+    var sequence: [Int] {
+        return self.node.state.sequence
     }
     
     ///
     /// Window for renderer
     ///
     let window: XWindow
+    
+    ///
+    /// Dictionary of tiles I know of bound to their value
+    ///
+    var tiles: Dictionary<Int, TileRenderer> = [:]
     
     ///
     /// Initialises the renderer with a node
@@ -30,35 +43,43 @@ struct PuzzleRenderer {
         self.window = XWindow(title: "Node - PC \(node.pathCost)",
                               width: widthOfWindow,
                               height: heightOfWindow)
-        self.state = node.state
+        self.node = node
     }
     
     ///
-    /// Draws all tiles in the current state
+    /// Updates tiles to render
     ///
-    func drawAllTiles() {
-        // Draw tiles in the state
-        for tileValue in state.sequence {
-            let position = state.positionOf(tileValue)
-            self.drawTile(tileValue, position: position!)
+    func updateTiles() {
+        for tileValue in self.sequence {
+            let position = node.state.positionOf(tileValue)
+            // Look up if this tile exists
+            if let tile = tiles[tileValue] {
+                tile.moveTo(position!)
+                tile.drawIn(self.window)
+            } else {
+                let tile = TileRenderer(value: tileValue,
+                                        position: position!,
+                                        color: colorForTile(tileValue))
+                tiles[tileValue] = tile
+                tile.drawIn(self.window)
+            }
         }
     }
     
     ///
-    /// Draws a single tile at a given position
-    /// - Parameter value: Value displayed on the tile
-    /// - Parameter position: Position of the tile
+    /// Gets the color for the tile with the given value
+    /// - Parameter value: The value to lookup
+    /// - Returns: Color associated to that value
     ///
-    private func drawTile(value: Int, position: Position) {
-        var color: Color
+    private func colorForTile(value: Int) -> Color {
         if value == kEmptyTile {
-            color = Color.white
+            return Color.white
         } else {
+            var color: Color
             repeat {
                 color = Color.random()
             } while color == Color.black || color == Color.white
+            return color
         }
-        let tile = TileRenderer(value: value, position: position, color: color)
-        tile.drawIn(self.window)
     }
 }

@@ -14,7 +14,7 @@ let kSizeOfTile: UInt = 75
 ///
 /// Renders a tile
 ///
-struct TileRenderer {
+class TileRenderer {
     ///
     /// The color to draw
     ///
@@ -28,7 +28,7 @@ struct TileRenderer {
     ///
     /// The position of the tile on screen
     ///
-    private let position: (x: Int, y: Int)
+    private var position: (x: Int, y: Int)
     
     ///
     /// Initialises a drawable tile
@@ -39,7 +39,16 @@ struct TileRenderer {
     init(value: Int, position: Position, color: Color) {
         self.value = value
         self.color = color
-        
+        let xPos = position.row * Int(kSizeOfTile)
+        let yPos = position.col * Int(kSizeOfTile)
+        self.position = (xPos, yPos)
+    }
+    
+    ///
+    /// Moves the tile on screen to the position provided
+    /// - Parameter position: The position to move to
+    ///
+    func moveTo(position: Position) {
         let xPos = position.row * Int(kSizeOfTile)
         let yPos = position.col * Int(kSizeOfTile)
         self.position = (xPos, yPos)
@@ -51,6 +60,7 @@ struct TileRenderer {
     ///
     func drawIn(window: XWindow) {
         let size = (kSizeOfTile, kSizeOfTile)
+        let sizeOfOutline = (kSizeOfTile - 1, kSizeOfTile - 1)
         let rectangle = Rectangle(color: color,
                                   filled: true,
                                   position: position,
@@ -58,7 +68,7 @@ struct TileRenderer {
         let rectangleOutline = Rectangle(color: Color.black,
                                          filled: false,
                                          position: position,
-                                         size: size)
+                                         size: sizeOfOutline)
         window.drawShape(rectangle)
         window.drawShape(rectangleOutline)
         

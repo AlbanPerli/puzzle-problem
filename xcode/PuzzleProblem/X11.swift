@@ -213,7 +213,7 @@ struct XWindow {
         // Map the window to the display
         XMapWindow(xDisplay, xWindow)
         
-        // Set the window title
+        // Set the title
         XStoreName(xDisplay, xWindow, title)
         
         // Get the context
@@ -234,9 +234,20 @@ struct XWindow {
     
     ///
     /// Resizes the size of the window
+    /// - Parameter width: New width of window
+    /// - Parameter height: New height of window
     ///
     func resize(width: UInt32, height: UInt32) {
         XResizeWindow(xDisplay, xWindow, width, height)
+    }
+    
+    ///
+    /// Rename's the title of the window
+    /// - Parameter title: New title of the window
+    ///
+    func setTitle(title: String) {
+        // Set the window title
+        XStoreName(xDisplay, xWindow, title)
     }
     
     ///
