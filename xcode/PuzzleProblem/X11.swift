@@ -14,7 +14,12 @@ import CX11.X
 ///
 /// Struct to represent colors
 ///
-struct Color {
+struct Color: Hashable, Equatable {
+    // Implement hashable
+    var hashValue: Int {
+        return self.red * 100 + self.green * 10 + self.blue
+    }
+    
     ///
     /// Red value between 0 and 0xFFFF
     ///
@@ -71,6 +76,11 @@ struct Color {
     }
 }
 
+// Implement color equatable
+func ==(lhs: Color, rhs: Color) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
 // MARK: Shapes
 
 ///
@@ -90,14 +100,14 @@ protocol Shape {
     ///
     var position: (x: Int, y: Int) { get set }
     ///
-    /// Size of the shape, where `w` represents width and `y` represents height
+    /// Size of the shape, where `w` represents width and `h` represents height
     ///
-    var size: (w: Int, h: Int) { get set }
+    var size: (w: UInt, h: UInt) { get set }
     ///
     /// Draws the shape to a specific window
     /// - Parameter window: The window to draw to
     ///
-    func draw(window: ScreenWindow)
+    func drawIn(window: XWindow)
 }
 
 ///
@@ -107,8 +117,8 @@ struct Rectangle: Shape {
     var color: Color
     var filled: Bool
     var position: (x: Int, y: Int)
-    var size: (w: Int, h: Int)
-    func draw(window: ScreenWindow) {
+    var size: (w: UInt, h: UInt)
+    func drawIn(window: XWindow) {
         if self.filled {
             // Implement using XFillRectangle if filled
             XFillRectangle(
@@ -143,7 +153,7 @@ typealias WindowEvent = Int32
 ///
 /// A GUI window implemented using X11
 ///
-struct ScreenWindow {
+struct XWindow {
     ///
     /// The internal X11 window
     ///
@@ -223,6 +233,13 @@ struct ScreenWindow {
     }
     
     ///
+    /// Resizes the size of the window
+    ///
+    func resize(width: UInt32, height: UInt32) {
+        XResizeWindow(xDisplay, xWindow, width, height)
+    }
+    
+    ///
     /// Flushes the window for draw events
     ///
     func flush() {
@@ -249,9 +266,22 @@ struct ScreenWindow {
     /// Draws a shape
     /// - Parameter shape: The shape to draw
     ///
-    func draw(shape: Shape) {
+    func drawShape(shape: Shape) {
         setForeground(shape.color)
-        shape.draw(self)
+        shape.drawIn(self)
     }
+    
+    ///
+    /// Draws text to the screen
+    /// - Parameter text: The text to draw
+    /// - Parameter position: The position to draw, `x` and `y`
+    /// - Parameter color: The color of the text, defaults to `Color.black`
+    ///
+    func drawText(text: String, position: (x: Int, y: Int), color: Color = Color.black) {
+        setForeground(color)
+        XDrawString(xDisplay, xWindow, xContext, Int32(position.x), Int32(position.y), text, Int32(text.characters.count))
+    }
+    
+    
 }
 
