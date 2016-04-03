@@ -11,11 +11,13 @@ import Darwin
 ///
 /// Generates a random state that is no larger than the `width` provides
 /// - Parameter width: The maximum allowable generated width
+/// - Parameter isValid: Whether or not the state generated is valid. If `false` is provided
+///                      here, then only invalid states will be generated. Default is `true`.
 /// - Returns: A new random state that is always solvable in a shuffled order
 /// - Remarks: The state is always an `n` by `n` state due to solvability
 ///            constraints
 ///
-func randomState(width inputWidth: UInt32) -> State {
+func randomState(width inputWidth: UInt32, isValid: Bool = true) -> State {
     let width = Int(arc4random_uniform(inputWidth) + 2) // at least 2x2
     let isOdd = width % 2 != 0
     // Generate a sequence of random numbers width^2 long
@@ -73,7 +75,7 @@ func randomState(width inputWidth: UInt32) -> State {
         return matrix
     }
     var seq = generateSequence()
-    while !validateSequence(seq) {
+    while (isValid && !validateSequence(seq)) || (!isValid && validateSequence(seq)) {
         seq = generateSequence()
     }
     return State(sequence: seq, height: width, width: width)
