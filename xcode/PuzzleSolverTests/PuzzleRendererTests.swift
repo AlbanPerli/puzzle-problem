@@ -13,7 +13,7 @@ import CX11.X
 class GuiTests: XCTestCase, SearchMethodSubscriber {
     private var renderer: PuzzleRenderer?
     
-    override func setUp() {
+    func startSubscribing() {
         SearchMethodObserver.sharedObserver.subscribers.append(self)
     }
     
@@ -50,7 +50,7 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         ])
         let node = Node(initialState: state)
         renderer = PuzzleRenderer(node: node)
-        while renderer!.window.nextEvent != MapNotify {}
+        renderer?.waitUntilReady()
         renderer?.updateTiles()
         loop {
             let state = randomState(width: 4)
@@ -59,7 +59,7 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         }
     }
     
-    func testBFSDraw() {
+    func testDrawWhileSolving() {
         let state = State(matrix: [
             [3,4,1],
             [6,0,2],
@@ -72,10 +72,34 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         ])
         let node = Node(initialState: state)
         renderer = PuzzleRenderer(node: node)
-        while renderer!.window.nextEvent != MapNotify {}
+        renderer?.waitUntilReady()
         renderer?.updateTiles()
+        startSubscribing()
         AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)
         loop {}
+    }
+    
+    func testDrawSolutionOnly() {
+        let state = State(matrix: [
+            [3,4,1],
+            [6,0,2],
+            [5,7,8]
+        ])
+        let goal = State(matrix: [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8]
+        ])
+        let node = Node(initialState: state)
+        var solnNode = AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)?.ansecstors
+        renderer = PuzzleRenderer(node: node)
+        renderer?.waitUntilReady()
+        renderer?.node = (solnNode?.popLast())!
+        loop {
+            if let nextNode = solnNode?.popLast() {
+                self.renderer?.node = nextNode
+            }
+        }
     }
 
 }
