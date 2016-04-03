@@ -165,6 +165,7 @@ class Solver: SearchMethodSubscriber {
             if delta != 0 && !(index + delta > (nodes.count - 1) || index + delta < 0) {
                 index = index + delta
                 renderer.node = nodes[index]
+                renderer.window.title += " (✔︎)"
             }
         }
         
@@ -180,6 +181,7 @@ class Solver: SearchMethodSubscriber {
         } else if isSolved && isShowingGUI {
             // Create renderer now
             self.renderer = PuzzleRenderer(node: rootNode)
+            self.renderer!.window.title += " (✔︎)"
             self.setUpRenderer()
         }
     }

@@ -12,7 +12,7 @@ class PuzzleRenderer {
     ///
     var node: Node {
         didSet {
-            self.window.setTitle("Node - PC \(node.pathCost)")
+            self.window.title = "PC \(node.pathCost)"
             updateTiles()
         }
     }
