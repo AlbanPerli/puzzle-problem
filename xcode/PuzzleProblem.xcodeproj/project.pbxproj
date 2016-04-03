@@ -67,7 +67,7 @@
 		FAD0AEB21CA555A8005BA51E /* HeuristicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEB11CA555A8005BA51E /* HeuristicTests.swift */; };
 		FAD0AEB41CA55B46005BA51E /* DistanceToGoalHeuristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */; };
 		FAD0AEB51CA55C85005BA51E /* DistanceToGoalHeuristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */; };
-		FAD276301C9BA7FB006819FF /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2762F1C9BA7FB006819FF /* Problem.swift */; };
+		FAD276301C9BA7FB006819FF /* PuzzleProblem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2762F1C9BA7FB006819FF /* PuzzleProblem.swift */; };
 		FAD276321C9BD6AA006819FF /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276311C9BD6AA006819FF /* NodeTests.swift */; };
 		FAD276331C9BD837006819FF /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
 		FAD276391C9BF3D1006819FF /* BreadthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */; };
@@ -141,7 +141,7 @@
 		FAD0AEAD1CA54D56005BA51E /* MisplacedTileHeuristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MisplacedTileHeuristic.swift; sourceTree = "<group>"; };
 		FAD0AEB11CA555A8005BA51E /* HeuristicTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicTests.swift; sourceTree = "<group>"; };
 		FAD0AEB31CA55B46005BA51E /* DistanceToGoalHeuristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceToGoalHeuristic.swift; sourceTree = "<group>"; };
-		FAD2762F1C9BA7FB006819FF /* Problem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Problem.swift; sourceTree = "<group>"; };
+		FAD2762F1C9BA7FB006819FF /* PuzzleProblem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleProblem.swift; sourceTree = "<group>"; };
 		FAD276311C9BD6AA006819FF /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
 		FAD2763B1C9C0BBF006819FF /* SearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTests.swift; path = PuzzleSolverTests/SearchTests.swift; sourceTree = "<group>"; };
@@ -232,8 +232,8 @@
 		FA5A2E311C9AE3020041F55E /* PuzzleProblem */ = {
 			isa = PBXGroup;
 			children = (
-				FA5C596A1CAE9E8500B7048C /* GUI */,
 				FA5A2E321C9AE3020041F55E /* main.swift */,
+				FA5C596A1CAE9E8500B7048C /* GUI */,
 				FA22936B1CA6A46000032463 /* Utilities */,
 				FAE0F9DC1C9E2CD40036C436 /* Search Methods */,
 				FAE0F9DF1C9E2D200036C436 /* Tree Models */,
@@ -322,7 +322,7 @@
 		FAE0F9E01C9E2D9D0036C436 /* Search Models */ = {
 			isa = PBXGroup;
 			children = (
-				FAD2762F1C9BA7FB006819FF /* Problem.swift */,
+				FAD2762F1C9BA7FB006819FF /* PuzzleProblem.swift */,
 			);
 			name = "Search Models";
 			sourceTree = "<group>";
@@ -426,7 +426,7 @@
 				FA0BE8301C9B9D270007E49D /* Action.swift in Sources */,
 				FA4B2B901CAE691F005878E1 /* DepthLimitedSearch.swift in Sources */,
 				FA43350E1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */,
-				FAD276301C9BA7FB006819FF /* Problem.swift in Sources */,
+				FAD276301C9BA7FB006819FF /* PuzzleProblem.swift in Sources */,
 				FA5A2E331C9AE3020041F55E /* main.swift in Sources */,
 				FA5A2E461C9AE32F0041F55E /* Node.swift in Sources */,
 				FAE0F9CD1C9D35D40036C436 /* Frontier.swift in Sources */,
