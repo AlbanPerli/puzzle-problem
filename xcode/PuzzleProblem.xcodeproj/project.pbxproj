@@ -623,12 +623,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/lib/X11,
-					/opt/X11/lib,
+					/usr/X11/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.alexcu.swin.ai.PuzzleSolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/X11/include";
 			};
 			name = Debug;
 		};
@@ -640,12 +639,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/lib/X11,
-					/opt/X11/lib,
+					/usr/X11/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.alexcu.swin.ai.PuzzleSolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/X11/include";
 			};
 			name = Release;
 		};
