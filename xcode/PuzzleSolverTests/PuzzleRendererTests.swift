@@ -21,19 +21,20 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         self.renderer!.node = node
     }
     
-    func loop(onKeyDown: ()->()) {
+    func loop(onKeyDown: (WindowEvent)->()) {
         // User has requested quit?
         var hasQuit: Bool = false
         // Main loop
         repeat {
+            let event = renderer!.window.nextEvent
             // Keep grabbing the next event as it comes
-            switch renderer!.window.nextEvent {
+            switch event.type {
             // When exposing the window, refresh context
             case Expose:
                 renderer!.window.flush()
             // Window close requested
             case KeyPress:
-                onKeyDown()
+                onKeyDown(event)
             case ClientMessage:
                 hasQuit = true
             // Don't handle
@@ -52,7 +53,7 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         renderer = PuzzleRenderer(node: node)
         renderer?.waitUntilReady()
         renderer?.updateTiles()
-        loop {
+        loop { event in
             let state = randomState(width: 4)
             let node = Node(initialState: state)
             self.renderer!.node = node
@@ -76,7 +77,9 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         renderer?.updateTiles()
         startSubscribing()
         AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)
-        loop {}
+        loop { event in
+            // N/A
+        }
     }
     
     func testDrawSolutionOnly() {
@@ -91,13 +94,23 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
             [6,7,8]
         ])
         let node = Node(initialState: state)
-        var solnNode = AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)?.ansecstors
+        // Needs to be reverse to get from start -> end not end -> start
+        let nodes: [Node] = (AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)?.ansecstors.reverse())!
         renderer = PuzzleRenderer(node: node)
-        renderer?.waitUntilReady()
-        renderer?.node = (solnNode?.popLast())!
-        loop {
-            if let nextNode = solnNode?.popLast() {
-                self.renderer?.node = nextNode
+        renderer!.waitUntilReady()
+        var index = 0
+        renderer!.node = nodes[index]
+        loop { event in
+            var delta = 0
+            if self.renderer!.window.didPressKey("f") {
+                delta = +1
+            }
+            else if self.renderer!.window.didPressKey("b") {
+                delta = -1
+            }
+            if delta != 0 && !(index + delta > (nodes.count - 1) || index + delta < 0) {
+                index = index + delta
+                self.renderer!.node = nodes[index]
             }
         }
     }

@@ -146,14 +146,19 @@ struct Rectangle: Shape {
 // MARK: Window using X11
 
 ///
-/// A window event binds to an X11 event, which is an `Int32`
+/// A window event binds to an X11 event
 ///
-typealias WindowEvent = Int32
+typealias WindowEvent = XEvent
+
+///
+/// A key code is a UInt
+///
+typealias WindowKey = UInt
 
 ///
 /// A GUI window implemented using X11
 ///
-struct XWindow {
+class XWindow {
     ///
     /// The internal X11 window
     ///
@@ -180,8 +185,14 @@ struct XWindow {
     ///
     var nextEvent: WindowEvent {
         XNextEvent(xDisplay, xEvent)
-        return WindowEvent(xEvent.memory.type)
+        lastEvent = xEvent.memory
+        return xEvent.memory
     }
+    
+    ///
+    /// Gets the last event that occured
+    ///
+    var lastEvent: WindowEvent?
     
     ///
     /// Creates a new window in the top-left corner of the screen
@@ -233,6 +244,14 @@ struct XWindow {
     }
     
     ///
+    /// Deinitialiser
+    ///
+    deinit {
+        XCloseDisplay(xDisplay);
+        xEvent.dealloc(1)
+    }
+    
+    ///
     /// Resizes the size of the window
     /// - Parameter width: New width of window
     /// - Parameter height: New height of window
@@ -261,7 +280,7 @@ struct XWindow {
     /// Waits on this method until the X11 window has been mapped to a display
     ///
     func waitUntilReady() {
-        while self.nextEvent != MapNotify {
+        while self.nextEvent.type != MapNotify {
             // DO NOTHING
         }
     }
@@ -302,6 +321,17 @@ struct XWindow {
         XDrawString(xDisplay, xWindow, xContext, Int32(position.x), Int32(position.y), text, Int32(text.characters.count))
     }
     
-    
+    ///
+    /// Checks if the provided event pressed the key
+    /// - Parameter key: The key to check
+    ///
+    func didPressKey(key: String) -> Bool {
+        if let event = self.lastEvent where event.type == KeyPress {
+            let keycode = XKeysymToKeycode(xDisplay, XStringToKeysym(key));
+            return KeyCode(event.xkey.keycode) == keycode
+        } else {
+            return false
+        }
+    }
 }
 

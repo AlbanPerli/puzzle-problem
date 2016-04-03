@@ -1,9 +1,9 @@
 module CX11 [system] {
-    module Xlib {
-        header "/usr/local/include/X11/Xlib.h"
-    }
     module X {
         header "/usr/local/include/X11/X.h"
+    }
+    module Xlib {
+        header "/usr/local/include/X11/Xlib.h"
     }
     link "X11"
 }
