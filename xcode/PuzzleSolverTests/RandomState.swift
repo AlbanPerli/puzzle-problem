@@ -9,6 +9,57 @@
 import Darwin
 
 ///
+/// Generates a matrix from a sequence list provided
+/// - Parameter seq: Sequence to generate
+/// - Parameter width: Width of sequence
+/// - Returns: A new `width` by `width` matrix
+///
+func generateMatrix(seq: [Int], width: Int) -> Matrix {
+    var data = seq
+    let matrix = (0...width-1).map { index -> [Int] in
+        return (0...width-1).reduce([]) { (memo, value) -> [Int] in
+            return memo + [data.popLast()!]
+        }
+    }
+    return matrix
+}
+
+///
+/// Validates an `n` by `n` state sequence generated using solvability proofs
+/// - Parameter seq: Sequence to validate
+/// - Parameter width: Width of sequence
+/// - Remarks: Refer to [proof](http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html)
+///
+func validateSequence(seq: [Int], width: Int) -> Bool {
+    let isOdd = width % 2 != 0
+    let inversions = seq.enumerate().reduce(0) { (memo, value) -> Int in
+        let startAt = value.index + 1
+        let element = value.element
+        var numInversionsForElement = 0
+        for num in seq.suffixFrom(startAt) {
+            if element > num && num != kEmptyTile {
+                numInversionsForElement += 1
+            }
+        }
+        return memo + numInversionsForElement
+    }
+    let evenInversions = inversions % 2 == 0
+    var matrix = generateMatrix(seq, width: width)
+    var stateFromSequence = State(matrix: matrix)
+    var posOfBlank = stateFromSequence.blankTilePosition
+    while posOfBlank == nil {
+        matrix = generateMatrix(seq, width: width)
+        stateFromSequence = State(matrix: matrix)
+        posOfBlank = stateFromSequence.blankTilePosition
+    }
+    let rowFromBottom = (stateFromSequence.height - 1) - posOfBlank!.row
+    let blankOnOddRowFromBottom = rowFromBottom % 2 != 0
+    // ( (grid width odd ) && (#inversions even) )  ||
+    // ( (grid width even) && ((blank on odd row from bottom) == (#inversions even)) )
+    return ( isOdd && evenInversions ) || ( !isOdd && (blankOnOddRowFromBottom == evenInversions) )
+}
+
+///
 /// Generates a random state that is no larger than the `width` provides
 /// - Parameter width: The maximum allowable generated width
 /// - Parameter isValid: Whether or not the state generated is valid. If `false` is provided
@@ -35,47 +86,9 @@ func randomState(width inputWidth: UInt32, isValid: Bool = true) -> State {
         }
         return data
     }
-    // Validates the sequence generated using solvability proofs
-    // See http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
-    func validateSequence(seq: [Int]) -> Bool {
-        let inversions = seq.enumerate().reduce(0) { (memo, value) -> Int in
-            let startAt = value.index + 1
-            let element = value.element
-            var numInversionsForElement = 0
-            for num in seq.suffixFrom(startAt) {
-                if element > num && num != kEmptyTile {
-                    numInversionsForElement += 1
-                }
-            }
-            return memo + numInversionsForElement
-        }
-        let evenInversions = inversions % 2 == 0
-        var matrix = generateMatrix(seq)
-        var stateFromSequence = State(matrix: matrix)
-        var posOfBlank = stateFromSequence.blankTilePosition
-        while posOfBlank == nil {
-            matrix = generateMatrix(seq)
-            stateFromSequence = State(matrix: matrix)
-            posOfBlank = stateFromSequence.blankTilePosition
-        }
-        let rowFromBottom = (stateFromSequence.height - 1) - posOfBlank!.row
-        let blankOnOddRowFromBottom = rowFromBottom % 2 != 0
-        // ( (grid width odd ) && (#inversions even) )  ||
-        // ( (grid width even) && ((blank on odd row from bottom) == (#inversions even)) )
-        return ( isOdd && evenInversions ) || ( !isOdd && (blankOnOddRowFromBottom == evenInversions) )
-    }
-    // Generates a matrix from a sequence list
-    func generateMatrix(seq: [Int]) -> Matrix {
-        var data = seq
-        let matrix = (0...width-1).map { index -> [Int] in
-            return (0...width-1).reduce([]) { (memo, value) -> [Int] in
-                return memo + [data.popLast()!]
-            }
-        }
-        return matrix
-    }
     var seq = generateSequence()
-    while (isValid && !validateSequence(seq)) || (!isValid && validateSequence(seq)) {
+    while (isValid && !validateSequence(seq, width: width)) ||
+          (!isValid && validateSequence(seq, width: width)) {
         seq = generateSequence()
     }
     return State(sequence: seq, height: width, width: width)
