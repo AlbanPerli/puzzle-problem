@@ -151,7 +151,17 @@ struct Launcher {
     private func parseMethod(method: String, rootState: State, heuristicType: HeuristicType?, cutoff: Int) throws -> SearchMethod {
         // Generate the goal state from the provided root state
         // Essentially, order the sequence from 1->n with 0 being at the end
-        let goalStateSequence = rootState.sequence.sort()
+        let goalStateSequence = rootState.sequence.sort {
+            if $0 == kEmptyTile || $1 == kEmptyTile {
+                if $0 == kEmptyTile {
+                    return $0 > $1
+                } else {
+                    return $1 < $0
+                }
+            } else {
+                return $0 < $1
+            }
+        }
         let goalState = State(sequence: goalStateSequence, height: rootState.height, width: rootState.width)
         let heuristic: HeuristicFunction = heuristicType == .MisplacedTile ?
             MisplacedTileHeuristic(goalState: goalState) :
