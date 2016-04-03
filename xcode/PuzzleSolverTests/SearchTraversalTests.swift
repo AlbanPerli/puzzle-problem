@@ -8,7 +8,16 @@
 
 import XCTest
 
-class NodesTraversedTests: XCTestCase {
+class NodesTraversedTests: XCTestCase, SearchMethodSubscriber {
+    // MARK: Implement search method subscriber
+    var nodesTraversed: [Node] = []
+    
+    func didTraverseNode(node: Node, isSolved: Bool) {
+        nodesTraversed.append(node)
+    }
+    
+    // MARK: Test setup
+    
     let goalState = State(matrix: [
         [1, 2, 3],
         [4, 5, 6],
@@ -18,6 +27,11 @@ class NodesTraversedTests: XCTestCase {
     var nodes: Dictionary<String, Node> = [:]
     
     override func setUp() {
+        // Subscribe
+        SearchMethodObserver.sharedObserver.subscribers.append(self)
+        // Clear all previous nodes traversed
+        nodesTraversed.removeAll()
+        
         /*              A
          *       ______/ \______
          *      /     /   \     \
@@ -106,8 +120,7 @@ class NodesTraversedTests: XCTestCase {
     func testBFSTraversal() {
         // Goes by breadth first FIFO
         // Expect A B C D E F G H I J K L M
-        let method = BreadthFirstSearch(goalState: goalState)
-        let traversal = method.traverse(nodes["A"]!).nodesTraversed
+        BreadthFirstSearch(goalState: goalState).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,
             nodes["B"]!,
@@ -123,15 +136,14 @@ class NodesTraversedTests: XCTestCase {
             nodes["L"]!,
             nodes["M"]!,
         ]
-        XCTAssert(traversal == expectedTraversal)
+        XCTAssert(nodesTraversed == expectedTraversal)
     }
     
     
     func testDLSTraversal() {
         // Goes by depth first LIFO
         // Expect A B F G C H I D J K E L M
-        let method = DepthLimitedSearch(goalState: goalState, depthCutoff: 2)
-        let traversal = method.traverse(nodes["A"]!).nodesTraversed
+        DepthLimitedSearch(goalState: goalState, depthCutoff: 3).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,
             nodes["B"]!,
@@ -147,34 +159,32 @@ class NodesTraversedTests: XCTestCase {
             nodes["L"]!,
             nodes["M"]!,
         ]
-        XCTAssert(traversal == expectedTraversal)
+        XCTAssert(nodesTraversed == expectedTraversal)
     }
     
     func testGBFSTraversal() {
         // Goes by best evaluation function
         // Expect A E M
         let heuristic = MisplacedTileHeuristic(goalState: goalState)
-        let method = GreedyBestFirstSearch(goalState: goalState, heuristicFunction: heuristic)
-        let traversal = method.traverse(nodes["A"]!).nodesTraversed
+        GreedyBestFirstSearch(goalState: goalState, heuristicFunction: heuristic).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,
             nodes["E"]!,
             nodes["M"]!,
         ]
-        XCTAssert(traversal == expectedTraversal)
+        XCTAssert(nodesTraversed == expectedTraversal)
     }
     
     func testASTraversal() {
         // Goes by best evaluation function 
         // Expect A E M
         let heuristic = MisplacedTileHeuristic(goalState: goalState)
-        let method = AStarSearch(goalState: goalState, heuristicFunction: heuristic)
-        let traversal = method.traverse(nodes["A"]!).nodesTraversed
+        AStarSearch(goalState: goalState, heuristicFunction: heuristic).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,
             nodes["E"]!,
             nodes["M"]!,
         ]
-        XCTAssert(traversal == expectedTraversal)
+        XCTAssert(nodesTraversed == expectedTraversal)
     }
 }
