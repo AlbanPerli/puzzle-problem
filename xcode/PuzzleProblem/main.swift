@@ -227,16 +227,15 @@ struct Launcher {
     
     ///
     /// Parses program argumenrts
-    /// - Returns: Tuple containing arguments
+    /// - Returns: Multiple puzzle solvers or `nil` if help was requested
     ///
-    private func parseArgs() throws ->
-        (nodes: [Node],
-         methods: [SearchMethod],
-         gui: GUIType?)? {
+    private func parseArgs() throws -> [Solver]? {
         // Strip the args
         var args = Process.arguments.enumerate().generate()
         // Data returned
         var usingGuiType: GUIType?
+        // Name of file
+        var filename: String = ""
         // Use misplaced tile by default, otherwise misplaced if provided
         var usingHeuristic: HeuristicType?
         if args.contains({$0.element == "--heuristic=misplaced"}) {
@@ -270,6 +269,7 @@ struct Launcher {
             switch arg.index {
             // Filename
             case 1:
+                filename = arg.element
                 // Try parse provided file
                 rootStates = try parseFile(arg.element)!
             // Search method
@@ -295,7 +295,9 @@ struct Launcher {
             }
         }
         let rootNodes = rootStates.map { Node(initialState: $0) }
-        return (rootNodes, methods, usingGuiType)
+        return rootNodes.enumerate().map { (index: Int, rootNode: Node) -> Solver in
+            Solver(filename: filename, rootNode: rootNode, method: methods[index], gui: usingGuiType).solve()
+        }
     }
     
     
@@ -307,8 +309,10 @@ struct Launcher {
     func run() throws {
         do {
             // Process args when argc is at least 2 else print help
-            if let args = try parseArgs() where Process.argc > 2 {
-                print(args)
+            if let solvers = try parseArgs() where Process.argc > 2 {
+                for solver in solvers {
+                    solver.displayResults()
+                }
             } else {
                 print(self.helpText)
             }
