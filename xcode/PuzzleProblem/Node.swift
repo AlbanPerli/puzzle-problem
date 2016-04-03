@@ -44,6 +44,20 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     // MARK: Lazy-computed properties
 
     ///
+    /// The ansecstors this node has, inclusive of `self`
+    /// - Remarks: Expensive to determine this property, which is why it is
+    ///            marked with a `lazy` initialiser
+    ///
+    lazy var ansecstors: [Node] = {
+        var ansecstors: [Node] = [self]
+        // Unwrap the parent while it exists
+        while var parent = ansecstors.last?.parent {
+            ansecstors.append(parent)
+        }
+        return ansecstors
+    }()
+    
+    ///
     /// The children this node has
     /// - Remarks: Expensive to determine this property, which is why it is
     ///            marked with a `lazy` initialiser
