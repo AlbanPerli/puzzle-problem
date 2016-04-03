@@ -28,7 +28,7 @@ class StaticStateSearchTests: XCTestCase {
         var i = 0
         var now = NSDate()
         measureBlock {
-            actions = method.traverse(rootNode).actions
+            actions = method.traverse(rootNode)!.actionsToThisNode
             self.stopMeasuring()
             
             i += 1

@@ -34,16 +34,12 @@ protocol SearchMethod {
     ///
     func shouldTryToExpandNode(node: Node) -> Bool
     ///
-    /// The traverse method accepts a node to traverse and returns back a set
-    /// of actions needed to take the node provided into the goal state
+    /// The traverse method accepts a node to traverse and returns back the goal node
     ///
     /// - Parameter node: The node to traverse
-    /// - Returns: A tuple containing: `actions`, an optional set of actions 
-    ///            required to traverse the node to the `goalState` or `nil`
-    ///            where there are no solutions and `nodesTraversed` being a set
-    ///            of nodes that have been traversed to get to the `goalState`.
+    /// - Returns: The goal node
     ///
-    func traverse(node: Node) -> (actions: [Action]?, nodesTraversed: [Node])
+    func traverse(node: Node) -> Node?
 }
 
 // MARK: Provide default behaviour to the SearchMethod protocol
@@ -56,25 +52,23 @@ extension SearchMethod {
         // Usually we always expand nodes, except if overriden with a special condition
         return true
     }
-    func traverse(node: Node) -> (actions: [Action]?, nodesTraversed: [Node]) {
+    func traverse(node: Node) -> Node? {
         // Make a copy of frontier (frontier is a struct, so we aren't
         // just copying a pointer here)
         var frontier: Frontier = self.frontier
         // Maintain a dictionary of hash values to test where the node has come from
         // The root node has not come from anything, thus nil
         var nodesCameFrom: Dictionary<Int, Int?> = [node.hashValue: nil]
-        var nodesTraversed: [Node] = []
-        // Maintain a list of the nodes we have traversed
+        // Push the first node on
         frontier.push(node)
         // While the search method condition is true
         while !frontier.isEmpty {
             // Force unwrap of optional as frontier isn't empty
             let currentNode = frontier.pop()!
-            // Add to the list of nodes traversed this popped node
-            nodesTraversed.append(currentNode)
             // Check if this node is the goal
             if self.isGoalState(currentNode) {
-                return (currentNode.actionsToThisNode, nodesTraversed)
+                SearchMethodObserver.sharedObserver.notify(currentNode, isSolved: true)
+                return currentNode
             } else if self.shouldTryToExpandNode(currentNode) {
                 // Only add the children whos hash values are not stored as keys
                 // in the nodes that this node has come from
@@ -85,9 +79,10 @@ extension SearchMethod {
                 for child in childrenToAdd {
                     nodesCameFrom.updateValue(child.hashValue, forKey: currentNode.hashValue)
                 }
+                SearchMethodObserver.sharedObserver.notify(currentNode, isSolved: false)
                 frontier.push(childrenToAdd)
             }
         }
-        return (nil, nodesTraversed)
+        return nil
     }
 }
