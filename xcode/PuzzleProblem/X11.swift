@@ -181,6 +181,15 @@ class XWindow {
     private let xColormap: Colormap
     
     ///
+    /// Title for the window
+    ///
+    var title: String {
+        didSet {
+            XStoreName(xDisplay, xWindow, title)
+        }
+    }
+    
+    ///
     /// The next event to handle from the window
     ///
     var nextEvent: WindowEvent {
@@ -226,6 +235,7 @@ class XWindow {
         
         // Set the title
         XStoreName(xDisplay, xWindow, title)
+        self.title = title
         
         // Get the context
         let xContext = XCreateGC(xDisplay, xWindow, 0, nil)
@@ -258,15 +268,6 @@ class XWindow {
     ///
     func resize(width: UInt32, height: UInt32) {
         XResizeWindow(xDisplay, xWindow, width, height)
-    }
-    
-    ///
-    /// Rename's the title of the window
-    /// - Parameter title: New title of the window
-    ///
-    func setTitle(title: String) {
-        // Set the window title
-        XStoreName(xDisplay, xWindow, title)
     }
     
     ///
