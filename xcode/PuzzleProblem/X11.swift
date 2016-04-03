@@ -258,6 +258,15 @@ struct XWindow {
     }
     
     ///
+    /// Waits on this method until the X11 window has been mapped to a display
+    ///
+    func waitUntilReady() {
+        while self.nextEvent != MapNotify {
+            // DO NOTHING
+        }
+    }
+    
+    ///
     /// Sets the current foreground color
     /// - Parameter color: Color to set
     ///

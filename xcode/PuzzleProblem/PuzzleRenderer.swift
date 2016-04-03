@@ -75,6 +75,13 @@ class PuzzleRenderer {
     }
     
     ///
+    /// Stalls the program until the renderer is ready to draw
+    ///
+    func waitUntilReady() {
+        self.window.waitUntilReady()
+    }
+    
+    ///
     /// Gets the color for the tile with the given value
     /// - Parameter value: The value to lookup
     /// - Returns: Color associated to that value
