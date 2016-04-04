@@ -100,9 +100,9 @@ protocol Shape {
     ///
     var position: (x: Int, y: Int) { get set }
     ///
-    /// Size of the shape, where `w` represents width and `h` represents height
+    /// Size of the shape
     ///
-    var size: (w: UInt, h: UInt) { get set }
+    var size: (width: UInt, height: UInt) { get set }
     ///
     /// Draws the shape to a specific window
     /// - Parameter window: The window to draw to
@@ -117,7 +117,7 @@ struct Rectangle: Shape {
     var color: Color
     var filled: Bool
     var position: (x: Int, y: Int)
-    var size: (w: UInt, h: UInt)
+    var size: (width: UInt, height: UInt)
     func drawIn(window: XWindow) {
         if self.filled {
             // Implement using XFillRectangle if filled
@@ -127,8 +127,8 @@ struct Rectangle: Shape {
                 window.xContext,
                 Int32(self.position.x),
                 Int32(self.position.y),
-                UInt32(self.size.w),
-                UInt32(self.size.h))
+                UInt32(self.size.width),
+                UInt32(self.size.height))
         } else {
             // Implement using XDrawRectangle if outline
             XDrawRectangle(
@@ -137,8 +137,8 @@ struct Rectangle: Shape {
                 window.xContext,
                 Int32(self.position.x),
                 Int32(self.position.y),
-                UInt32(self.size.w),
-                UInt32(self.size.h))
+                UInt32(self.size.width),
+                UInt32(self.size.height))
         }
     }
 }
@@ -202,7 +202,19 @@ class XWindow {
     /// Gets the last event that occured
     ///
     var lastEvent: WindowEvent?
-    
+
+    ///
+    /// Dimensions of the window
+    ///
+    var dimensions: (width: UInt, height: UInt) {
+        didSet {
+            XResizeWindow(xDisplay,
+                          xWindow,
+                          UInt32(dimensions.width),
+                          UInt32(dimensions.height))
+        }
+    }
+
     ///
     /// Creates a new window in the top-left corner of the screen
     /// - Parameter title: The name of the window, defaults to `X11`
@@ -251,6 +263,7 @@ class XWindow {
         self.xWindow = xWindow
         self.xContext = xContext
         self.xColormap = XDefaultColormap(xDisplay, XDefaultScreen(xDisplay))
+        self.dimensions = (width, height)
     }
     
     ///
@@ -259,15 +272,6 @@ class XWindow {
     deinit {
         XCloseDisplay(xDisplay);
         xEvent.dealloc(1)
-    }
-    
-    ///
-    /// Resizes the size of the window
-    /// - Parameter width: New width of window
-    /// - Parameter height: New height of window
-    ///
-    func resize(width: UInt32, height: UInt32) {
-        XResizeWindow(xDisplay, xWindow, width, height)
     }
     
     ///

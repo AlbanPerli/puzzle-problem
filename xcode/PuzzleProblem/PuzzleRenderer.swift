@@ -1,4 +1,4 @@
- //
+//
 //  StateRenderer.swift
 //  PuzzleProblem
 //
@@ -6,6 +6,15 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
+
+///
+/// Height of the puzzle renderer toolbar
+///
+let kHeightOfToolbar: UInt = 15
+
+///
+/// Renders a puzzle
+///
 class PuzzleRenderer {
     ///
     /// Number of times node was changed/traversed
@@ -21,7 +30,7 @@ class PuzzleRenderer {
                 self.timesNodeWasChanged += 1
             }
             self.window.title = "PC \(node.pathCost) - #\(self.timesNodeWasChanged)\(self.isSolved ? " (!)" : "")"
-            updateTiles()
+            self.render()
         }
     }
 
@@ -46,31 +55,77 @@ class PuzzleRenderer {
     /// Dictionary of tiles I know of bound to their value
     ///
     var tiles: Dictionary<Int, TileRenderer> = [:]
-    
+
     ///
     /// Initialises the renderer with a node
     ///
     init(node: Node) {
         let widthOfWindow = UInt(node.state.width) * kSizeOfTile
-        let heightOfWindow = UInt(node.state.height) * kSizeOfTile
+        let heightOfWindow = UInt(node.state.height) * kSizeOfTile + kHeightOfToolbar
         self.window = XWindow(title: "Node - PC \(node.pathCost)",
                               width: widthOfWindow,
                               height: heightOfWindow)
         self.node = node
     }
-    
+
+    ///
+    /// Renders the window
+    ///
+    func render() {
+        self.drawToolbar()
+        self.drawTiles()
+    }
+
+    ///
+    /// Draws the toolbar
+    ///
+    private func drawToolbar() {
+        let sizeOfToolbar = (
+            width: self.window.dimensions.width,
+            height: kHeightOfToolbar
+        )
+        let positionOfToolbar = (
+            x: 0,
+            y: Int(self.window.dimensions.height - kHeightOfToolbar)
+        )
+
+        self.window.drawShape(
+            Rectangle(color: Color.black,
+                      filled: true,
+                      position: positionOfToolbar,
+                      size: sizeOfToolbar)
+        )
+
+        let positionOfLhsText = (
+            x: 5,
+            y: positionOfToolbar.y + 10
+        )
+
+        let lhsText = "Path Cost: \(node.pathCost) / #: \(timesNodeWasChanged)"
+        self.window.drawText(lhsText, position: positionOfLhsText, color: Color.white)
+
+        if self.isSolved {
+            let rhsText = "SOLVED!"
+            let positionOfRhsText = (
+                x: Int(self.window.dimensions.width) - Int(kHeightOfToolbar) - 50,
+                y: positionOfToolbar.y + 10
+            )
+            self.window.drawText(rhsText, position: positionOfRhsText, color: Color.red)
+        }
+    }
+
     ///
     /// Updates tiles to render
     ///
-    func updateTiles() {
-        self.updateTiles(self.sequence)
+    private func drawTiles() {
+        self.drawTiles(self.sequence)
     }
     
     ///
     /// Updates specific tiles to render
     /// - Parameter tiles: The tiles to update
     ///
-    func updateTiles(tiles: [Int]) {
+    private func drawTiles(tiles: [Int]) {
         for tileValue in tiles {
             let position = node.state.positionOf(tileValue)!
             // Look up if this tile exists
@@ -92,9 +147,11 @@ class PuzzleRenderer {
     
     ///
     /// Stalls the program until the renderer is ready to draw
+    /// - Returns: `self` to support chaining
     ///
-    func waitUntilReady() {
+    func waitUntilReady() -> Self {
         self.window.waitUntilReady()
+        return self
     }
     
     ///

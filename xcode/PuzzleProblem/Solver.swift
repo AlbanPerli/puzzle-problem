@@ -74,8 +74,7 @@ class Solver: SearchMethodSubscriber {
         guard let renderer = self.renderer else {
             fatalError("Cannot set up renderer if renderer is uninitialised")
         }
-        renderer.waitUntilReady()
-        renderer.updateTiles()
+        renderer.waitUntilReady().render()
     }
     
     ///
@@ -185,7 +184,6 @@ class Solver: SearchMethodSubscriber {
             // Only update the renderer's node if showing puzzle solving
             if let renderer = self.renderer where self.isShowingPuzzleSolving {
                 renderer.node = node
-                // Otherwise set up the renderer if solved and renderer not nil
             }
         }
     }
