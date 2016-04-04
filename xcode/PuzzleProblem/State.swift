@@ -134,7 +134,7 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
         var data = sequence
         self.matrix = (0...height-1).map { index -> [Int] in
             return (0...width-1).reduce([]) { (memo, value) -> [Int] in
-                return memo + [data.popLast()!]
+                return memo + [data.removeFirst()]
             }
         }
         self.leadingAction = nil
