@@ -26,7 +26,7 @@ struct Launcher {
         case InvalidCutoffSpecified
         case FileUnreadable
         case NoSizeLine
-        case NoDataLines
+        case InvalidDataLInes
         case UnexpectedCharacterInDataLine
         case DataLineSizeMismatch
         case CutoffNotAllowed
@@ -42,8 +42,8 @@ struct Launcher {
                 return "Invalid search method provided. Use `help` for more info."
             case .FileUnreadable:
                 return "File provided was unreadable"
-            case .NoDataLines:
-                return "Not enough data lines in file. Expects at least one after size line"
+            case .InvalidDataLInes:
+                return "Not enough data lines in file. Expects two sequence lines"
             case .NoSizeLine:
                 return "Size line was missing or invalid. Expects first line to be in format NxM"
             case .UnexpectedCharacterInDataLine:
@@ -93,8 +93,8 @@ struct Launcher {
             "",
             "File:",
             "  Expects a file whose first line describes the size of the root state(s)",
-            "  and the lines thereafter contain the shuffled sequence to solve of those",
-            "  state(s). Example:",
+            "  the second line that displays the start configuration and third line",
+            "  that displays the end configuration. Example:",
             "",
             "    3x4",
             "    0 1 2 3 4 5 6 7 8 9 10 11 12",
@@ -144,25 +144,12 @@ struct Launcher {
     /// Parse the provided `method` and return a search method
     /// - Parameter method: A textual representation of a method's code
     /// - Parameter rootState: The root state to initalise the method with
+    /// - Parameter goalState: The goal state to initalise the method with
     /// - Parameter heuristicType: The heuristic type to use if parsing an informed search, ignored otherwise
     /// - Parameter cutoff: The cutoff when parsing a Depth Limited Search, ignored otherwise
     /// - Returns: A new `SearchMethod`, or `nil` if the `method` provided was invalid
     ///
-    private func parseMethod(method: String, rootState: State, heuristicType: HeuristicType?, cutoff: Int) throws -> SearchMethod {
-        // Generate the goal state from the provided root state
-        // Essentially, order the sequence from 1->n with 0 being at the end
-        let goalStateSequence = rootState.sequence.sort {
-            if $0 == kEmptyTile || $1 == kEmptyTile {
-                if $0 == kEmptyTile {
-                    return $0 > $1
-                } else {
-                    return $1 < $0
-                }
-            } else {
-                return $0 < $1
-            }
-        }
-        let goalState = State(sequence: goalStateSequence, height: rootState.height, width: rootState.width)
+    private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, cutoff: Int) throws -> SearchMethod {
         let heuristic: HeuristicFunction = heuristicType == .MisplacedTile ?
             MisplacedTileHeuristic(goalState: goalState) :
             DistanceToGoalHeuristic(goalState: goalState)
@@ -198,10 +185,9 @@ struct Launcher {
     ///
     /// Parse the provided file to return `State`s read from the file
     /// - Parameter path: The path of the file to parse
-    /// - Returns: The contents of the file parsed into multiple `State`s, or `nil` if the file
-    ///            was invalid
+    /// - Returns: A tuple containing the root and goal states
     ///
-    private func parseFile(path: String) throws -> [State]? {
+    private func parseFile(path: String) throws -> (root: State, goal: State) {
         // Read the file
         guard let contents = FileParser.readFile(path) else {
             throw LaunchError.FileUnreadable
@@ -209,10 +195,10 @@ struct Launcher {
         // Support Windows carriage–returns
         let splitBy = Character(contents.characters.contains("\r\n") ? "\r\n" : "\n")
         let lines = contents.characters.split(splitBy)
-        let dataLines = lines.suffixFrom(1)
+        let dataLines = lines.suffixFrom(1).map { String($0) }
         // Need at least one data line
-        if dataLines.count == 0 {
-            throw LaunchError.NoDataLines
+        if dataLines.count != 2 {
+            throw LaunchError.InvalidDataLInes
         }
         guard
             let size = lines.first?.split("x"),
@@ -221,25 +207,27 @@ struct Launcher {
             else {
                 throw LaunchError.NoSizeLine
         }
-        var result: [State] = []
-        for line in dataLines {
-            let sequence = line.split(" ").map { Int(String($0)) }
+        let parseStateFromLine = { (line: String) -> State in
+            let sequence = line.characters.split(" ").map { Int(String($0)) }
             if sequence.contains({ $0 == nil }) {
                 throw LaunchError.UnexpectedCharacterInDataLine
             }
             if sequence.count != height * width {
                 throw LaunchError.DataLineSizeMismatch
             }
-            result.append(State(sequence: sequence.flatMap { $0 }, height: height, width: width))
+            return State(sequence: sequence.flatMap { $0 }, height: height, width: width)
         }
-        return result
+        return try (
+            root: parseStateFromLine(dataLines[0]),
+            goal: parseStateFromLine(dataLines[1])
+        )
     }
     
     ///
     /// Parses program argumenrts
-    /// - Returns: Multiple puzzle solvers or `nil` if help was requested
+    /// - Returns: Solver to solve or `nil` if help was requested
     ///
-    private func parseArgs() throws -> [Solver]? {
+    private func parseArgs() throws -> Solver? {
         // Strip the args
         var args = Process.arguments.enumerate().generate()
         // Data returned
@@ -255,8 +243,8 @@ struct Launcher {
         } else if args.contains({$0.element.hasPrefix("--heuristic")}) {
             throw LaunchError.InvalidHeuristicSpecified
         }
-        var rootStates: [State] = []
-        var methods: [SearchMethod] = []
+        var states: (root: State, goal: State)? = nil
+        var method: SearchMethod? = nil
         // Default cutoff
         var cutoff: Int = 10
         // Check for cutoff
@@ -281,12 +269,14 @@ struct Launcher {
             case 1:
                 filename = arg.element
                 // Try parse provided file
-                rootStates = try parseFile(arg.element)!
+                states = try parseFile(arg.element)
             // Search method
             case 2:
-                methods = try rootStates.map { state -> SearchMethod in
-                    try parseMethod(arg.element, rootState: state, heuristicType: usingHeuristic, cutoff: cutoff)
-                }
+                method = try parseMethod(arg.element,
+                                         rootState: states!.root,
+                                         goalState: states!.goal,
+                                         heuristicType: usingHeuristic,
+                                         cutoff: cutoff)
             default:
                 // Don't handle
                 break
@@ -304,10 +294,12 @@ struct Launcher {
                 break
             }
         }
-        let rootNodes = rootStates.map { Node(initialState: $0) }
-        return rootNodes.enumerate().map { (index: Int, rootNode: Node) -> Solver in
-            Solver(filename: filename, rootNode: rootNode, method: methods[index], gui: usingGuiType)
-        }
+        let rootNode = Node(initialState: states!.root)
+
+        return Solver(filename: filename,
+                      rootNode: rootNode,
+                      method: method!,
+                      gui: usingGuiType)
     }
     
     
@@ -319,10 +311,8 @@ struct Launcher {
     func run() throws {
         do {
             // Process args when argc is at least 2 else print help
-            if let solvers = try parseArgs() where Process.argc > 2 {
-                for solver in solvers {
-                    solver.solve().displayResults()
-                }
+            if let solver = try parseArgs() where Process.argc > 2 {
+                solver.solve().displayResults()
             } else {
                 print(self.helpText)
             }
