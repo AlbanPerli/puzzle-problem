@@ -56,23 +56,15 @@ class Solver: SearchMethodSubscriber {
         self.rootNode = rootNode
         self.searchMethod = method
         self.filename = filename
+        // Intialise renderer when need be
+        self.renderer = nil
         if let gui = gui {
             self.isShowingGUI = true
             self.isShowingPuzzleSolving = gui == .Solving
-            if self.isShowingPuzzleSolving {
-                self.renderer = PuzzleRenderer(node: rootNode)
-                // Set up renderer now if showing puzzle solving
-                self.setUpRenderer()
-            } else {
-                self.renderer = nil
-            }
         } else {
             self.isShowingPuzzleSolving = false
-            self.renderer = nil
             self.isShowingGUI = false
         }
-        // Register for observation notifications to count how many nodes have been traversed
-        SearchMethodObserver.sharedObserver.subscribers.append(self)
     }
     
     ///
@@ -90,7 +82,15 @@ class Solver: SearchMethodSubscriber {
     /// Solves the puzzle
     /// - Returns: `self` to support chaining
     ///
-    func solve() -> Self {
+    func solve() -> Solver {
+        // Register for observation notifications to count how many nodes
+        // have been traversed and for GUI events if gui == .Solving
+        SearchMethodObserver.sharedObserver.subscribers.append(self)
+        // Meant to show puzzle solving?
+        if self.isShowingPuzzleSolving && (self.renderer == nil) {
+            self.renderer = PuzzleRenderer(node: rootNode)
+            self.setUpRenderer()
+        }
         // Reset from previous solve
         numberOfNodesTraversed = 0
         goalNode = nil
@@ -124,6 +124,8 @@ class Solver: SearchMethodSubscriber {
                 break
             }
         } while !hasQuit
+        // Deinit renderer
+        self.renderer = nil
     }
     
     
@@ -147,7 +149,7 @@ class Solver: SearchMethodSubscriber {
     
         // Nodes to display
         let nodes: [Node] = goalNode.ansecstors.reverse()
-        var index = 0
+        var index = nodes.count - 1
         renderer.node = nodes[index]
 
         // Run the main GUI loop
@@ -165,7 +167,6 @@ class Solver: SearchMethodSubscriber {
             if delta != 0 && !(index + delta > (nodes.count - 1) || index + delta < 0) {
                 index = index + delta
                 renderer.node = nodes[index]
-                renderer.window.title += " (✔︎)"
             }
         }
         
@@ -174,15 +175,18 @@ class Solver: SearchMethodSubscriber {
     // MARK: Implement SearchMethodSubscriber
     func didTraverseNode(node: Node, isSolved: Bool) {
         numberOfNodesTraversed += 1
-        // Only update the renderer's node if showing puzzle solving
-        if let renderer = self.renderer where self.isShowingPuzzleSolving {
-            renderer.node = node
-        // Otherwise set up the renderer if solved and renderer not nil
-        } else if isSolved && isShowingGUI {
-            // Create renderer now
-            self.renderer = PuzzleRenderer(node: rootNode)
-            self.renderer!.window.title += " (✔︎)"
-            self.setUpRenderer()
+        // Draw changes if gui is present
+        if isShowingGUI {
+            // Check if
+            if isSolved {
+                // Create renderer now if not yet created
+                self.renderer?.isSolved = true
+            }
+            // Only update the renderer's node if showing puzzle solving
+            if let renderer = self.renderer where self.isShowingPuzzleSolving {
+                renderer.node = node
+                // Otherwise set up the renderer if solved and renderer not nil
+            }
         }
     }
 }
