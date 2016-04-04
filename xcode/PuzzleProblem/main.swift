@@ -306,7 +306,7 @@ struct Launcher {
         }
         let rootNodes = rootStates.map { Node(initialState: $0) }
         return rootNodes.enumerate().map { (index: Int, rootNode: Node) -> Solver in
-            Solver(filename: filename, rootNode: rootNode, method: methods[index], gui: usingGuiType).solve()
+            Solver(filename: filename, rootNode: rootNode, method: methods[index], gui: usingGuiType)
         }
     }
     
@@ -321,7 +321,7 @@ struct Launcher {
             // Process args when argc is at least 2 else print help
             if let solvers = try parseArgs() where Process.argc > 2 {
                 for solver in solvers {
-                    solver.displayResults()
+                    solver.solve().displayResults()
                 }
             } else {
                 print(self.helpText)
