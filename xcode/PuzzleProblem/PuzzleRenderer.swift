@@ -8,18 +8,34 @@
 
 class PuzzleRenderer {
     ///
+    /// Number of times node was changed/traversed
+    ///
+    var timesNodeWasChanged: Int = 0
+
+    ///
     /// Current node to render
     ///
     var node: Node {
         didSet {
-            self.window.title = "PC \(node.pathCost)"
+            if !self.isSolved {
+                self.timesNodeWasChanged += 1
+            }
+            self.window.title = "PC \(node.pathCost) - #\(self.timesNodeWasChanged)\(self.isSolved ? " (!)" : "")"
             updateTiles()
         }
     }
-    
+
+    ///
+    /// Sequence of tiles in the node
+    ///
     var sequence: [Int] {
         return self.node.state.sequence
     }
+
+    ///
+    /// Whether or not the puzzle is solved
+    ///
+    var isSolved: Bool = false
     
     ///
     /// Window for renderer
