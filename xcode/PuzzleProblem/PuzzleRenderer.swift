@@ -29,7 +29,7 @@ class PuzzleRenderer {
             if !self.isSolved {
                 self.timesNodeWasChanged += 1
             }
-            self.window.title = "PC \(node.pathCost) - #\(self.timesNodeWasChanged)\(self.isSolved ? " (!)" : "")"
+            self.window.title = "PC \(node.pathCost) - SC \(self.timesNodeWasChanged)\(self.isSolved ? " (!)" : "")"
             self.render()
         }
     }
@@ -62,7 +62,7 @@ class PuzzleRenderer {
     init(node: Node) {
         let widthOfWindow = UInt(node.state.width) * kSizeOfTile
         let heightOfWindow = UInt(node.state.height) * kSizeOfTile + kHeightOfToolbar
-        self.window = XWindow(title: "Node - PC \(node.pathCost)",
+        self.window = XWindow(title: "",
                               width: widthOfWindow,
                               height: heightOfWindow)
         self.node = node
@@ -101,7 +101,7 @@ class PuzzleRenderer {
             y: positionOfToolbar.y + 10
         )
 
-        let lhsText = "Path Cost: \(node.pathCost) / #: \(timesNodeWasChanged)"
+        let lhsText = "PC: \(node.pathCost) / SC: \(timesNodeWasChanged)"
         self.window.drawText(lhsText, position: positionOfLhsText, color: Color.white)
 
         if self.isSolved {
