@@ -23,13 +23,13 @@ struct Launcher {
         case InvalidMethodProvided
         case InvalidHeuristicSpecified
         case ProvidedHeuristicToUninformed
-        case InvalidCutoffSpecified
+        case InvalidThresholdSpecified
         case FileUnreadable
         case NoSizeLine
         case InvalidDataLInes
         case UnexpectedCharacterInDataLine
         case DataLineSizeMismatch
-        case CutoffNotAllowed
+        case ThresholdNotAllowed
         
         ///
         /// Textual description of each error
@@ -50,10 +50,10 @@ struct Launcher {
                 return "Unexpected character in data line. Expects data line to be in format n n n n..."
             case .DataLineSizeMismatch:
                 return "Expects data line size to match size of N*M"
-            case .InvalidCutoffSpecified:
-                return "Cutoff value specified should be a numerical value greater than 2"
-            case .CutoffNotAllowed:
-                return "You can only specify a cut off using a Depth Limited Search"
+            case .InvalidThresholdSpecified:
+                return "Threshold value specified should be a numerical value greater than 2"
+            case .ThresholdNotAllowed:
+                return "You can only specify a threshold using a DLS or IDAS method"
             case .InvalidHeuristicSpecified:
                 return "Heuristic should be one of `misplaced` or `distance`"
             case .ProvidedHeuristicToUninformed:
@@ -114,7 +114,7 @@ struct Launcher {
             "                                    whatever value is specified when an uniformed search is used",
             "                                    `distance` uses the Distance To Goal heuristic",
             "                                    `misplaced` uses the Misplaced Tile heuristic",
-            " --cutoff=[n]                       Valid to DLS searches for depth cutoff count. When not",
+            " --threshold=[n]                    Valid to DLS and IDAS searches for threshold. When not",
             "                                    specified, n = 10"
         ]
         return str.joinWithSeparator("\n")
@@ -128,12 +128,13 @@ struct Launcher {
             "  Uninformed:",
             "  [BFS]        run search using Breadth First Search",
             "  [DFS]        run search using Depth First Search",
-            "  [DLS|UNIF1]  run search using Depth Limited Search. Requires --cutoff parameter",
+            "  [DLS|UNIF1]  run search using Depth Limited Search. Requires --threshold parameter",
             "  [BOGO|UINF2] run search using Bogosort Search",
             "",
             "  Informed:",
             "  [GBFS]       run search using Greedy Best First Search",
             "  [AS]         run search using A Star Search",
+            "  [IDAS]       run search using IDA Star Search. Requires --threshold parameter",
         ]
         return str.joinWithSeparator("\n")
     }
@@ -146,10 +147,10 @@ struct Launcher {
     /// - Parameter rootState: The root state to initalise the method with
     /// - Parameter goalState: The goal state to initalise the method with
     /// - Parameter heuristicType: The heuristic type to use if parsing an informed search, ignored otherwise
-    /// - Parameter cutoff: The cutoff when parsing a Depth Limited Search, ignored otherwise
+    /// - Parameter threshold: The threshold when parsing a Depth Limited Search, ignored otherwise
     /// - Returns: A new `SearchMethod`, or `nil` if the `method` provided was invalid
     ///
-    private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, cutoff: Int) throws -> SearchMethod {
+    private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, threshold: Int) throws -> SearchMethod {
         let heuristic: HeuristicFunction = heuristicType == .MisplacedTile ?
             MisplacedTileHeuristic(goalState: goalState) :
             DistanceToGoalHeuristic(goalState: goalState)
@@ -173,10 +174,12 @@ struct Launcher {
             return AStarSearch(goalState: goalState, heuristicFunction: heuristic)
         case DepthLimitedSearch.code:
             try testShouldntHaveHeuristic()
-            return DepthLimitedSearch(goalState: goalState, depthCutoff: cutoff)
+            return DepthLimitedSearch(goalState: goalState, threshold: threshold)
         case BogosortSearch.code:
             try testShouldntHaveHeuristic()
             return BogosortSearch(goalState: goalState)
+        case IterativeDeepeningAStarSearch.code:
+            return IterativeDeepeningAStarSearch(goalState: goalState, heuristicFunction: heuristic, threshold: threshold)
         default:
             throw LaunchError.InvalidMethodProvided
         }
@@ -245,20 +248,24 @@ struct Launcher {
         }
         var states: (root: State, goal: State)? = nil
         var method: SearchMethod? = nil
-        // Default cutoff
-        var cutoff: Int = 10
-        // Check for cutoff
+        // Default threshold
+        var threshold: Int = 10
+        // Check for threshold
         for arg in args {
-            if arg.element.hasPrefix("--cutoff=") {
-                // Only allow cuttoff for DLS search
-                if Process.arguments[2] != DepthLimitedSearch.code {
-                    throw LaunchError.CutoffNotAllowed
+            if arg.element.hasPrefix("--threshold=") {
+                // Only allow cuttoff for DLS or IDAS search
+                if Process.arguments[2] == DepthLimitedSearch.code ||
+                   Process.arguments[2] == IterativeDeepeningAStarSearch.code {
+                    guard
+                        let thresholdProvided = arg.element.characters.split("=").map({ Int(String($0)) }).last
+                        where thresholdProvided > 2 else {
+                        throw LaunchError.InvalidThresholdSpecified
+                    }
+                    threshold = thresholdProvided!
+                    break
+                } else {
+                    throw LaunchError.ThresholdNotAllowed
                 }
-                guard let cutoffProvided = Int(String(arg.element.characters.split("=").last)) where cutoff > 2 else {
-                    throw LaunchError.InvalidCutoffSpecified
-                }
-                cutoff = cutoffProvided
-                break
             }
         }
         // Look for extra arguments
@@ -276,7 +283,7 @@ struct Launcher {
                                          rootState: states!.root,
                                          goalState: states!.goal,
                                          heuristicType: usingHeuristic,
-                                         cutoff: cutoff)
+                                         threshold: threshold)
             default:
                 // Don't handle
                 break

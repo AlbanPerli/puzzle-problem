@@ -143,7 +143,7 @@ class NodesTraversedTests: XCTestCase, SearchMethodSubscriber {
     func testDLSTraversal() {
         // Goes by depth first LIFO
         // Expect A B F G C H I D J K E L M
-        DepthLimitedSearch(goalState: goalState, depthCutoff: 3).traverse(nodes["A"]!)
+        DepthLimitedSearch(goalState: goalState, depthThreshold: 3).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,
             nodes["B"]!,
