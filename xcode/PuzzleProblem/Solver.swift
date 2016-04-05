@@ -71,10 +71,8 @@ class Solver: SearchMethodSubscriber {
     /// Sets up the renderer for display
     ///
     private func setUpRenderer() {
-        guard let renderer = self.renderer else {
-            fatalError("Cannot set up renderer if renderer is uninitialised")
-        }
-        renderer.waitUntilReady().render()
+        self.renderer = PuzzleRenderer(node: rootNode)
+        self.renderer!.waitUntilReady().render()
     }
     
     ///
@@ -87,7 +85,6 @@ class Solver: SearchMethodSubscriber {
         SearchMethodObserver.sharedObserver.subscribers.append(self)
         // Meant to show puzzle solving?
         if self.isShowingPuzzleSolving && (self.renderer == nil) {
-            self.renderer = PuzzleRenderer(node: rootNode)
             self.setUpRenderer()
         }
         // Reset from previous solve
@@ -180,6 +177,13 @@ class Solver: SearchMethodSubscriber {
             if isSolved {
                 // Create renderer now if not yet created
                 self.renderer?.isSolved = true
+                if (self.renderer == nil) {
+                    self.setUpRenderer()
+                    // Update number of times node was changed if it hasn't been
+                    // updated yet
+                    self.renderer!.timesNodeWasChanged = self.numberOfNodesTraversed
+                    self.renderer!.isSolved = true
+                }
             }
             // Only update the renderer's node if showing puzzle solving
             if let renderer = self.renderer where self.isShowingPuzzleSolving {
