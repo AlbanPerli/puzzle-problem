@@ -12,8 +12,7 @@ struct DistanceToGoalHeuristic: HeuristicFunction {
         self.goalState = goalState
     }
     func visit(node: Node) -> Int {
-        let state = node.state
-        return state.sequence.reduce(0) { diff, tile -> Int in
+        return node.state.sequence.reduce(0) { diff, tile -> Int in
             // Do not consider the blank tile
             if tile == kEmptyTile {
                 return diff
@@ -23,7 +22,7 @@ struct DistanceToGoalHeuristic: HeuristicFunction {
             // current and goal states
             guard
                 let goalPos = self.goalState.positionOf(tile),
-                let currPos = state.positionOf(tile) else {
+                let currPos = node.state.positionOf(tile) else {
                     return diff + 0
             }
             
