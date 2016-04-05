@@ -142,6 +142,13 @@ class Solver: SearchMethodSubscriber {
             // Nothing to display
             return
         }
+        
+        if !self.isShowingPuzzleSolving {
+            print("Showing solution in GUI...")
+        }
+        print("> Press [B] or [↑] to go up the tree by one node")
+        print("> Press [F] or [↓] to go down the tree by one node")
+        print("> Press [Q] to quit")
     
         // Nodes to display
         let nodes: [Node] = goalNode.ansecstors.reverse()
@@ -154,10 +161,10 @@ class Solver: SearchMethodSubscriber {
             if renderer.window.didPressKey("Escape") || renderer.window.didPressKey("q") {
                 hasQuit = true
             }
-            if renderer.window.didPressKey("f") {
+            if renderer.window.didPressKey("f") || renderer.window.didPressKey("Down") {
                 delta = +1
             }
-            else if renderer.window.didPressKey("b") {
+            else if renderer.window.didPressKey("b") || renderer.window.didPressKey("Up") {
                 delta = -1
             }
             if delta != 0 && !(index + delta > (nodes.count - 1) || index + delta < 0) {
