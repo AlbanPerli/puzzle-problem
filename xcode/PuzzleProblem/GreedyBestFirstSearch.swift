@@ -6,6 +6,17 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
+///
+/// Greedy Best First Search is an *informed* search method that traverses nodes in a
+/// priority queue ordered by its heuristic function. It evaluates nodes using only the
+/// heuristic function, that is:
+/// ```
+/// f(n) = h(n)
+/// ```
+/// - Complexity:
+///     - **Time:**  O(b<sup>m</sup>)
+///     - **Space:** O(b<sup>m</sup>)
+///
 struct GreedyBestFirstSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Greedy Best First Search"

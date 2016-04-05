@@ -6,6 +6,9 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
+///
+/// Sorts a search by randomly inserting nodes to the frontier
+///
 struct BogosortSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Bogosort Search"
