@@ -52,7 +52,7 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         let node = Node(initialState: state)
         renderer = PuzzleRenderer(node: node)
         renderer?.waitUntilReady()
-        renderer?.updateTiles()
+        renderer?.render()
         loop { event in
             let state = randomState(width: 4)
             let node = Node(initialState: state)
@@ -74,7 +74,7 @@ class GuiTests: XCTestCase, SearchMethodSubscriber {
         let node = Node(initialState: state)
         renderer = PuzzleRenderer(node: node)
         renderer?.waitUntilReady()
-        renderer?.updateTiles()
+        renderer?.render()
         startSubscribing()
         AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)
         loop { event in

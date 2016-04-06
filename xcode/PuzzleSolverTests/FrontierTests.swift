@@ -81,45 +81,45 @@ class FrontierTests: XCTestCase {
             // 1 3 6    1 3 6
             // 7 4 5 => 0 4 5 => 5 misplaced tiles (1.1)
             // 0 8 2    7 8 2
-            rootState.performAction(Action(movingPosition: (2,0), inDirection: .Up)),
+            rootState.performActionTo((2,0), inDirection: .Up),
             // 1 3 6    1 3 6
             // 7 4 5 => 7 4 5 => 7 misplaced tiles (1.2)
             // 0 8 2    8 0 2
-            rootState.performAction(Action(movingPosition: (2,0), inDirection: .Right)),
+            rootState.performActionTo((2,0), inDirection: .Right),
         ]
         let secondActionStates = [
             // 1 3 6    0 3 6
             // 0 4 5 => 1 4 5 => 6 misplaced tiles (1.1.1)
             // 7 8 2    7 8 2
-            firstActionStates[0].performAction(Action(movingPosition: (1,0), inDirection: .Up)),
+            firstActionStates[0].performActionTo((1,0), inDirection: .Up),
             // 1 3 6    1 3 6
             // 0 4 2 => 4 0 5 => 4 misplaced tiles (1.1.2)
             // 7 8 2    7 8 2
-            firstActionStates[0].performAction(Action(movingPosition: (1,0), inDirection: .Right))
+            firstActionStates[0].performActionTo((1,0), inDirection: .Right)
         ]
         let thirdActionStates = [
             // 1 3 6    1 0 6
             // 4 0 5 => 4 3 5 => 4 misplaced tiles (1.1.2.1)
             // 7 8 2    7 8 2
-            secondActionStates[1].performAction(Action(movingPosition: (1,1), inDirection: .Up)),
+            secondActionStates[1].performActionTo((1,1), inDirection: .Up),
             // 1 3 6    1 3 6
             // 4 0 5 => 4 8 5 => 5 misplaced tiles (1.1.2.2)
             // 7 8 2    7 0 2
-            secondActionStates[1].performAction(Action(movingPosition: (1,1), inDirection: .Down)),
+            secondActionStates[1].performActionTo((1,1), inDirection: .Down),
             // 1 3 6    1 3 6
             // 4 0 5 => 4 5 0 => 3 misplaced tiles (1.1.2.3)
             // 7 8 2    7 8 2
-            secondActionStates[1].performAction(Action(movingPosition: (1,1), inDirection: .Right))
+            secondActionStates[1].performActionTo((1,1), inDirection: .Right)
         ]
         let fourthActionStates = [
             // 1 3 6    1 3 0
             // 4 5 0 => 4 5 6 => 2 misplaced tiles (1.1.2.3.1)
             // 7 8 2    7 8 2
-            thirdActionStates[2].performAction(Action(movingPosition: (1,2), inDirection: .Up)),
+            thirdActionStates[2].performActionTo((1,2), inDirection: .Up),
             // 1 3 6    1 3 6
             // 4 5 0 => 4 5 2 => 3 misplaced tiles (1.1.2.3.2)
             // 7 8 2    7 8 0
-            thirdActionStates[2].performAction(Action(movingPosition: (1,2), inDirection: .Down)),
+            thirdActionStates[2].performActionTo((1,2), inDirection: .Down),
         ]
         // Order should be
         // pop root     1.1       (5), 1.2       (7)

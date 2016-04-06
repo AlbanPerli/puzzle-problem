@@ -103,9 +103,9 @@ class NodeTests: XCTestCase {
         let node: Node = Node(initialState: state)
         let expectedChildren = [
             Node(parent: node,
-                 state: node.state.performAction(Action(movingPosition: (1,1), inDirection: .Up))),
+                 state: node.state.performActionTo((1,1), inDirection: .Up)),
             Node(parent: node,
-                 state: node.state.performAction(Action(movingPosition: (1,1), inDirection: .Left)))
+                 state: node.state.performActionTo((1,1), inDirection: .Left))
         ]
         XCTAssertEqual(node.children, expectedChildren)
     }
@@ -119,19 +119,19 @@ class NodeTests: XCTestCase {
         // 1 0
         // 3 2
         let applyUpNode = Node(parent: node,
-                               state: node.state.performAction(Action(movingPosition: (1,1), inDirection: .Up)))
+                               state: node.state.performActionTo((1,1), inDirection: .Up))
         // 0 1
         // 3 2
         let applyLeftNode = Node(parent: applyUpNode,
-                                 state: applyUpNode.state.performAction(Action(movingPosition: (0,1), inDirection: .Left)))
+                                 state: applyUpNode.state.performActionTo((0,1), inDirection: .Left))
         // 3 1
         // 0 2
         let applyDownNode = Node(parent: applyLeftNode,
-                                 state: applyLeftNode.state.performAction(Action(movingPosition: (0,0), inDirection: .Down)))
+                                 state: applyLeftNode.state.performActionTo((0,0), inDirection: .Down))
         // 3 1
         // 2 0
         let applyRightNode = Node(parent: applyDownNode,
-                                  state: applyDownNode.state.performAction(Action(movingPosition: (1,0), inDirection: .Right)))
+                                  state: applyDownNode.state.performActionTo((1,0), inDirection: .Right))
         let expectedAnsestors = [
             applyRightNode,
             applyDownNode,

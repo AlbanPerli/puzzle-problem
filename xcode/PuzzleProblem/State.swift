@@ -298,6 +298,19 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
         let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)
         return State(matrix: newMatrix, fromAction: action)
     }
+
+    ///
+    /// Performs an action on the state, returning a new state after the action
+    /// has been performed
+    ///
+    /// - Parameter position: The position to move
+    /// - Parameter direction: Direction to move the position
+    /// - Remarks: A `fatalError` is thrown if an invalid action is applied to the state
+    ///
+    func performActionTo(position: Position, inDirection direction: Direction) -> State {
+        let action = Action(movingPosition: position, inDirection: direction)
+        return self.performAction(action)
+    }
 }
 
 // MARK: Implement Equatable protocol
