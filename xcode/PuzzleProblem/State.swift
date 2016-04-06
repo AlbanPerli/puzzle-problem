@@ -28,8 +28,10 @@ let kEmptyTile: Int = 0
 struct State: Equatable, Hashable, CustomDebugStringConvertible {
     // MARK: Implement Hashable
     var hashValue: Int {
-        return self.sequence.reduce(0) { (memo, value) -> Int in
-            10 * memo + value
+        // Implement hash from sequence using bit shifting
+        // See http://codereview.stackexchange.com/a/111573
+        return self.sequence.reduce(5381) {
+            ($0 << 5) &+ $0 &+ Int($1)
         }
     }
 
