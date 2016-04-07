@@ -1,9 +1,9 @@
 //
-//  FifoFrontier.swift
-//  PuzzleProblem
-//
-//  Created by Alex on 20/03/2016.
-//  Copyright © 2016 Alex. All rights reserved.
+//  Author:         Alex Cummaudo
+//  Student ID:     1744070
+//  Program:        A1 - PuzzleProblem
+//  Unit:           COS30019 - Intro to AI
+//  Date:           20/03/2016
 //
 
 ///

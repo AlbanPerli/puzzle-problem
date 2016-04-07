@@ -1,8 +1,9 @@
 //
-//  COS30019 Introduction to AI
-//  Assignment 1
-//
-//  Alex Cummuado 1744070
+//  Author:         Alex Cummaudo
+//  Student ID:     1744070
+//  Program:        A1 - PuzzleProblem
+//  Unit:           COS30019 - Intro to AI
+//  Date:           18/03/2016
 //
 
 import XCTest
