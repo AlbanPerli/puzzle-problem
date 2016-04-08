@@ -243,7 +243,9 @@ struct Launcher {
             usingHeuristic = .MisplacedTile
         } else if args.contains({$0.element == "--heuristic=distance"}) {
             usingHeuristic = .DistanceToGoal
-        } else if args.contains({$0.element.hasPrefix("--heuristic")}) {
+        } else if args.contains({
+            $0.element.characters.split("=").first?.elementsEqual("--heuristic".characters) ?? false
+        }) {
             throw LaunchError.InvalidHeuristicSpecified
         }
         var states: (root: State, goal: State)? = nil
@@ -252,7 +254,7 @@ struct Launcher {
         var threshold: Int = 10
         // Check for threshold
         for arg in args {
-            if arg.element.hasPrefix("--threshold=") {
+            if arg.element.characters.split("=").first?.elementsEqual("--threshold".characters) ?? false {
                 // Only allow cuttoff for DLS or IDAS search
                 if Process.arguments[2] == DepthLimitedSearch.code ||
                    Process.arguments[2] == IterativeDeepeningAStarSearch.code {
