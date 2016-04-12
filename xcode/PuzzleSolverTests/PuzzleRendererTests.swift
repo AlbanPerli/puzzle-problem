@@ -54,7 +54,7 @@ class GuiTests: XCTestCase, SearchMethodObserver {
         renderer?.waitUntilReady()
         renderer?.render()
         loop { event in
-            let state = randomState(width: 4)
+            let state = randomState(4)
             let node = Node(initialState: state)
             self.renderer!.node = node
         }

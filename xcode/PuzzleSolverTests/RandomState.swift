@@ -68,8 +68,7 @@ func validateSequence(seq: [Int], width: Int) -> Bool {
 /// - Remarks: The state is always an `n` by `n` state due to solvability
 ///            constraints
 ///
-func randomState(width inputWidth: UInt32, isValid: Bool = true) -> State {
-    let width = Int(arc4random_uniform(inputWidth) + 2) // at least 2x2
+func randomState(width: Int, isValid: Bool = true) -> State {
     let isOdd = width % 2 != 0
     // Generate a sequence of random numbers width^2 long
     func generateSequence() -> [Int] {
