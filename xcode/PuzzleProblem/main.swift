@@ -305,10 +305,10 @@ struct Launcher {
         }
         let rootNode = Node(initialState: states!.root)
 
-        return Solver(filename: filename,
-                      rootNode: rootNode,
+        return Solver(rootNode: rootNode,
                       method: method!,
-                      gui: usingGuiType)
+                      gui: usingGuiType,
+                      filename: filename)
     }
     
     

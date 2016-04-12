@@ -12,15 +12,11 @@ import CX11.X
 ///
 /// Solver for a Puzzle Problem
 ///
-class Solver: SearchMethodSubscriber {
+class Solver: SearchMethodObserver {
     ///
     /// The root node of the puzzle
     ///
     private let rootNode: Node
-    ///
-    /// The search method used to solve the puzzle
-    ///
-    private let searchMethod: SearchMethod
     ///
     /// A GUI renderer to display solving the puzzle
     ///
@@ -34,17 +30,22 @@ class Solver: SearchMethodSubscriber {
     ///
     private let isShowingGUI: Bool
     ///
-    /// Original filename that parsed this puzzle
+    /// Optional original filename that parsed this puzzle
     ///
-    let filename: String
+    private let filename: String?
     ///
     /// Number of nodes traversed
     ///
-    var numberOfNodesTraversed: Int = 0
+    private(set) var numberOfNodesTraversed: Int = 0
     ///
     /// The goal node that solved the puzzle
     ///
-    var goalNode: Node?
+    private(set) var goalNode: Node?
+    ///
+    /// The search method used to solve the puzzle
+    ///
+    let searchMethod: SearchMethod
+
     ///
     /// Initialises a Puzzle Solver with the root node and search method to use
     /// - Parameter filename: Original filename used to parse input
@@ -52,7 +53,7 @@ class Solver: SearchMethodSubscriber {
     /// - Parameter method: The search method
     /// - Parameter gui: Whether or not to display a GUI and the type of GUI to use
     ///
-    init(filename: String, rootNode: Node, method: SearchMethod, gui: Launcher.GUIType? = nil) {
+    init(rootNode: Node, method: SearchMethod, gui: Launcher.GUIType? = nil, filename: String? = nil) {
         self.rootNode = rootNode
         self.searchMethod = method
         self.filename = filename
@@ -66,7 +67,22 @@ class Solver: SearchMethodSubscriber {
             self.isShowingGUI = false
         }
     }
-    
+
+    ///
+    /// Initialises a Puzzle Solver with the root node and search method to use
+    /// - Parameter filename: Original filename used to parse input
+    /// - Parameter state: The root state
+    /// - Parameter method: The search method
+    /// - Parameter gui: Whether or not to display a GUI and the type of GUI to use
+    ///
+    convenience init(rootState: State, method: SearchMethod, gui: Launcher.GUIType? = nil, filename: String? = nil) {
+        let rootNode = Node(initialState: rootState)
+        self.init(rootNode: rootNode,
+                  method: method,
+                  gui: gui,
+                  filename: filename)
+    }
+
     ///
     /// Sets up the renderer for display
     ///
@@ -82,13 +98,13 @@ class Solver: SearchMethodSubscriber {
     func solve() -> Solver {
         // Register for observation notifications to count how many nodes
         // have been traversed and for GUI events if gui == .Solving
-        SearchMethodObserver.sharedObserver.subscribers.append(self)
+        SearchMethodObservationCenter.sharedCenter.addObserver(self)
+        // Reset from previous solve
+        self.numberOfNodesTraversed = 0
         // Meant to show puzzle solving?
         if self.isShowingPuzzleSolving && (self.renderer == nil) {
             self.setUpRenderer()
         }
-        // Reset from previous solve
-        numberOfNodesTraversed = 0
         goalNode = nil
         // Try to solve
         self.goalNode = self.searchMethod.traverse(self.rootNode)

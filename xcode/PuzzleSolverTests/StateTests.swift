@@ -28,28 +28,6 @@ class StateTest: XCTestCase {
         test = try! state.elementAt(bottomRight) == 11
         XCTAssert(test, "Element at {2,3} is not 11")
         
-        // Test negative element
-        do {
-            let negativeElement = (-1, -1)
-            try state.elementAt(negativeElement)
-            XCTFail("Exception should have been thrown here")
-        } catch State.InvalidAccessError.NegativeAccess {
-            // OK
-        } catch {
-            XCTFail("Expected NegativeAccess exception")
-        }
-        
-        // Test element out of bounds
-        do {
-            let tooHighElement = (999, 999)
-            try state.elementAt(tooHighElement)
-            XCTFail("Exception should have been thrown here")
-        } catch State.InvalidAccessError.OutOfBounds {
-            // OK
-        } catch {
-            XCTFail("Expected OutOfBounds exception")
-        }
-        
         // Test optionals
         let element1 = state[999, 999]
         XCTAssertNil(element1, "Element at {999,999} is nil")
@@ -158,21 +136,6 @@ class StateTest: XCTestCase {
             [8,9,10,11]
         ]).blankTilePosition
         XCTAssertNil(pos)
-    }
-
-    func testAnyBlankTile() {
-        let state: State = randomState(width: 6)
-        var expected: Position = (0,0)
-        for (rowIdx, row) in state.matrix.enumerate() {
-            for (colIdx, _) in row.enumerate() {
-                let pos: Position = (rowIdx, colIdx)
-                if let element = state[pos] where element == kEmptyTile {
-                    expected = pos
-                }
-            }
-        }
-        print(state)
-        XCTAssert(expected == state.blankTilePosition!)
     }
 
     func testWidth() {
