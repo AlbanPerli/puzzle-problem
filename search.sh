@@ -89,12 +89,14 @@ function compile_src() {
       swiftc $SOURCE_CODE -o $EXECUTABLE \
         -lX11 -L/usr/local/lib/X11 \
         -I/usr/local/include/X11 \
-        -I$(pwd)/lib/CX11
+        -I$(pwd)/lib/CX11 \
+        -O -whole-module-optimization
   elif [ "$OS" == "Linux" ]; then
     swiftc $SOURCE_CODE -o $EXECUTABLE \
       -lX11 -L/usr/local/lib/X11 \
       -I/usr/local/include/X11 \
-      -I$(pwd)/lib/CX11
+      -I$(pwd)/lib/CX11 \
+      -O -whole-module-optimization
   fi
   if [ $? -ne 0 ]; then
     echo "Couldn't build my code on your machine :'("
