@@ -9,36 +9,55 @@
 ///
 /// Observes search methods that are currently traversing and notifies all subscribers
 ///
-struct SearchMethodObserver {
+struct SearchMethodObservationCenter {
     ///
     /// Singleton shared instance
     ///
-    static var sharedObserver = SearchMethodObserver()
+    static var sharedCenter = SearchMethodObservationCenter()
     ///
     /// List of subscribers that the observer notifies
     ///
-    var subscribers: [SearchMethodSubscriber] = []
+    private var observers = [SearchMethodObserver]()
+    ///
+    /// Add a observer
+    /// - Parameter observer: Subscriber to add
+    ///
+    mutating func addObserver(observer: SearchMethodObserver) {
+        if !self.observers.contains({ ob -> Bool in observer === ob }) {
+            self.observers.append(observer)
+        }
+    }
+    ///
+    /// Add a observer
+    /// - Parameter observer: Subscriber to add
+    ///
+    mutating func removeObserver(observer: SearchMethodObserver) {
+        guard let index = self.observers.indexOf({ ob -> Bool in
+            observer === ob
+        }) else {
+            return
+        }
+
+        self.observers.removeAtIndex(index)
+    }
+
+
     ///
     /// Notifies all subscribers of a node traversal
     /// - Parameter node: The node that was just traversed
     /// - Parameter isSolved: Whether or not this node is the goal node
     ///
-    func notify(node: Node, isSolved: Bool) {
-        for sub in subscribers {
-            sub.didTraverseNode(node, isSolved: isSolved)
+    func notifyObservers(node: Node, isSolved: Bool) {
+        for observer in observers {
+            observer.didTraverseNode(node, isSolved: isSolved)
         }
     }
 }
 
 ///
-/// A subscriber to a search method observer
-/// - Remarks: Once implemented, must add `self` to the `sharedObserver`'s subscribers
-///            array, i.e.:
-/// ```
-/// SharedMethodObserver.sharedObserver.subscribers.append(self)
-/// ```
+/// A observer to a search method
 ///
-protocol SearchMethodSubscriber {
+protocol SearchMethodObserver : class {
     ///
     /// Notification event when a node was just traversed
     /// - Parameter node: The node that was just traversed
