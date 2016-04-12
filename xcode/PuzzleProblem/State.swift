@@ -129,6 +129,21 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     let sequence: [Int]
 
+    ///
+    /// Matrix generated from sequence
+    ///
+    var matrix: Matrix {
+        var matrix = Matrix()
+        for row in 0...self.height - 1 {
+            var rowData = [Int]()
+            for col in 0...self.width - 1 {
+                rowData.append(self[row,col]!)
+            }
+            matrix.append(rowData)
+        }
+        return matrix
+    }
+
     // MARK: Initialisers
 
     ///
