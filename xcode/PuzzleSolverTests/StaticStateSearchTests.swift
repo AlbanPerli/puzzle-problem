@@ -31,9 +31,10 @@ class StaticStateSearchTests: XCTestCase {
             self.stopMeasuring()
             
             i += 1
-            print("Completed performance test \(solver.searchMethod.dynamicType.code) \(i) in \(-now.timeIntervalSinceNow)s")
-            print("\t\(solver.numberOfNodesTraversed) traversed")
-            print("\tSolution \(solver.goalNode!.debugDescription) in \(actions.count) moves")
+            print("[\(solver.searchMethod.dynamicType.code)] Performance Test \(i)")
+            print("  Time:        \(-now.timeIntervalSinceNow)s")
+            print("  Traversed:   \(solver.numberOfNodesTraversed) nodes")
+            print("  Search Cost: \(actions.count) moves")
             now = NSDate()
         }
         XCTAssertNotNil(actions)
