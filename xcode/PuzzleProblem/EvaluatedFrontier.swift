@@ -11,7 +11,7 @@
 /// the correct order based on the evaluation function result when applied
 /// to a given state
 ///
-class EvaluatedFrontier: Frontier {
+struct EvaluatedFrontier: Frontier {
     var collection: [Node] = []
     
     ///
@@ -44,22 +44,23 @@ class EvaluatedFrontier: Frontier {
     /// - Returns: The estimated path cost 
     ///
     func distanceToGoal(node: Node) -> Int {
-        let hash = node.hashValue
-        if let result = evaluationFunctionCache[hash] {
-            return result
-        } else {
-            let distanceToGoal = self.evaluationFunction.calculateDistanceToGoal(node)
-            evaluationFunctionCache[hash] = distanceToGoal
-            return distanceToGoal
-        }
+        return self.evaluationFunction.calculateDistanceToGoal(node)
+//        let hash = node.hashValue
+//        if let result = evaluationFunctionCache[hash] {
+//            return result
+//        } else {
+//            let distanceToGoal =
+//            evaluationFunctionCache[hash] = distanceToGoal
+//            return distanceToGoal
+//        }
     }
     
-    func pop() -> Node? {
+    mutating func pop() -> Node? {
         // Dequeue element at start of array
         return self.isEmpty ? nil : self.collection.removeFirst()
     }
     
-    func push(node: Node) {
+    mutating func push(node: Node) {
         // Evaluate the distance of the state
         let distanceToGoal = self.distanceToGoal(node)
         // Find the index to insert at by finding that whose distance to goal result
@@ -82,7 +83,7 @@ class EvaluatedFrontier: Frontier {
         self.collection.insert(node, atIndex: indexToInsert)
     }
     
-    func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
+    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
         for node in nodes {
             self.push(node)
         }
