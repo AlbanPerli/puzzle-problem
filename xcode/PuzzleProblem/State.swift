@@ -40,7 +40,7 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
     // MARK: Implement CustomStringConvertible
 
     var debugDescription: String {
-        return self.sequence.debugDescription
+        return self.matrix.debugDescription
     }
 
     // MARK: Invalid access errors
