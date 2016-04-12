@@ -20,13 +20,14 @@ typealias Matrix = [[Int]]
 ///
 let kEmptyTile: Int = 0
 
-// MARK: Define state struct
+// MARK: Define state class
 
 ///
 /// Abstracts a current state of the search tree
 ///
-struct State: Equatable, Hashable, CustomDebugStringConvertible {
+class State: Equatable, Hashable, CustomDebugStringConvertible {
     // MARK: Implement Hashable
+
     var hashValue: Int {
         // Implement hash from sequence using bit shifting
         // See http://codereview.stackexchange.com/a/111573
@@ -35,12 +36,14 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
         }
     }
 
+
     // MARK: Implement CustomStringConvertible
+
     var debugDescription: String {
-        return String(self.sequence.reduce("") { (memo, value) -> String in
-            memo + "\(value) "
-        }.characters.dropLast(1))
+        return self.sequence.debugDescription
     }
+
+    // MARK: Invalid access errors
 
     ///
     /// Defines possible errors when a state is incorrectly accessed
@@ -50,23 +53,17 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
         case OutOfBounds
     }
 
+    // MARK: Properties
+
     ///
     /// Returns the width of the state
     ///
-    var width: Int {
-        // If there is no height, then there is no width
-        if self.height == 0 {
-            return 0
-        }
-        return self.matrix[0].count
-    }
+    let width: Int
 
     ///
     /// Returns the height of the state
     ///
-    var height:Int {
-        return self.matrix.count
-    }
+    let height: Int
 
     ///
     /// Returns the position of the blank tile in the current state
@@ -115,53 +112,67 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     let leadingAction: Action?
 
     ///
-    /// The internal data structure
+    /// Elements in the state represented as a sequence
+    /// - Remarks: If we have a 3x3 state:
     ///
-    let matrix: Matrix
+    /// ```
+    /// 1 2 3
+    /// 4 5 6
+    /// 7 8 9
+    /// ```
+    ///
+    /// This would be equivalent to
+    ///
+    /// ```
+    /// [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+    /// ```
+    ///
+    let sequence: [Int]
 
-    ///
-    /// Returns the matrix of elements represented as a sequence
-    ///
-    var sequence: [Int] {
-        return self.matrix.flatMap({$0})
-    }
+    // MARK: Initialisers
 
     ///
     /// Initialise the state model with a provided width, height and sequence of numbers
     /// - Parameter sequence: A sequence of numbers representing the state
     /// - Parameter height: The number of rows the state will have
     /// - Parameter width: The number of columns the state will have
+    /// - Parameter action: An action which lead to this state, or `nil` if no
+    ///                     leading action (default is `nil`)
     ///
-    init(sequence: [Int], height: Int, width: Int) {
-        var data = sequence
-        self.matrix = (0...height-1).map { index -> [Int] in
-            return (0...width-1).reduce([]) { (memo, value) -> [Int] in
-                return memo + [data.removeFirst()]
-            }
-        }
-        self.leadingAction = nil
-    }
-    
-    ///
-    /// Initialise the state model with a provided matrix structure
-    /// - Parameter matrix: An representation of the state
-    ///
-    init(matrix: Matrix) {
-        self.matrix = matrix
-        self.leadingAction = nil
-    }
-
-    ///
-    /// Initialise the state model with a provided matrix structure
-    /// - Parameter matrix: An representation of the state
-    /// - Parameter action: An action which lead to this state
-    ///
-    init(matrix: Matrix, fromAction action: Action) {
-        self.matrix = matrix
+    init(sequence: [Int], height: Int, width: Int, fromAction action: Action? = nil) {
+        self.sequence = sequence
+        self.height = height
+        self.width = width
         self.leadingAction = action
     }
 
-    // MARK: Define subscript and state access methods
+    ///
+    /// Initialise the state model with a provided matrix structure
+    /// - Parameter matrix: An representation of the state
+    /// - Parameter action: An action which lead to this state, or `nil` if no
+    ///                     leading action (default is `nil`)
+    ///
+    convenience init(matrix: Matrix, fromAction action: Action? = nil) {
+        let height = matrix.count
+        let width = height == 0 ? 0 : matrix[0].count
+        self.init(sequence: matrix.flatMap({$0}),
+                  height: height,
+                  width: width,
+                  fromAction: action)
+    }
+
+    // MARK: Utilities
+
+    ///
+    /// Converts position to index
+    /// - Paramater: Position to convert
+    /// - Returns: New index representing that position
+    ///
+    private func positionToIndex(position: Position) -> Int {
+        return position.row * self.width + position.col
+    }
+
+    // MARK: Subscripts
 
     ///
     /// Finds and returns the element at the specified index
@@ -178,8 +189,8 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     ///   Thus, `elementAt(row: 2, col: 3)` returns `6`
     ///
     /// - Parameter position: The specified position to access
-    /// - Returns: An integer of the value stored
     /// - Throws: `State.InvalidAccessError` when invalid coordinates are given
+    /// - Returns: An integer of the value stored
     ///
     func elementAt(position: Position) throws -> Int {
         let row = position.row
@@ -188,12 +199,12 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
         if row < 0 || col < 0 {
             throw State.InvalidAccessError.NegativeAccess
         }
-        // Out of bounds?
-        if row > self.matrix.count - 1 || col > self.matrix[row].count - 1 {
+        // Out of range?
+        if row > self.height - 1 || col > self.width - 1 {
             throw State.InvalidAccessError.OutOfBounds
         }
-        // Return value from the matrix
-        return self.matrix[row][col]
+        // Return value from the sequence using positionToIndex:
+        return self.sequence[positionToIndex(position)]
     }
     
     ///
@@ -210,7 +221,7 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     subscript (row: Int, col: Int) -> Int? {
         do {
-            return try self.elementAt(Position(row, col))
+            return try self.elementAt((row, col))
         } catch {
             return nil
         }
@@ -253,15 +264,18 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     /// - Parameter firstPosition: The first element's pos in the pair to swap
     /// - Parameter secondPosition: The second element's pos in the pair to swap
-    /// - Returns a new `Matrix` representing the state after the swap
+    /// - Returns a new sequence representing the state after the swap
     ///
-    private func swapTileAt(firstPosition: Position, with secondPosition: Position) -> Matrix {
-        // Create new matrix for new state post swap
-        var newMatrix = self.matrix
+    private func swapTileAt(firstPosition: Position, with secondPosition: Position) -> [Int] {
+        // Two swaps to perform
+        let swapIndices = (
+            first: positionToIndex(firstPosition),
+            second: positionToIndex(secondPosition)
+        )
         // Swap second element for first element using the swap function
-        swap(&newMatrix[firstPosition.row][firstPosition.col],
-             &newMatrix[secondPosition.row][secondPosition.col])
-        return newMatrix
+        var newSequence = self.sequence
+        swap(&newSequence[swapIndices.first], &newSequence[swapIndices.second])
+        return newSequence
     }
 
     ///
@@ -271,9 +285,8 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
     /// - Returns: The position of the tile, or `nil` if the tile could not be found
     ///
     func positionOf(tile: Int) -> Position? {
-        let sequence = self.sequence
         // Find the empty tile index based off of the sequence
-        if let index = sequence.indexOf(tile) {
+        if let index = self.sequence.indexOf(tile) {
             let row = index / self.width
             let col = index % self.width
             return (row, col)
@@ -295,8 +308,11 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
             fatalError("Apply an invalid action \(action) to state \(self)")
         }
         // Use the inverse action to find which positions we are moving
-        let newMatrix = self.swapTileAt(action.position, with: action.inverse.position)
-        return State(matrix: newMatrix, fromAction: action)
+        let newSequence = self.swapTileAt(action.position, with: action.inverse.position)
+        return State(sequence: newSequence,
+                     height: self.height,
+                     width: self.width,
+                     fromAction: action)
     }
 
     ///
@@ -316,7 +332,5 @@ struct State: Equatable, Hashable, CustomDebugStringConvertible {
 // MARK: Implement Equatable protocol
 
 func ==(lhs: State, rhs: State) -> Bool {
-    return lhs.matrix.elementsEqual(rhs.matrix) { (lhsRow, rhsRow) -> Bool in
-        lhsRow.elementsEqual(rhsRow)
-    }
+    return lhs.sequence.elementsEqual(rhs.sequence)
 }
