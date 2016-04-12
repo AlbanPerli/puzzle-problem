@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA0BE8301C9B9D270007E49D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE82F1C9B9D270007E49D /* Action.swift */; };
 		FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE82F1C9B9D270007E49D /* Action.swift */; };
-		FA124EC11CA6203F00CAACC5 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2763B1C9C0BBF006819FF /* SearchTests.swift */; };
+		FA124EC11CA6203F00CAACC5 /* StaticStateSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */; };
 		FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439381CA424ED009411C2 /* RandomState.swift */; };
 		FA17F5931CAF66AB009D3EBD /* PuzzleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5921CAF66AB009D3EBD /* PuzzleRenderer.swift */; };
 		FA17F5951CAF69DB009D3EBD /* TileRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5941CAF69DB009D3EBD /* TileRenderer.swift */; };
@@ -56,6 +56,10 @@
 		FA7439351CA285C1009411C2 /* SearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439341CA285C1009411C2 /* SearchMethod.swift */; };
 		FA7439361CA285E6009411C2 /* SearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439341CA285C1009411C2 /* SearchMethod.swift */; };
 		FA7439371CA286B3009411C2 /* DepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */; };
+		FA7D5D5B1CBCC0A3004AD42D /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2762F1C9BA7FB006819FF /* Solver.swift */; };
+		FA7D5D5C1CBCC310004AD42D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E321C9AE3020041F55E /* main.swift */; };
+		FA7D5D5D1CBCC31F004AD42D /* IterativeDeepeningAStarSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFAA78A1CB380DF0018516F /* IterativeDeepeningAStarSearch.swift */; };
+		FA7D5D5E1CBCC323004AD42D /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E931C9AF2570041F55E /* FileParser.swift */; };
 		FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */; };
 		FA88CEC91C9B831600DF8B66 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88CEC81C9B831600DF8B66 /* Position.swift */; };
 		FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88CEC81C9B831600DF8B66 /* Position.swift */; };
@@ -147,7 +151,7 @@
 		FAD2762F1C9BA7FB006819FF /* Solver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
 		FAD276311C9BD6AA006819FF /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
-		FAD2763B1C9C0BBF006819FF /* SearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTests.swift; path = PuzzleSolverTests/SearchTests.swift; sourceTree = "<group>"; };
+		FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticStateSearchTests.swift; path = PuzzleSolverTests/StaticStateSearchTests.swift; sourceTree = "<group>"; };
 		FAE0F9CC1C9D35D40036C436 /* Frontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frontier.swift; sourceTree = "<group>"; };
 		FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifoFrontier.swift; sourceTree = "<group>"; };
 		FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FifoFrontier.swift; sourceTree = "<group>"; };
@@ -178,7 +182,7 @@
 		FA124EC01CA61FFA00CAACC5 /* PuzzleProblemSearchTests */ = {
 			isa = PBXGroup;
 			children = (
-				FAD2763B1C9C0BBF006819FF /* SearchTests.swift */,
+				FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */,
 				FA7439381CA424ED009411C2 /* RandomState.swift */,
 				FAB1A9781CB1E39B0033B8B7 /* ImpossibleStateTests.swift */,
 			);
@@ -472,12 +476,14 @@
 				FA17F5991CAF7948009D3EBD /* PuzzleRendererTests.swift in Sources */,
 				FA7439371CA286B3009411C2 /* DepthFirstSearch.swift in Sources */,
 				FA5C59661CAE9BD000B7048C /* BogosortSearch.swift in Sources */,
-				FA124EC11CA6203F00CAACC5 /* SearchTests.swift in Sources */,
+				FA7D5D5B1CBCC0A3004AD42D /* Solver.swift in Sources */,
+				FA124EC11CA6203F00CAACC5 /* StaticStateSearchTests.swift in Sources */,
 				FA4335111CAB520200FE5C24 /* GreedyBestFirstSearch.swift in Sources */,
 				FA4335141CAB545B00FE5C24 /* AStarSearch.swift in Sources */,
 				FAD0AEB21CA555A8005BA51E /* HeuristicTests.swift in Sources */,
 				FA5A2E911C9AECD20041F55E /* State.swift in Sources */,
 				FAD276331C9BD837006819FF /* Node.swift in Sources */,
+				FA7D5D5C1CBCC310004AD42D /* main.swift in Sources */,
 				FA17F59B1CAF797D009D3EBD /* PuzzleRenderer.swift in Sources */,
 				FA17F59C1CAF7980009D3EBD /* TileRenderer.swift in Sources */,
 				FAD0AEB01CA55597005BA51E /* MisplacedTileHeuristic.swift in Sources */,
@@ -497,10 +503,12 @@
 				FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */,
 				FAE0F9D91C9E2C800036C436 /* FifoFrontier.swift in Sources */,
 				FA5C59691CAE9C0A00B7048C /* CrossPlatformRandom.swift in Sources */,
+				FA7D5D5E1CBCC323004AD42D /* FileParser.swift in Sources */,
 				FAD2763D1C9C0D26006819FF /* BreadthFirstSearch.swift in Sources */,
 				FAD276321C9BD6AA006819FF /* NodeTests.swift in Sources */,
 				FA5C59681CAE9C0400B7048C /* MutableCollectionType+Shuffle.swift in Sources */,
 				FAE0F9DA1C9E2C820036C436 /* LifoFrontier.swift in Sources */,
+				FA7D5D5D1CBCC31F004AD42D /* IterativeDeepeningAStarSearch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +607,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -606,6 +615,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Debug;
 		};
@@ -613,6 +623,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -620,6 +631,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -627,6 +639,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = PuzzleSolverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -636,6 +649,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.alexcu.swin.ai.PuzzleSolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/X11/include";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Debug;
 		};
@@ -643,6 +657,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = PuzzleSolverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -652,6 +667,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.alexcu.swin.ai.PuzzleSolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/X11/include";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
