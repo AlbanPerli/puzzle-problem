@@ -17,9 +17,8 @@ struct MisplacedTileHeuristic: HeuristicFunction {
         self.goalState = goalState
     }
     func visit(node: Node) -> Int {
-        let sequence = node.state.sequence
         // Calculate the differences
-        return sequence.enumerate().reduce(0) { (diff, iteratee) -> Int in
+        return node.state.sequence.enumerate().reduce(0) { (diff, iteratee) -> Int in
             // If the index at goalSequence isn't the current element, add one
             // to the differences granted the current element isn't the empty
             // tile element
