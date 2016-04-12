@@ -10,11 +10,11 @@ import XCTest
 import CX11.Xlib
 import CX11.X
 
-class GuiTests: XCTestCase, SearchMethodSubscriber {
+class GuiTests: XCTestCase, SearchMethodObserver {
     private var renderer: PuzzleRenderer?
     
     func startSubscribing() {
-        SearchMethodObserver.sharedObserver.subscribers.append(self)
+        SearchMethodObservationCenter.sharedCenter.addObserver(self)
     }
     
     func didTraverseNode(node: Node, isSolved: Bool) {

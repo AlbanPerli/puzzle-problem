@@ -8,7 +8,7 @@
 
 import XCTest
 
-class NodesTraversedTests: XCTestCase, SearchMethodSubscriber {
+class NodesTraversedTests: XCTestCase, SearchMethodObserver {
     // MARK: Implement search method subscriber
     var nodesTraversed: [Node] = []
     
@@ -28,7 +28,7 @@ class NodesTraversedTests: XCTestCase, SearchMethodSubscriber {
     
     override func setUp() {
         // Subscribe
-        SearchMethodObserver.sharedObserver.subscribers.append(self)
+        SearchMethodObservationCenter.sharedCenter.addObserver(self)
         // Clear all previous nodes traversed
         nodesTraversed.removeAll()
         
