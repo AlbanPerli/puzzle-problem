@@ -145,9 +145,22 @@ class Solver: SearchMethodObserver {
     /// Displays the results and the GUI is present
     ///
     func displayResults() {
-        // Print out
-        print("\(self.filename ?? "N/A")\t\(self.searchMethod.dynamicType.code)\t\(self.numberOfNodesTraversed)")
-        let resultStr = self.goalNode?.actionsToThisNode.map({ $0.direction.description }).joinWithSeparator(";") ?? "No solution found."
+        let headerStrings = [
+            // File name or N/A
+            (self.filename ?? "N/A"),
+            // Search code
+            self.searchMethod.dynamicType.code,
+            // Number of nodes traversed
+            String(self.numberOfNodesTraversed)
+        ]
+        print(headerStrings.joinWithSeparator("\t"))
+        // Get the header string
+        let resultStr =
+            self.goalNode?
+                .actionsToThisNode
+                .map({ $0.direction.description })
+                .joinWithSeparator(";")
+            ?? "No solution found."
         print(resultStr)
         
         // GUI
