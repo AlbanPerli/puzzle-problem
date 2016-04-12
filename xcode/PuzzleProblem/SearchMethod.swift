@@ -56,33 +56,41 @@ extension SearchMethod {
         // Make a copy of frontier (frontier is a struct, so we aren't
         // just copying a pointer here)
         var frontier: Frontier = self.frontier
+        // Use hashmap of expanded states such that the same state is not expanded
+        var expandedStates = Set<Int>()
         // Maintain a dictionary of hash values to test where the node has come from
         // The root node has not come from anything, thus nil
-        var nodesCameFrom: Dictionary<Int, Int?> = [node.hashValue: nil]
+        var cameFrom: Dictionary<Int, Int?> = [node.hashValue: nil]
         // Push the first node on
         frontier.push(node)
         // While the search method condition is true
         while !frontier.isEmpty {
             // Force unwrap of optional as frontier isn't empty
             let currentNode = frontier.pop()!
-            // Check if this node is the goal
-            if self.isGoalState(currentNode) {
-                SearchMethodObserver.sharedObserver.notify(currentNode, isSolved: true)
+            if expandedStates.contains(currentNode.state.hashValue) {
+                continue
+            } else if self.isGoalState(currentNode) {
+                SearchMethodObservationCenter.sharedCenter.notifyObservers(currentNode, isSolved: true)
                 return currentNode
             } else if self.shouldTryToExpandNode(currentNode) {
+                // Insert hash into expanded states
+                expandedStates.insert(currentNode.state.hashValue)
                 // Only add the children whos hash values are not stored as keys
                 // in the nodes that this node has come from
                 let childrenToAdd = currentNode.children.filter {
-                    !(nodesCameFrom.keys.contains($0.hashValue))
+                    !(cameFrom.keys.contains($0.hashValue))
                 }
                 // Update the nodesComeFrom for all the children we are about to add
                 for child in childrenToAdd {
-                    nodesCameFrom.updateValue(child.hashValue, forKey: currentNode.hashValue)
+                    cameFrom.updateValue(child.hashValue, forKey: currentNode.hashValue)
                 }
-                SearchMethodObserver.sharedObserver.notify(currentNode, isSolved: false)
+                // Notify change
+                SearchMethodObservationCenter.sharedCenter.notifyObservers(currentNode, isSolved: false)
+                // Push new children
                 frontier.push(childrenToAdd)
             }
         }
         return nil
     }
 }
+

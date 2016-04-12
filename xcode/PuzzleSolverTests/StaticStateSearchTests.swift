@@ -1,4 +1,4 @@
-//
+
 //  Author:         Alex Cummaudo
 //  Student ID:     1744070
 //  Program:        A1 - PuzzleProblem
@@ -22,21 +22,22 @@ class StaticStateSearchTests: XCTestCase {
         [6,7,8]
     ])
 
-    private func doSearch(method: SearchMethod, rootNodeState: State) {
-        let rootNode = Node(initialState: rootNodeState)
-        var actions: [Action]? = []
+    private func doSearch(solver: Solver) {
         var i = 0
         var now = NSDate()
+        var actions: [Action] = []
         measureBlock {
-            actions = method.traverse(rootNode)!.actionsToThisNode
+            actions = solver.solve().goalNode!.actionsToThisNode
             self.stopMeasuring()
             
             i += 1
-            print("Completed performance test \(i) in \(-now.timeIntervalSinceNow)s")
+            print("Completed performance test \(solver.searchMethod.dynamicType.code) \(i) in \(-now.timeIntervalSinceNow)s")
+            print("\t\(solver.numberOfNodesTraversed) traversed")
+            print("\tSolution \(solver.goalNode!.debugDescription) in \(actions.count) moves")
             now = NSDate()
         }
         XCTAssertNotNil(actions)
-        XCTAssertNotNil(actions?.count > 0)
+        XCTAssertNotNil(actions.count > 0)
     }
 
 
@@ -46,16 +47,16 @@ class StaticStateSearchTests: XCTestCase {
             [5,0,2],
             [7,4,8]
         ])
-        doSearch(method, rootNodeState: rootNodeState)
+        doSearch(Solver(rootState: rootNodeState, method: method))
     }
 
     private func hardSearch(method: SearchMethod) {
         let rootNodeState = State(matrix: [
-            [3,4,1],
-            [6,0,2],
-            [5,7,8]
+            [7,2,4],
+            [5,0,6],
+            [8,3,1]
         ])
-        doSearch(method, rootNodeState: rootNodeState)
+        doSearch(Solver(rootState: rootNodeState, method: method))
     }
 
     func testBFS_Easy() {
