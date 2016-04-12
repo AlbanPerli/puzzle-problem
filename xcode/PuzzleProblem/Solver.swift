@@ -146,8 +146,8 @@ class Solver: SearchMethodObserver {
     ///
     func displayResults() {
         // Print out
-        print("\(self.filename)\t\(self.searchMethod.dynamicType.code)\t\(self.numberOfNodesTraversed)")
-        let resultStr = self.goalNode?.actionsToThisNode.map({ $0.description }).joinWithSeparator("; ") ?? "No solution found."
+        print("\(self.filename ?? "N/A")\t\(self.searchMethod.dynamicType.code)\t\(self.numberOfNodesTraversed)")
+        let resultStr = self.goalNode?.actionsToThisNode.map({ $0.direction.description }).joinWithSeparator(";") ?? "No solution found."
         print(resultStr)
         
         // GUI
