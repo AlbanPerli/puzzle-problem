@@ -130,6 +130,76 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
     let sequence: [Int]
 
     ///
+    /// Property to compute if a state is valid
+    /// - Remarks: Refer to the proof written by
+    ///            [Kevin Gong](http://kevingong.com/Math/SixteenPuzzle.html)
+    ///
+    var isValid: Bool {
+        // Immediately invalid if no width or height
+        if self.height == 0 || self.width == 0 {
+            return false
+        }
+
+        // Parity of n (width)
+        let nIs = (
+            even: self.width % 2 == 0,
+            odd:  self.width % 2 != 0
+        )
+
+        // Calculate inversions
+        let inversions = self.sequence.enumerate().reduce(0) { (memo, value) -> Int in
+            let startAt = value.index + 1
+            let element = value.element
+            var numInversionsForElement = 0
+            for num in self.sequence.suffixFrom(startAt) {
+                if element > num && num != kEmptyTile {
+                    numInversionsForElement += 1
+                }
+            }
+            return memo + numInversionsForElement
+        }
+
+        // Parity of the inversions
+        let inversionsIs = (
+            even: inversions % 2 == 0,
+            odd:  inversions % 2 != 0
+        )
+
+        // Position of blank tile
+        guard let posOfBlankTile = self.blankTilePosition else {
+            // Immediately invalid if no blank tile!
+            return false
+        }
+
+        // Row of the blank tile (i)
+        let rowOfBlankTile = posOfBlankTile.row
+
+        // ...from bottom row (m - i)
+        let rowFromBottom = (self.height - 1) - rowOfBlankTile
+
+        // Parity of the blank row, i.e., parity of (m - i)
+        let blankOnRowThatIs = (
+            even: rowFromBottom % 2 == 0,
+            odd:  rowFromBottom % 2 != 0
+        )
+
+        // THEOREM 1: If n is odd, then every legal configuration corresponds to a 
+        //            sequence with an even number of inversions
+        let theorm1 = nIs.odd && inversionsIs.even
+        // THEOREM 2: If n is even, then every legal configuration with the hole in the
+        //            i'th row, where m - i is even corresponds sequence with an even
+        //            number of inversions
+        let theorm2 = nIs.even && blankOnRowThatIs.even && inversionsIs.even
+        // THEOREM 3: If n is even, then every legal configuration with the hole in the
+        //            i'th row where m - i is odd corresponds sequence with an odd
+        //            number of inversions.
+        let theorm3 = nIs.even && blankOnRowThatIs.odd && inversionsIs.odd
+        
+        // One of the theorms must be true to hold as a valid state
+        return theorm1 || theorm2 || theorm3
+    }
+
+    ///
     /// Matrix generated from sequence
     ///
     var matrix: Matrix {
