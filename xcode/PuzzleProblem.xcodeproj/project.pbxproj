@@ -10,7 +10,6 @@
 		FA0BE8301C9B9D270007E49D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE82F1C9B9D270007E49D /* Action.swift */; };
 		FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE82F1C9B9D270007E49D /* Action.swift */; };
 		FA124EC11CA6203F00CAACC5 /* StaticStateSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */; };
-		FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7439381CA424ED009411C2 /* RandomState.swift */; };
 		FA17F5931CAF66AB009D3EBD /* PuzzleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5921CAF66AB009D3EBD /* PuzzleRenderer.swift */; };
 		FA17F5951CAF69DB009D3EBD /* TileRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5941CAF69DB009D3EBD /* TileRenderer.swift */; };
 		FA17F5991CAF7948009D3EBD /* PuzzleRendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17F5981CAF7948009D3EBD /* PuzzleRendererTests.swift */; };
@@ -77,6 +76,8 @@
 		FAD276331C9BD837006819FF /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
 		FAD276391C9BF3D1006819FF /* BreadthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */; };
 		FAD2763D1C9C0D26006819FF /* BreadthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */; };
+		FADD5FFE1CBF5DA000A25CC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */; };
+		FADD5FFF1CBF5E1C00A25CC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */; };
 		FAE0F9CD1C9D35D40036C436 /* Frontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9CC1C9D35D40036C436 /* Frontier.swift */; };
 		FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9CC1C9D35D40036C436 /* Frontier.swift */; };
 		FAE0F9D41C9E2C380036C436 /* LifoFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */; };
@@ -139,7 +140,6 @@
 		FA5C596B1CAE9EC900B7048C /* X11.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = X11.swift; sourceTree = "<group>"; };
 		FA5C596D1CAE9F0900B7048C /* libX11.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libX11.6.dylib; path = ../../../../../opt/X11/lib/libX11.6.dylib; sourceTree = "<group>"; };
 		FA7439341CA285C1009411C2 /* SearchMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMethod.swift; sourceTree = "<group>"; };
-		FA7439381CA424ED009411C2 /* RandomState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomState.swift; path = PuzzleSolverTests/RandomState.swift; sourceTree = "<group>"; };
 		FA86428F1C9B8B26009FC7D1 /* PositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionTests.swift; sourceTree = "<group>"; };
 		FA88CEC81C9B831600DF8B66 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		FAB1A9781CB1E39B0033B8B7 /* ImpossibleStateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImpossibleStateTests.swift; path = PuzzleSolverTests/ImpossibleStateTests.swift; sourceTree = "<group>"; };
@@ -152,6 +152,7 @@
 		FAD276311C9BD6AA006819FF /* NodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
 		FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticStateSearchTests.swift; path = PuzzleSolverTests/StaticStateSearchTests.swift; sourceTree = "<group>"; };
+		FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomState.swift; path = PuzzleSolverTests/RandomState.swift; sourceTree = "<group>"; };
 		FAE0F9CC1C9D35D40036C436 /* Frontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frontier.swift; sourceTree = "<group>"; };
 		FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifoFrontier.swift; sourceTree = "<group>"; };
 		FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FifoFrontier.swift; sourceTree = "<group>"; };
@@ -182,8 +183,8 @@
 		FA124EC01CA61FFA00CAACC5 /* PuzzleProblemSearchTests */ = {
 			isa = PBXGroup;
 			children = (
+				FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */,
 				FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */,
-				FA7439381CA424ED009411C2 /* RandomState.swift */,
 				FAB1A9781CB1E39B0033B8B7 /* ImpossibleStateTests.swift */,
 			);
 			name = PuzzleProblemSearchTests;
@@ -454,6 +455,7 @@
 				FA5A2E4A1C9AE3530041F55E /* Direction.swift in Sources */,
 				FAE0F9D41C9E2C380036C436 /* LifoFrontier.swift in Sources */,
 				FA22936D1CA6A48400032463 /* EvaluatedFrontier.swift in Sources */,
+				FADD5FFE1CBF5DA000A25CC5 /* RandomState.swift in Sources */,
 				FA4335071CAA064D00FE5C24 /* GreedyBestFirstSearch.swift in Sources */,
 				FA5C595F1CAE98A500B7048C /* RandomisedFrontier.swift in Sources */,
 				FA5C59611CAE994000B7048C /* MutableCollectionType+Shuffle.swift in Sources */,
@@ -500,10 +502,10 @@
 				FA43350F1CAA13B900FE5C24 /* EvaluationFunction.swift in Sources */,
 				FAB1A97A1CB1E4510033B8B7 /* ImpossibleStateTests.swift in Sources */,
 				FA5C59671CAE9BF700B7048C /* RandomisedFrontier.swift in Sources */,
-				FA124EC21CA6204100CAACC5 /* RandomState.swift in Sources */,
 				FAE0F9D91C9E2C800036C436 /* FifoFrontier.swift in Sources */,
 				FA5C59691CAE9C0A00B7048C /* CrossPlatformRandom.swift in Sources */,
 				FA7D5D5E1CBCC323004AD42D /* FileParser.swift in Sources */,
+				FADD5FFF1CBF5E1C00A25CC5 /* RandomState.swift in Sources */,
 				FAD2763D1C9C0D26006819FF /* BreadthFirstSearch.swift in Sources */,
 				FAD276321C9BD6AA006819FF /* NodeTests.swift in Sources */,
 				FA5C59681CAE9C0400B7048C /* MutableCollectionType+Shuffle.swift in Sources */,
