@@ -21,31 +21,38 @@ class StaticStateSearchTests: XCTestCase {
         [3,4,5],
         [6,7,8]
     ])
-    private let randomGoalState = State(matrix:[
+    private let randomGoalState =  State(matrix:[
+        [0,1,2],
+        [3,4,5],
+        [6,7,8]
+    ]) /*State(matrix:[
         [0 ,1 ,2 ,3 ,4 ],
         [5 ,6 ,7 ,8 ,9 ],
         [10,11,12,13,14],
         [15,16,17,18,19],
         [20,21,22,23,24]
-    ])
+    ])*/
 
     private func doSearch(solver: Solver) {
         var i = 0
         var now = NSDate()
-        var actions: [Action] = []
+        var goalNode: Node?
         measureBlock {
-            actions = solver.solve().goalNode!.actionsToThisNode
+            goalNode = solver.solve().goalNode
             self.stopMeasuring()
             
             i += 1
             print("[\(solver.searchMethod.dynamicType.code)] Performance Test \(i)")
             print("  Time:        \(-now.timeIntervalSinceNow)s")
             print("  Traversed:   \(solver.numberOfNodesTraversed) nodes")
-            print("  Search Cost: \(actions.count) moves")
+            if goalNode != nil {
+                print("  Search Cost: \(goalNode!.actionsToThisNode.count) moves")
+            } else {
+                print("  No solution was found")
+            }
             now = NSDate()
         }
-        XCTAssertNotNil(actions)
-        XCTAssertNotNil(actions.count > 0)
+        XCTAssertNotNil(goalNode)
     }
 
 
@@ -68,7 +75,7 @@ class StaticStateSearchTests: XCTestCase {
     }
 
     private func randomSearch(method: SearchMethod) {
-        let rootNodeState = randomState(5)
+        let rootNodeState = randomState(3)
         print("Root state generated: ")
         print(rootNodeState.matrix.debugDescription)
         doSearch(Solver(rootState: rootNodeState, method: method))
