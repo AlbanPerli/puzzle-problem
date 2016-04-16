@@ -30,6 +30,7 @@ struct Launcher {
         case UnexpectedCharacterInDataLine
         case DataLineSizeMismatch
         case ThresholdNotAllowed
+        case ThresholdRequired
         
         ///
         /// Textual description of each error
@@ -58,6 +59,10 @@ struct Launcher {
                 return "Heuristic should be one of `misplaced` or `distance`"
             case .ProvidedHeuristicToUninformed:
                 return "You can only provide a heuristic to an informed search"
+            case .ThresholdRequired:
+                return  "You must provide a threshold for this search. " +
+                        "If DLS, the threshold is the maximum allowed depth before backtracking. " +
+                        "If IDAS, the threshold is the maximum allowed distance to goal before backtracking."
             }
         }
     }
@@ -114,8 +119,7 @@ struct Launcher {
             "                                    whatever value is specified when an uniformed search is used",
             "                                    `distance` uses the Distance To Goal heuristic",
             "                                    `misplaced` uses the Misplaced Tile heuristic",
-            " --threshold=[n]                    Valid to DLS and IDAS searches for threshold. When not",
-            "                                    specified, n = 10"
+            " --threshold=[n]                    Valid to DLS and IDAS searches for threshold."
         ]
         return str.joinWithSeparator("\n")
     }
@@ -150,7 +154,7 @@ struct Launcher {
     /// - Parameter threshold: The threshold when parsing a Depth Limited Search, ignored otherwise
     /// - Returns: A new `SearchMethod`, or `nil` if the `method` provided was invalid
     ///
-    private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, threshold: Int) throws -> SearchMethod {
+    private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, threshold: Int?) throws -> SearchMethod {
         let heuristic: HeuristicFunction = heuristicType == .MisplacedTile ?
             MisplacedTileHeuristic(goalState: goalState) :
             DistanceToGoalHeuristic(goalState: goalState)
@@ -174,12 +178,12 @@ struct Launcher {
             return AStarSearch(goalState: goalState, heuristicFunction: heuristic)
         case DepthLimitedSearch.code, "CUS1":
             try testShouldntHaveHeuristic()
-            return DepthLimitedSearch(goalState: goalState, threshold: threshold)
+            return DepthLimitedSearch(goalState: goalState, threshold: threshold!)
         case BogosortSearch.code, "CUS3":
             try testShouldntHaveHeuristic()
             return BogosortSearch(goalState: goalState)
         case IterativeDeepeningAStarSearch.code, "CUS2":
-            return IterativeDeepeningAStarSearch(goalState: goalState, heuristicFunction: heuristic, threshold: threshold)
+            return IterativeDeepeningAStarSearch(goalState: goalState, heuristicFunction: heuristic, threshold: threshold!)
         default:
             throw LaunchError.InvalidMethodProvided
         }
@@ -251,13 +255,14 @@ struct Launcher {
         var states: (root: State, goal: State)? = nil
         var method: SearchMethod? = nil
         // Default threshold
-        var threshold: Int = 10
+        var threshold: Int?
+        let thresholdRequired = Process.arguments[2] == DepthLimitedSearch.code ||
+                                Process.arguments[2] == IterativeDeepeningAStarSearch.code
         // Check for threshold
         for arg in args {
             if arg.element.characters.split("=").first?.elementsEqual("--threshold".characters) ?? false {
                 // Only allow cuttoff for DLS or IDAS search
-                if Process.arguments[2] == DepthLimitedSearch.code ||
-                   Process.arguments[2] == IterativeDeepeningAStarSearch.code {
+                if thresholdRequired {
                     guard
                         let thresholdProvided = arg.element.characters.split("=").map({ Int(String($0)) }).last
                         where thresholdProvided > 2 else {
@@ -269,6 +274,10 @@ struct Launcher {
                     throw LaunchError.ThresholdNotAllowed
                 }
             }
+        }
+        // Check if threshold required
+        if threshold == nil && thresholdRequired {
+            throw LaunchError.ThresholdRequired
         }
         // Look for extra arguments
         while let arg = args.next() {
