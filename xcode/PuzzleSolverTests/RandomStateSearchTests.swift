@@ -1,24 +1,29 @@
 //
-//  RandomStateSearchTests.swift
-//  PuzzleProblem
-//
-//  Created by Alex on 14/04/2016.
-//  Copyright © 2016 Alex. All rights reserved.
+//  Author:         Alex Cummaudo
+//  Student ID:     1744070
+//  Program:        A1 - PuzzleProblem
+//  Unit:           COS30019 - Intro to AI
+//  Date:           14/04/2016
 //
 
 
 import XCTest
+import Foundation
 
 class RandomStateSearchTests: XCTestCase {
     private static var states: (start: State, goal: State) = {
-        let random = (
-            width:  Int(cs_arc4random_uniform(4)) + 1,
-            height: Int(cs_arc4random_uniform(4)) + 1
+        let env = NSProcessInfo.processInfo().environment
+        let envWidth  = env["RANDOM_STATE_WIDTH" ] ?? ""
+        let envHeight = env["RANDOM_STATE_HEIGHT"] ?? ""
+        // Use env vars if provided, else randomise dimensions from 1 to 5
+        let dimensions = (
+            width:  Int(envWidth ) ?? Int(cs_arc4random_uniform(4) + 1),
+            height: Int(envHeight) ?? Int(cs_arc4random_uniform(4) + 1)
         )
-        let startState = randomState(random.width, cols: random.height)
-        let goalState =  randomState(random.width, cols: random.height)
+        let startState = randomState(dimensions.width, cols: dimensions.height)
+        let goalState =  randomState(dimensions.width, cols: dimensions.height)
         print("Dimensions:")
-        print("\(random.width)x\(random.height)")
+        print("\(dimensions.width)x\(dimensions.height)")
         print("Start state:")
         print(startState.matrix.debugDescription)
         print("Goal state:")

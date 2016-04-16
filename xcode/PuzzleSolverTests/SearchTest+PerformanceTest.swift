@@ -1,9 +1,9 @@
 //
-//  SearchTest+PerformanceTest.swift
-//  PuzzleProblem
-//
-//  Created by Alex on 14/04/2016.
-//  Copyright © 2016 Alex. All rights reserved.
+//  Author:         Alex Cummaudo
+//  Student ID:     1744070
+//  Program:        A1 - PuzzleProblem
+//  Unit:           COS30019 - Intro to AI
+//  Date:           14/04/2016
 //
 
 import XCTest
