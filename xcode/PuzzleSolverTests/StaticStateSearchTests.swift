@@ -20,12 +20,6 @@ class StaticStateSearchTests: XCTestCase {
         [3,4,5],
         [6,7,8]
     ])
-    private let randomGoalState =  State(matrix:[
-        [0,1,2],
-        [3,4,5],
-        [6,7,8]
-    ])
-
 
     private func easySearch(method: SearchMethod) {
         let rootNodeState = State(matrix: [
