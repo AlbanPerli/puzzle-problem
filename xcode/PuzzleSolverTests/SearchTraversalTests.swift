@@ -165,7 +165,7 @@ class NodesTraversedTests: XCTestCase, SearchMethodObserver {
     func testGBFSTraversal() {
         // Goes by best evaluation function
         // Expect A E M
-        let heuristic = MisplacedTileHeuristic(goalState: goalState)
+        let heuristic = MisplacedTilesCount(goalState: goalState)
         GreedyBestFirstSearch(goalState: goalState, heuristicFunction: heuristic).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,
@@ -178,7 +178,7 @@ class NodesTraversedTests: XCTestCase, SearchMethodObserver {
     func testASTraversal() {
         // Goes by best evaluation function 
         // Expect A E M
-        let heuristic = MisplacedTileHeuristic(goalState: goalState)
+        let heuristic = MisplacedTilesCount(goalState: goalState)
         AStarSearch(goalState: goalState, heuristicFunction: heuristic).traverse(nodes["A"]!)
         let expectedTraversal = [
             nodes["A"]!,

@@ -9,7 +9,7 @@
 import XCTest
 
 class HeuristicTests: XCTestCase {
-    func testMisplacedTile() {
+    func testEuclidean() {
         let rootState = State(matrix: [
             [5, 0, 8],
             [4, 2, 1],
@@ -21,12 +21,12 @@ class HeuristicTests: XCTestCase {
             [7, 8, 0],
         ])
         let rootNode = Node(initialState: rootState)
-        let function = MisplacedTileHeuristic(goalState: goalState)
-        let numMisplacedTiles = function.visit(rootNode)
-        XCTAssertEqual(numMisplacedTiles, 6)
+        let function = MisplacedTilesCount(goalState: goalState)
+        let numEuclideans = function.visit(rootNode)
+        XCTAssertEqual(numEuclideans, 6)
     }
 
-    func testDistanceToGoal() {
+    func testManhattanDistance() {
         let rootState = State(matrix: [
             [5, 0, 8],
             [4, 2, 1],
@@ -38,8 +38,8 @@ class HeuristicTests: XCTestCase {
             [7, 8, 0],
         ])
         let rootNode = Node(initialState: rootState)
-        let function = DistanceToGoalHeuristic(goalState: goalState)
-        let numMisplacedTiles = function.visit(rootNode)
-        XCTAssertEqual(numMisplacedTiles, 13)
+        let function = ManhattanDistance(goalState: goalState)
+        let numEuclideans = function.visit(rootNode)
+        XCTAssertEqual(numEuclideans, 13)
     }
 }

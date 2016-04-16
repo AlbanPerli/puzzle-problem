@@ -37,7 +37,7 @@ struct EvaluatedFrontier: Frontier {
     /// - Returns: The estimated path cost 
     ///
     mutating func distanceToGoal(node: Node) -> Int {
-        return node.distanceToGoal ?? self.evaluationFunction.calculateDistanceToGoal(node)
+        return node.distanceToGoal ?? self.evaluationFunction.calculateManhattanDistance(node)
     }
     
     mutating func pop() -> Node? {

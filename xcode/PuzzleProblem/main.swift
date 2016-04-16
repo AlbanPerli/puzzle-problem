@@ -79,8 +79,8 @@ struct Launcher {
     
     // MARK: Heuristics
     enum HeuristicType: String {
-        case MisplacedTile
-        case DistanceToGoal
+        case Euclidean
+        case ManhattanDistance
     }
     
     // MARK: Help descriptions
@@ -155,9 +155,9 @@ struct Launcher {
     /// - Returns: A new `SearchMethod`, or `nil` if the `method` provided was invalid
     ///
     private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, threshold: Int?) throws -> SearchMethod {
-        let heuristic: HeuristicFunction = heuristicType == .MisplacedTile ?
-            MisplacedTileHeuristic(goalState: goalState) :
-            DistanceToGoalHeuristic(goalState: goalState)
+        let heuristic: HeuristicFunction = heuristicType == .Euclidean ?
+            MisplacedTilesCount(goalState: goalState) :
+            ManhattanDistance(goalState: goalState)
         
         let testShouldntHaveHeuristic = {
             if heuristicType != nil {
@@ -244,9 +244,9 @@ struct Launcher {
         // Use misplaced tile by default, otherwise misplaced if provided
         var usingHeuristic: HeuristicType?
         if args.contains({$0.element == "--heuristic=misplaced"}) {
-            usingHeuristic = .MisplacedTile
+            usingHeuristic = .Euclidean
         } else if args.contains({$0.element == "--heuristic=distance"}) {
-            usingHeuristic = .DistanceToGoal
+            usingHeuristic = .ManhattanDistance
         } else if args.contains({
             $0.element.characters.split("=").first?.elementsEqual("--heuristic".characters) ?? false
         }) {

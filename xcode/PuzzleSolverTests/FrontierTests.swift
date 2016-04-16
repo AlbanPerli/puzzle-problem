@@ -132,7 +132,7 @@ class FrontierTests: XCTestCase {
             [7, 8, 0],
         ])
         // Just use simple heuristic and evaluation
-        let heuristic = MisplacedTileHeuristic(goalState: goalState)
+        let heuristic = MisplacedTilesCount(goalState: goalState)
         let evaluationFunction = HeuristicOnlyEvaluation(heuristicFunction: heuristic)
         let frontier = EvaluatedFrontier(evaluationFunction: evaluationFunction)
         var nodes: Dictionary<String, Node> = [:]

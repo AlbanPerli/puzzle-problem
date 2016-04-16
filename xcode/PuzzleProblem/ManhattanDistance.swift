@@ -6,7 +6,7 @@
 //  Date:           25/03/2016
 //
 
-struct DistanceToGoalHeuristic: HeuristicFunction {
+struct ManhattanDistance: HeuristicFunction {
     var goalState: State
     init(goalState: State) {
         self.goalState = goalState

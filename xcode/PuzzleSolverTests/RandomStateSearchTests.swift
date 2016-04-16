@@ -49,26 +49,26 @@ class RandomStateSearchTests: XCTestCase {
         let method = DepthFirstSearch(goalState: goalState)
         randomSearch(method)
     }
-    func testGBFS_Random_MisplacedTileHeuristic() {
-        let heuristic = MisplacedTileHeuristic(goalState: goalState)
+    func testGBFS_Random_MisplacedTilesCount() {
+        let heuristic = MisplacedTilesCount(goalState: goalState)
         let method = GreedyBestFirstSearch(goalState: goalState,
                                            heuristicFunction: heuristic)
         randomSearch(method)
     }
-    func testGBFS_Random_DistanceToGoalHeuristic() {
-        let heuristic = DistanceToGoalHeuristic(goalState: goalState)
+    func testGBFS_Random_ManhattanDistance() {
+        let heuristic = ManhattanDistance(goalState: goalState)
         let method = GreedyBestFirstSearch(goalState: goalState,
                                            heuristicFunction: heuristic)
         randomSearch(method)
     }
-    func testAS_Random_MisplacedTileHeuristic() {
-        let heuristic = MisplacedTileHeuristic(goalState: goalState)
+    func testAS_Random_MisplacedTilesCount() {
+        let heuristic = MisplacedTilesCount(goalState: goalState)
         let method = AStarSearch(goalState: goalState,
                                  heuristicFunction: heuristic)
         randomSearch(method)
     }
-    func testAS_Random_DistanceToGoalHeuristic() {
-        let heuristic = DistanceToGoalHeuristic(goalState: goalState)
+    func testAS_Random_ManhattanDistance() {
+        let heuristic = ManhattanDistance(goalState: goalState)
         let method = AStarSearch(goalState: goalState,
                                  heuristicFunction: heuristic)
         randomSearch(method)
@@ -81,15 +81,15 @@ class RandomStateSearchTests: XCTestCase {
         let method = DepthLimitedSearch(goalState: goalState, threshold: 40)
         randomSearch(method)
     }
-    func testIDAS_Random_MisplacedTileHeuristic() {
-        let heuristic = MisplacedTileHeuristic(goalState: goalState)
+    func testIDAS_Random_MisplacedTilesCount() {
+        let heuristic = MisplacedTilesCount(goalState: goalState)
         let method = IterativeDeepeningAStarSearch(goalState: goalState,
                                                    heuristicFunction: heuristic,
                                                    threshold: 40)
         randomSearch(method)
     }
-    func testIDAS_Random_DistanceToGoalHeuristic() {
-        let heuristic = DistanceToGoalHeuristic(goalState: goalState)
+    func testIDAS_Random_ManhattanDistance() {
+        let heuristic = ManhattanDistance(goalState: goalState)
         let method = IterativeDeepeningAStarSearch(goalState: goalState,
                                                    heuristicFunction: heuristic,
                                                    threshold: 40)

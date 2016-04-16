@@ -76,7 +76,7 @@ class GuiTests: XCTestCase, SearchMethodObserver {
         renderer?.waitUntilReady()
         renderer?.render()
         startSubscribing()
-        AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)
+        AStarSearch(goalState: goal, heuristicFunction: MisplacedTilesCount(goalState: goal)).traverse(node)
         loop { event in
             // N/A
         }
@@ -95,7 +95,7 @@ class GuiTests: XCTestCase, SearchMethodObserver {
         ])
         let node = Node(initialState: state)
         // Needs to be reverse to get from start -> end not end -> start
-        let nodes: [Node] = (AStarSearch(goalState: goal, heuristicFunction: MisplacedTileHeuristic(goalState: goal)).traverse(node)?.ansecstors.reverse())!
+        let nodes: [Node] = (AStarSearch(goalState: goal, heuristicFunction: MisplacedTilesCount(goalState: goal)).traverse(node)?.ansecstors.reverse())!
         renderer = PuzzleRenderer(node: node)
         renderer!.waitUntilReady()
         var index = 0

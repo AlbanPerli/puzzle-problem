@@ -100,9 +100,9 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     }
     
     ///
-    /// The distance to goal value, which is updated when the `calculateDistanceToGoal`
+    /// The distance to goal value, which is updated when the `calculateManhattanDistance`
     /// function is called on the node.
-    /// - Remarks: If the `calculateDistanceToGoal` function has not yet been called, the
+    /// - Remarks: If the `calculateManhattanDistance` function has not yet been called, the
     ///            value returned by this property will always be `nil`
     ///
     var distanceToGoal: Int?
@@ -134,7 +134,7 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     /// - Parameter calculationBlock: The way in which the evaluation is performed
     /// - Returns: The estimated path cost to get to the goal state
     ///
-    func calculateDistanceToGoal(calculationBlock: (Node -> Int)) -> Int {
+    func calculateManhattanDistance(calculationBlock: (Node -> Int)) -> Int {
         if self.distanceToGoal == nil {
             self.distanceToGoal = calculationBlock(self)
         }

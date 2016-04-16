@@ -19,8 +19,8 @@ struct HeuristicOnlyEvaluation: EvaluationFunction {
     init(heuristicFunction: HeuristicFunction) {
         self.heuristicFunction = heuristicFunction
     }
-    func calculateDistanceToGoal(node: Node) -> Int {
-        return node.calculateDistanceToGoal {
+    func calculateManhattanDistance(node: Node) -> Int {
+        return node.calculateManhattanDistance {
             // f(n) = h(n)
             self.heuristicFunction.visit($0)
         }

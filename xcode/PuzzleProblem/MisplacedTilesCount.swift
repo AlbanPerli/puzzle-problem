@@ -6,7 +6,7 @@
 //  Date:           25/03/2016
 //
 
-struct MisplacedTileHeuristic: HeuristicFunction {
+struct MisplacedTilesCount: HeuristicFunction {
     ///
     /// Represent the goal state matrix as a sequence
     ///
