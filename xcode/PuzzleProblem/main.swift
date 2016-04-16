@@ -128,13 +128,13 @@ struct Launcher {
             "  Uninformed:",
             "  [BFS]        run search using Breadth First Search",
             "  [DFS]        run search using Depth First Search",
-            "  [DLS|UNIF1]  run search using Depth Limited Search. Requires --threshold parameter",
-            "  [BOGO|UINF2] run search using Bogosort Search",
+            "  [DLS|CUS1]   run search using Depth Limited Search. Requires --threshold parameter",
+            "  [BOGO|CUS3]  run search using Bogosort Search",
             "",
             "  Informed:",
             "  [GBFS]       run search using Greedy Best First Search",
             "  [AS]         run search using A Star Search",
-            "  [IDAS]       run search using IDA Star Search. Requires --threshold parameter",
+            "  [IDAS|CUS2]  run search using IDA Star Search. Requires --threshold parameter",
         ]
         return str.joinWithSeparator("\n")
     }
@@ -172,13 +172,13 @@ struct Launcher {
             return GreedyBestFirstSearch(goalState: goalState, heuristicFunction: heuristic)
         case AStarSearch.code:
             return AStarSearch(goalState: goalState, heuristicFunction: heuristic)
-        case DepthLimitedSearch.code:
+        case DepthLimitedSearch.code, "CUS1":
             try testShouldntHaveHeuristic()
             return DepthLimitedSearch(goalState: goalState, threshold: threshold)
-        case BogosortSearch.code:
+        case BogosortSearch.code, "CUS3":
             try testShouldntHaveHeuristic()
             return BogosortSearch(goalState: goalState)
-        case IterativeDeepeningAStarSearch.code:
+        case IterativeDeepeningAStarSearch.code, "CUS2":
             return IterativeDeepeningAStarSearch(goalState: goalState, heuristicFunction: heuristic, threshold: threshold)
         default:
             throw LaunchError.InvalidMethodProvided
