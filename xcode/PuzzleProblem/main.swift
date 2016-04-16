@@ -329,11 +329,12 @@ struct Launcher {
     func run() throws {
         do {
             // Process args when argc is at least 2 else print help
-            if let solver = try parseArgs() where Process.argc > 2 {
-                solver.solve().displayResults()
-            } else {
-                print(self.helpText)
+            if Process.argc > 2 {
+                if let solver = try parseArgs() {
+                    return solver.solve().displayResults()
+                }
             }
+            print(self.helpText)
         } catch let error as Launcher.LaunchError {
             throw error
         }
