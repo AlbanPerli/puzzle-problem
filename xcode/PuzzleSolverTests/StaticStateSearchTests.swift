@@ -1,4 +1,4 @@
-
+//
 //  Author:         Alex Cummaudo
 //  Student ID:     1744070
 //  Program:        A1 - PuzzleProblem
@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import Foundation
 
 class StaticStateSearchTests: XCTestCase {
     // Goal state for static tests
@@ -25,35 +24,7 @@ class StaticStateSearchTests: XCTestCase {
         [0,1,2],
         [3,4,5],
         [6,7,8]
-    ]) /*State(matrix:[
-        [0 ,1 ,2 ,3 ,4 ],
-        [5 ,6 ,7 ,8 ,9 ],
-        [10,11,12,13,14],
-        [15,16,17,18,19],
-        [20,21,22,23,24]
-    ])*/
-
-    private func doSearch(solver: Solver) {
-        var i = 0
-        var now = NSDate()
-        var goalNode: Node?
-        measureBlock {
-            goalNode = solver.solve().goalNode
-            self.stopMeasuring()
-            
-            i += 1
-            print("[\(solver.searchMethod.dynamicType.code)] Performance Test \(i)")
-            print("  Time:        \(-now.timeIntervalSinceNow)s")
-            print("  Traversed:   \(solver.numberOfNodesTraversed) nodes")
-            if goalNode != nil {
-                print("  Search Cost: \(goalNode!.actionsToThisNode.count) moves")
-            } else {
-                print("  No solution was found")
-            }
-            now = NSDate()
-        }
-        XCTAssertNotNil(goalNode)
-    }
+    ])
 
 
     private func easySearch(method: SearchMethod) {
@@ -62,7 +33,7 @@ class StaticStateSearchTests: XCTestCase {
             [5,0,2],
             [7,4,8]
         ])
-        doSearch(Solver(rootState: rootNodeState, method: method))
+        testSearchPerformance(Solver(rootState: rootNodeState, method: method))
     }
 
     private func hardSearch(method: SearchMethod) {
@@ -71,63 +42,7 @@ class StaticStateSearchTests: XCTestCase {
             [5,0,6],
             [8,3,1]
         ])
-        doSearch(Solver(rootState: rootNodeState, method: method))
-    }
-
-    private func randomSearch(method: SearchMethod) {
-        let rootNodeState = randomState(3)
-        print("Root state generated: ")
-        print(rootNodeState.matrix.debugDescription)
-        doSearch(Solver(rootState: rootNodeState, method: method))
-    }
-
-    // MARK: Dynamic random state search
-
-    func testBFS_Random() {
-        let method = BreadthFirstSearch(goalState: randomGoalState)
-        randomSearch(method)
-    }
-    func testDFS_Random() {
-        let method = DepthFirstSearch(goalState: randomGoalState)
-        randomSearch(method)
-    }
-    func testGBFS_Random_MisplacedTileHeuristic() {
-        let heuristic = MisplacedTileHeuristic(goalState: randomGoalState)
-        let method = GreedyBestFirstSearch(goalState: randomGoalState, heuristicFunction: heuristic)
-        randomSearch(method)
-    }
-    func testGBFS_Random_DistanceToGoalHeuristic() {
-        let heuristic = DistanceToGoalHeuristic(goalState: randomGoalState)
-        let method = GreedyBestFirstSearch(goalState: randomGoalState, heuristicFunction: heuristic)
-        randomSearch(method)
-    }
-    func testAS_Random_MisplacedTileHeuristic() {
-        let heuristic = MisplacedTileHeuristic(goalState: randomGoalState)
-        let method = AStarSearch(goalState: randomGoalState, heuristicFunction: heuristic)
-        randomSearch(method)
-    }
-    func testAS_Random_DistanceToGoalHeuristic() {
-        let heuristic = DistanceToGoalHeuristic(goalState: randomGoalState)
-        let method = AStarSearch(goalState: randomGoalState, heuristicFunction: heuristic)
-        randomSearch(method)
-    }
-    func testBOGO_Random() {
-        let method = BogosortSearch(goalState: randomGoalState)
-        randomSearch(method)
-    }
-    func testDLS_Random() {
-        let method = DepthLimitedSearch(goalState: randomGoalState, threshold: 40)
-        randomSearch(method)
-    }
-    func testIDAS_Random_MisplacedTileHeuristic() {
-        let heuristic = MisplacedTileHeuristic(goalState: randomGoalState)
-        let method = IterativeDeepeningAStarSearch(goalState: randomGoalState, heuristicFunction: heuristic, threshold: 40)
-        randomSearch(method)
-    }
-    func testIDAS_Random_DistanceToGoalHeuristic() {
-        let heuristic = DistanceToGoalHeuristic(goalState: randomGoalState)
-        let method = IterativeDeepeningAStarSearch(goalState: randomGoalState, heuristicFunction: heuristic, threshold: 40)
-        randomSearch(method)
+        testSearchPerformance(Solver(rootState: rootNodeState, method: method))
     }
 
     // MARK: Static easy earch

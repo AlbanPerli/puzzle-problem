@@ -78,6 +78,8 @@
 		FAD2763D1C9C0D26006819FF /* BreadthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */; };
 		FADD5FFE1CBF5DA000A25CC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */; };
 		FADD5FFF1CBF5E1C00A25CC5 /* RandomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */; };
+		FADD60021CBF5F5300A25CC5 /* SearchTest+PerformanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD60001CBF5F4100A25CC5 /* SearchTest+PerformanceTest.swift */; };
+		FADD60051CBF612000A25CC5 /* RandomStateSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD60031CBF611800A25CC5 /* RandomStateSearchTests.swift */; };
 		FAE0F9CD1C9D35D40036C436 /* Frontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9CC1C9D35D40036C436 /* Frontier.swift */; };
 		FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9CC1C9D35D40036C436 /* Frontier.swift */; };
 		FAE0F9D41C9E2C380036C436 /* LifoFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */; };
@@ -153,6 +155,8 @@
 		FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
 		FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticStateSearchTests.swift; path = PuzzleSolverTests/StaticStateSearchTests.swift; sourceTree = "<group>"; };
 		FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomState.swift; path = PuzzleSolverTests/RandomState.swift; sourceTree = "<group>"; };
+		FADD60001CBF5F4100A25CC5 /* SearchTest+PerformanceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SearchTest+PerformanceTest.swift"; path = "PuzzleSolverTests/SearchTest+PerformanceTest.swift"; sourceTree = "<group>"; };
+		FADD60031CBF611800A25CC5 /* RandomStateSearchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomStateSearchTests.swift; path = PuzzleSolverTests/RandomStateSearchTests.swift; sourceTree = "<group>"; };
 		FAE0F9CC1C9D35D40036C436 /* Frontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frontier.swift; sourceTree = "<group>"; };
 		FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifoFrontier.swift; sourceTree = "<group>"; };
 		FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FifoFrontier.swift; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 				FADD5FFD1CBF5DA000A25CC5 /* RandomState.swift */,
 				FAD2763B1C9C0BBF006819FF /* StaticStateSearchTests.swift */,
 				FAB1A9781CB1E39B0033B8B7 /* ImpossibleStateTests.swift */,
+				FADD60001CBF5F4100A25CC5 /* SearchTest+PerformanceTest.swift */,
+				FADD60031CBF611800A25CC5 /* RandomStateSearchTests.swift */,
 			);
 			name = PuzzleProblemSearchTests;
 			sourceTree = "<group>";
@@ -468,6 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADD60021CBF5F5300A25CC5 /* SearchTest+PerformanceTest.swift in Sources */,
 				FA7439361CA285E6009411C2 /* SearchMethod.swift in Sources */,
 				FA4335101CAA140200FE5C24 /* HeuristicOnlyEvaluation.swift in Sources */,
 				FAE0F9D01C9D3D540036C436 /* Frontier.swift in Sources */,
@@ -475,6 +482,7 @@
 				FA0BE8311C9BA04A0007E49D /* Action.swift in Sources */,
 				FA4335151CAB54A900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */,
 				FAD0AEAF1CA5507E005BA51E /* HeuristicFunction.swift in Sources */,
+				FADD60051CBF612000A25CC5 /* RandomStateSearchTests.swift in Sources */,
 				FA17F5991CAF7948009D3EBD /* PuzzleRendererTests.swift in Sources */,
 				FA7439371CA286B3009411C2 /* DepthFirstSearch.swift in Sources */,
 				FA5C59661CAE9BD000B7048C /* BogosortSearch.swift in Sources */,
