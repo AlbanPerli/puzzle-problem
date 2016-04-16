@@ -3,7 +3,7 @@
 //  Student ID:     1744070
 //  Program:        A1 - PuzzleProblem
 //  Unit:           COS30019 - Intro to AI
-//  Date:           25/03/2016
+//  Date:           16/04/2016
 //
 
 // Import C math funcs for the right platform
@@ -14,19 +14,19 @@
 #endif
 
 ///
-/// The manhattan heuristic calculates the sum of the distance of two points using the absolute
-/// difference of their corrdinates, using the following formula:
+/// The euclidean heuristic calculates the straight-line distance of the node to its goal
+/// node using the following formula:
 /// ```
-/// abs( ( col(current) - col(goal) ) ) + abs( row(current) - row(goal) ) )
+/// sqrt( ( col(current) - col(goal) )^2 + ( row(current) - row(goal) )^2 )
 /// ```
 ///
-struct ManhattanDistance: HeuristicFunction {
+struct EuclideanDistance: HeuristicFunction {
     var goalState: State
     init(goalState: State) {
         self.goalState = goalState
     }
     func visit(node: Node) -> Int {
-        return node.state.sequence.reduce(0) { memo, tile -> Int in
+        return node.state.sequence.reduce(0) { (memo, tile) -> Int in
             // Do not consider the blank tile
             if tile == kEmptyTile {
                 return memo
@@ -42,15 +42,15 @@ struct ManhattanDistance: HeuristicFunction {
             
             // Calculate the difference of the cols (x) and rows (y)
             let delta = (
-                x: currPos.col - goalPos.col,
-                y: currPos.row - goalPos.row
+                x: Float(currPos.col - goalPos.col),
+                y: Float(currPos.row - goalPos.row)
             )
             
-            // Absolute the differences
-            let sumOfAbs = abs(delta.x) + abs(delta.y)
+            // Sum the powers of both and square-root the result
+            let sumOfDiffsPower = sqrt( pow(delta.x, 2) + pow(delta.y, 2) )
             
             // Add this to the memo
-            return memo + sumOfAbs
+            return memo + Int(sumOfDiffsPower)
         }
     }
 }

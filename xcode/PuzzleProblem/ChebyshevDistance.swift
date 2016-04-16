@@ -3,7 +3,7 @@
 //  Student ID:     1744070
 //  Program:        A1 - PuzzleProblem
 //  Unit:           COS30019 - Intro to AI
-//  Date:           25/03/2016
+//  Date:           16/04/2016
 //
 
 // Import C math funcs for the right platform
@@ -14,19 +14,19 @@
 #endif
 
 ///
-/// The manhattan heuristic calculates the sum of the distance of two points using the absolute
+/// The manhattan heuristic calculates the max of the distance of two points using the absolute
 /// difference of their corrdinates, using the following formula:
 /// ```
-/// abs( ( col(current) - col(goal) ) ) + abs( row(current) - row(goal) ) )
+/// max( abs( ( col(current) - col(goal) ) ), abs( row(current) - row(goal) ) )
 /// ```
 ///
-struct ManhattanDistance: HeuristicFunction {
+struct ChebyshevDistance: HeuristicFunction {
     var goalState: State
     init(goalState: State) {
         self.goalState = goalState
     }
     func visit(node: Node) -> Int {
-        return node.state.sequence.reduce(0) { memo, tile -> Int in
+        return node.state.sequence.reduce(0) { (memo, tile) -> Int in
             // Do not consider the blank tile
             if tile == kEmptyTile {
                 return memo
@@ -46,11 +46,11 @@ struct ManhattanDistance: HeuristicFunction {
                 y: currPos.row - goalPos.row
             )
             
-            // Absolute the differences
-            let sumOfAbs = abs(delta.x) + abs(delta.y)
+            // Return the max of the differences
+            let maxOfTwoDeltas = max(delta.x, delta.y)
             
             // Add this to the memo
-            return memo + sumOfAbs
+            return memo + maxOfTwoDeltas
         }
     }
 }

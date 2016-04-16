@@ -56,7 +56,7 @@ struct Launcher {
             case .ThresholdNotAllowed:
                 return "You can only specify a threshold using a DLS or IDAS method"
             case .InvalidHeuristicSpecified:
-                return "Heuristic should be one of `misplaced` or `distance`"
+                return "Heuristic provided is invalid. Use `help` for more info."
             case .ProvidedHeuristicToUninformed:
                 return "You can only provide a heuristic to an informed search"
             case .ThresholdRequired:
@@ -80,7 +80,34 @@ struct Launcher {
     // MARK: Heuristics
     enum HeuristicType: String {
         case Euclidean
-        case ManhattanDistance
+        case Manhattan
+        case Misplaced
+        case Chebyshev
+        
+        ///
+        /// Returns all heuristics
+        ///
+        static var all: [HeuristicType] {
+            return [.Chebyshev, .Euclidean, .Manhattan, .Misplaced]
+        }
+        
+        ///
+        /// Generates a heurstic function based off the type
+        /// - Parameter goalState: The state to generate
+        /// - Returns: A new `HeuristicFunction` based off of the type
+        ///
+        func functionForType(goalState: State) -> HeuristicFunction {
+            switch self {
+            case .Euclidean:
+                return EuclideanDistance(goalState: goalState)
+            case .Manhattan:
+                return ManhattanDistance(goalState: goalState)
+            case .Misplaced:
+                return MisplacedTilesCount(goalState: goalState)
+            case .Chebyshev:
+                return ChebyshevDistance(goalState: goalState)
+            }
+        }
     }
     
     // MARK: Help descriptions
@@ -109,21 +136,26 @@ struct Launcher {
             self.searchMethodDescriptions,
             "",
             "Options:",
-            " --gui[=solution|solving]           Invoke the puzzle showing a GUI. Defaults to `solution`",
-            "                                    `solution` shows a solution and uses the F and",
-            "                                               B keys to traverse through a solution",
-            "                                    `solving`  shows the search solving the puzzle (slow)",
-            "                                               and then show the output solution",
-            " --heuristic=[misplaced|distance]   Invoke the puzzle using a specific heuristic. Defaults to",
-            "                                    `distance` when a unformed search method is used. Ignores",
-            "                                    whatever value is specified when an uniformed search is used",
-            "                                    `distance` uses the Distance To Goal heuristic",
-            "                                    `misplaced` uses the Misplaced Tile heuristic",
-            " --threshold=[n]                    Valid to DLS and IDAS searches for threshold."
+            " --gui[=solution|solving]",
+            "   Invoke the puzzle showing a GUI. Defaults to `solution`.",
+            "   `solution` shows a solution and uses the F and B keys",
+            "   to traverse through a solution.",
+            "   `solving`  shows the search solving the puzzle (slow)",
+            "   and then show the output solution",
+            "",
+            " --heuristic=[euclidean|manhattan|misplaced|chebyshev]",
+            "   Invoke the puzzle using a specific heuristic. Defaults to",
+            "   `manhattan` when an informed search method is used. Ignores",
+            "   whatever value is specified when an uniformed search is used.",
+            "",
+            " --threshold=[n]",
+            "   Valid to DLS and IDAS searches for threshold. For DLS, this value",
+            "   indicates the maximum allowed depth before backtracing, and for",
+            "   IDAS this value indicates the maximum allowed distance to goal",
+            "   value before backtracking."
         ]
         return str.joinWithSeparator("\n")
     }
-    
     ///
     /// Returns textual description of all search methods available
     ///
@@ -155,10 +187,11 @@ struct Launcher {
     /// - Returns: A new `SearchMethod`, or `nil` if the `method` provided was invalid
     ///
     private func parseMethod(method: String, rootState: State, goalState: State, heuristicType: HeuristicType?, threshold: Int?) throws -> SearchMethod {
-        let heuristic: HeuristicFunction = heuristicType == .Euclidean ?
-            MisplacedTilesCount(goalState: goalState) :
+        // Default the heurstic to Manhattan if not provided
+        let heuristic =
+            heuristicType?.functionForType(goalState) ??
             ManhattanDistance(goalState: goalState)
-        
+        // Run block if the code shouldnt have a heurstic
         let testShouldntHaveHeuristic = {
             if heuristicType != nil {
                 throw LaunchError.ProvidedHeuristicToUninformed
@@ -243,11 +276,13 @@ struct Launcher {
         var filename: String = ""
         // Use misplaced tile by default, otherwise misplaced if provided
         var usingHeuristic: HeuristicType?
-        if args.contains({$0.element == "--heuristic=misplaced"}) {
-            usingHeuristic = .Euclidean
-        } else if args.contains({$0.element == "--heuristic=distance"}) {
-            usingHeuristic = .ManhattanDistance
-        } else if args.contains({
+        for type in HeuristicType.all {
+            if args.contains({$0.element == "--heuristic=\(type.rawValue.lowercaseString)"}) {
+                usingHeuristic = type
+            }
+        }
+        // usingHeuristic is still nil, but there is still a --heuristic argument?
+        if usingHeuristic == nil && args.contains({
             $0.element.characters.split("=").first?.elementsEqual("--heuristic".characters) ?? false
         }) {
             throw LaunchError.InvalidHeuristicSpecified

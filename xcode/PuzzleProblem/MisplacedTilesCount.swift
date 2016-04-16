@@ -6,6 +6,10 @@
 //  Date:           25/03/2016
 //
 
+///
+/// The misplaced tiles count heuristic calculates the distance of the goal by counting how
+/// many misplaced tiles there are in the current state against the goal state
+///
 struct MisplacedTilesCount: HeuristicFunction {
     ///
     /// Represent the goal state matrix as a sequence
