@@ -23,8 +23,7 @@ struct IterativeDeepeningAStarSearch: SearchMethod {
     
     // Override the expand node and only expand if this node doesn't exceed the threshold
     func shouldTryToExpandNode(node: Node) -> Bool {
-        let distanceToGoal = (self.frontier as? EvaluatedFrontier)!.distanceToGoal(node)
-        return distanceToGoal < self.threshold
+        return node.distanceToGoal < self.threshold
     }
     
     ///

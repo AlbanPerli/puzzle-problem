@@ -12,8 +12,8 @@ import XCTest
 class RandomStateSearchTests: XCTestCase {
     private static var states: (start: State, goal: State) = {
         let random = (
-            width:  Int(cs_arc4random_uniform(5)),
-            height: Int(cs_arc4random_uniform(5))
+            width:  Int(cs_arc4random_uniform(4)) + 1,
+            height: Int(cs_arc4random_uniform(4)) + 1
         )
         let startState = randomState(random.width, cols: random.height)
         let goalState =  randomState(random.width, cols: random.height)

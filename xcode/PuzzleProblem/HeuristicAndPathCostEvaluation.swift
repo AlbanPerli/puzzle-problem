@@ -20,6 +20,9 @@ struct HeuristicAndPathCostEvaluation: EvaluationFunction {
         self.heuristicFunction = heuristicFunction
     }
     func calculateDistanceToGoal(node: Node) -> Int {
-        return node.pathCost + node.performHeuristic(self.heuristicFunction)
+        return node.calculateDistanceToGoal {
+            // f(n) = g(n) + h(n)
+            $0.pathCost + self.heuristicFunction.visit(node)
+        }
     }
 }

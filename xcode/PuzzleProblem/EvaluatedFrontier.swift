@@ -21,12 +21,6 @@ struct EvaluatedFrontier: Frontier {
     private let evaluationFunction: EvaluationFunction
     
     ///
-    /// A cache of evaluation function results so as to not recalculate them for the
-    /// same state
-    ///
-    private var evaluationFunctionCache: Dictionary<Int, Int> = [:]
-    
-    ///
     /// Initalises a `HeuristicFrontier` with the specified `HeuristicFunction`
     /// - Parameter evaluationFunction: The evaluation function used to apply to the nodes in
     ///                                 this frontier to determine their estimated path cost
@@ -36,23 +30,14 @@ struct EvaluatedFrontier: Frontier {
     }
     
     ///
-    /// Returns the result when apply the evaluation function for the provided node's state
-    /// - Remarks: Looks up the evaluation function from a stored cache, and
-    ///            calculates and then caches's the result of the evaluation
-    ///            function instead if it cannot be found in cache
+    /// Tries to get the distance to goal from the current node using the node's
+    /// `distanceToGoal` property if it has been calculated; otherwise it calculates
+    /// the `distanceToGoal` property using the `evaluationFunction` instead
     /// - Paramater node: The node to calculate for
     /// - Returns: The estimated path cost 
     ///
-    func distanceToGoal(node: Node) -> Int {
-        return self.evaluationFunction.calculateDistanceToGoal(node)
-//        let hash = node.hashValue
-//        if let result = evaluationFunctionCache[hash] {
-//            return result
-//        } else {
-//            let distanceToGoal =
-//            evaluationFunctionCache[hash] = distanceToGoal
-//            return distanceToGoal
-//        }
+    mutating func distanceToGoal(node: Node) -> Int {
+        return node.distanceToGoal ?? self.evaluationFunction.calculateDistanceToGoal(node)
     }
     
     mutating func pop() -> Node? {

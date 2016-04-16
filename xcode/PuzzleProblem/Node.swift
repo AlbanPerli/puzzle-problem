@@ -49,38 +49,33 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     /// - Remarks: Expensive to determine this property, which is why it is
     ///            marked with a `lazy` initialiser
     ///
-    var ansecstors: [Node] {
+    lazy var ansecstors: [Node] = {
         var ansecstors: [Node] = [self]
         // Unwrap the parent while it exists
         while let parent = ansecstors.last?.parent {
             ansecstors.append(parent)
         }
         return ansecstors
-    }
+    }()
     
     ///
     /// The children this node has
     /// - Remarks: Expensive to determine this property, which is why it is
     ///            marked with a `lazy` initialiser
     ///
-    var children: [Node] {
+    lazy var children: [Node] = {
         return self.state.possibleActions.map { action -> Node in
             let nextState = self.state.performAction(action)
             return Node(parent: self, state: nextState)
         }
-    }
-
-    ///
-    /// Determines whether the node is empty or not
-    ///
-    var isEmpty: Bool {
-        return self.children.isEmpty
-    }
+    }()
 
     ///
     /// Computes the actions that lead to this node's state
+    /// - Remarks: Expensive to determine this property, which is why it is
+    ///            marked with a `lazy` initialiser
     ///
-    var actionsToThisNode: [Action] {
+    lazy var actionsToThisNode: [Action] = {
         var result: [Action] = []
         var ancestor: Node? = self.parent
         if let currentLeadingAction = self.state.leadingAction {
@@ -95,7 +90,22 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
             ancestor = ancestor?.parent
         }
         return result.reverse()
+    }()
+    
+    ///
+    /// Determines whether the node is empty or not
+    ///
+    var isEmpty: Bool {
+        return self.children.isEmpty
     }
+    
+    ///
+    /// The distance to goal value, which is updated when the `calculateDistanceToGoal`
+    /// function is called on the node.
+    /// - Remarks: If the `calculateDistanceToGoal` function has not yet been called, the
+    ///            value returned by this property will always be `nil`
+    ///
+    var distanceToGoal: Int?
 
     // MARK: Initialisers for nodes
 
@@ -118,13 +128,17 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     }
     
     ///
-    /// Performs a heuristic function on this node to estimate its cost to the
-    /// goal state provided in the `function`
-    /// - Parameter function: The heuristic function to perform
+    /// Performs the evaluation function on the node using the `heuristicFunction` provided
+    /// by the rules determined by the `calculationBlock`
+    /// - Parameter heuristicFunction: The heuristic function used to perform the evaluation
+    /// - Parameter calculationBlock: The way in which the evaluation is performed
     /// - Returns: The estimated path cost to get to the goal state
     ///
-    func performHeuristic(function: HeuristicFunction) -> Int {
-        return function.visit(self)
+    func calculateDistanceToGoal(calculationBlock: (Node -> Int)) -> Int {
+        if self.distanceToGoal == nil {
+            self.distanceToGoal = calculationBlock(self)
+        }
+        return self.distanceToGoal!
     }
 }
 
