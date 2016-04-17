@@ -30,17 +30,17 @@ class RandomStateSearchTests: XCTestCase {
         print(goalState.matrix.debugDescription)
         return (start: startState, goal: goalState)
     }()
-
+    
     private let startState = RandomStateSearchTests.states.start
     private let goalState  = RandomStateSearchTests.states.goal
-
+    
     private func randomSearch(method: SearchMethod) {
         let solver = Solver(rootState: startState, method: method)
         testSearchPerformance(solver)
     }
-
+    
     // MARK: Dynamic random state search
-
+    
     func testBFS_Random() {
         let method = BreadthFirstSearch(goalState: goalState)
         randomSearch(method)
@@ -61,6 +61,18 @@ class RandomStateSearchTests: XCTestCase {
                                            heuristicFunction: heuristic)
         randomSearch(method)
     }
+    func testGBFS_Random_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: goalState)
+        let method = GreedyBestFirstSearch(goalState: goalState,
+                                           heuristicFunction: heuristic)
+        randomSearch(method)
+    }
+    func testGBFS_Random_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: goalState)
+        let method = GreedyBestFirstSearch(goalState: goalState,
+                                           heuristicFunction: heuristic)
+        randomSearch(method)
+    }
     func testAS_Random_MisplacedTilesCount() {
         let heuristic = MisplacedTilesCount(goalState: goalState)
         let method = AStarSearch(goalState: goalState,
@@ -69,6 +81,18 @@ class RandomStateSearchTests: XCTestCase {
     }
     func testAS_Random_ManhattanDistance() {
         let heuristic = ManhattanDistance(goalState: goalState)
+        let method = AStarSearch(goalState: goalState,
+                                 heuristicFunction: heuristic)
+        randomSearch(method)
+    }
+    func testAS_Random_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: goalState)
+        let method = AStarSearch(goalState: goalState,
+                                 heuristicFunction: heuristic)
+        randomSearch(method)
+    }
+    func testAS_Random_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: goalState)
         let method = AStarSearch(goalState: goalState,
                                  heuristicFunction: heuristic)
         randomSearch(method)
@@ -90,6 +114,20 @@ class RandomStateSearchTests: XCTestCase {
     }
     func testIDAS_Random_ManhattanDistance() {
         let heuristic = ManhattanDistance(goalState: goalState)
+        let method = IterativeDeepeningAStarSearch(goalState: goalState,
+                                                   heuristicFunction: heuristic,
+                                                   threshold: 40)
+        randomSearch(method)
+    }
+    func testIDAS_Random_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: goalState)
+        let method = IterativeDeepeningAStarSearch(goalState: goalState,
+                                                   heuristicFunction: heuristic,
+                                                   threshold: 40)
+        randomSearch(method)
+    }
+    func testIDAS_Random_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: goalState)
         let method = IterativeDeepeningAStarSearch(goalState: goalState,
                                                    heuristicFunction: heuristic,
                                                    threshold: 40)

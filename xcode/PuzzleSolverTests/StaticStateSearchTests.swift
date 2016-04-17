@@ -42,49 +42,79 @@ class StaticStateSearchTests: XCTestCase {
     // MARK: Static easy earch
 
     func testBFS_Easy() {
-        let method = BreadthFirstSearch(goalState: easyGoalState)
+        let method = BreadthFirstSearch(goalState: hardGoalState)
         easySearch(method)
     }
     func testDFS_Easy() {
-        let method = DepthFirstSearch(goalState: easyGoalState)
+        let method = DepthFirstSearch(goalState: hardGoalState)
         easySearch(method)
     }
     func testGBFS_Easy_MisplacedTilesCount() {
-        let heuristic = MisplacedTilesCount(goalState: easyGoalState)
-        let method = GreedyBestFirstSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        let heuristic = MisplacedTilesCount(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         easySearch(method)
     }
     func testGBFS_Easy_ManhattanDistance() {
-        let heuristic = ManhattanDistance(goalState: easyGoalState)
-        let method = GreedyBestFirstSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        let heuristic = ManhattanDistance(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testGBFS_Easy_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testGBFS_Easy_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         easySearch(method)
     }
     func testAS_Easy_MisplacedTilesCount() {
-        let heuristic = MisplacedTilesCount(goalState: easyGoalState)
-        let method = AStarSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        let heuristic = MisplacedTilesCount(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         easySearch(method)
     }
     func testAS_Easy_ManhattanDistance() {
-        let heuristic = ManhattanDistance(goalState: easyGoalState)
-        let method = AStarSearch(goalState: easyGoalState, heuristicFunction: heuristic)
+        let heuristic = ManhattanDistance(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testAS_Easy_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        easySearch(method)
+    }
+    func testAS_Easy_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         easySearch(method)
     }
     func testBOGO_Easy() {
-        let method = BogosortSearch(goalState: easyGoalState)
+        let method = BogosortSearch(goalState: hardGoalState)
         easySearch(method)
     }
     func testDLS_Easy() {
-        let method = DepthLimitedSearch(goalState: easyGoalState, threshold: 40)
+        let method = DepthLimitedSearch(goalState: hardGoalState, threshold: 40)
         easySearch(method)
     }
     func testIDAS_Easy_MisplacedTilesCount() {
-        let heuristic = MisplacedTilesCount(goalState: easyGoalState)
-        let method = IterativeDeepeningAStarSearch(goalState: easyGoalState, heuristicFunction: heuristic, threshold: 40)
+        let heuristic = MisplacedTilesCount(goalState: hardGoalState)
+        let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
         easySearch(method)
     }
     func testIDAS_Easy_ManhattanDistance() {
-        let heuristic = ManhattanDistance(goalState: easyGoalState)
-        let method = IterativeDeepeningAStarSearch(goalState: easyGoalState, heuristicFunction: heuristic, threshold: 40)
+        let heuristic = ManhattanDistance(goalState: hardGoalState)
+        let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
+        easySearch(method)
+    }
+    func testIDAS_Easy_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: hardGoalState)
+        let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
+        easySearch(method)
+    }
+    func testIDAS_Easy_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: hardGoalState)
+        let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
         easySearch(method)
     }
 
@@ -108,6 +138,16 @@ class StaticStateSearchTests: XCTestCase {
         let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         hardSearch(method)
     }
+    func testGBFS_Hard_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testGBFS_Hard_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: hardGoalState)
+        let method = GreedyBestFirstSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
     func testAS_Hard_MisplacedTilesCount() {
         let heuristic = MisplacedTilesCount(goalState: hardGoalState)
         let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
@@ -115,6 +155,16 @@ class StaticStateSearchTests: XCTestCase {
     }
     func testAS_Hard_ManhattanDistance() {
         let heuristic = ManhattanDistance(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testAS_Hard_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: hardGoalState)
+        let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
+        hardSearch(method)
+    }
+    func testAS_Hard_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: hardGoalState)
         let method = AStarSearch(goalState: hardGoalState, heuristicFunction: heuristic)
         hardSearch(method)
     }
@@ -133,6 +183,16 @@ class StaticStateSearchTests: XCTestCase {
     }
     func testIDAS_Hard_ManhattanDistance() {
         let heuristic = ManhattanDistance(goalState: hardGoalState)
+        let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
+        hardSearch(method)
+    }
+    func testIDAS_Hard_EuclideanDistance() {
+        let heuristic = EuclideanDistance(goalState: hardGoalState)
+        let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
+        hardSearch(method)
+    }
+    func testIDAS_Hard_ChebyshevDistance() {
+        let heuristic = ChebyshevDistance(goalState: hardGoalState)
         let method = IterativeDeepeningAStarSearch(goalState: hardGoalState, heuristicFunction: heuristic, threshold: 40)
         hardSearch(method)
     }
