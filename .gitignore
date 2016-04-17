@@ -1,5 +1,6 @@
-# Don't include bin
+# Don't include bin or log
 bin/
+log/
 
 # Created by https://www.gitignore.io/api/xcode,emacs,osx
 
