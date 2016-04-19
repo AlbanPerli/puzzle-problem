@@ -46,36 +46,30 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
 
     ///
     /// The ansecstors this node has, inclusive of `self`
-    /// - Remarks: Expensive to determine this property, which is why it is
-    ///            marked with a `lazy` initialiser
     ///
-    lazy var ansecstors: [Node] = {
+    var ansecstors: [Node] {
         var ansecstors: [Node] = [self]
         // Unwrap the parent while it exists
         while let parent = ansecstors.last?.parent {
             ansecstors.append(parent)
         }
         return ansecstors
-    }()
+    }
     
     ///
     /// The children this node has
-    /// - Remarks: Expensive to determine this property, which is why it is
-    ///            marked with a `lazy` initialiser
     ///
-    lazy var children: [Node] = {
+    var children: [Node] {
         return self.state.possibleActions.map { action -> Node in
             let nextState = self.state.performAction(action)
             return Node(parent: self, state: nextState)
         }
-    }()
+    }
 
     ///
     /// Computes the actions that lead to this node's state
-    /// - Remarks: Expensive to determine this property, which is why it is
-    ///            marked with a `lazy` initialiser
     ///
-    lazy var actionsToThisNode: [Action] = {
+    var actionsToThisNode: [Action] {
         var result: [Action] = []
         var ancestor: Node? = self.parent
         if let currentLeadingAction = self.state.leadingAction {
@@ -90,7 +84,7 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
             ancestor = ancestor?.parent
         }
         return result.reverse()
-    }()
+    }
     
     ///
     /// Determines whether the node is empty or not
