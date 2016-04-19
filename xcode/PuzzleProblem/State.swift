@@ -176,13 +176,15 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
 
         // ...from bottom row (m - i)
         let rowFromBottom = (self.height - 1) - rowOfBlankTile
-
+        
         // Parity of the blank row, i.e., parity of (m - i)
+        // We consider the parity of 0 to be odd and must enforce this
+        // as the swift compiler considers 0 to be even
         let blankOnRowThatIs = (
-            even: rowFromBottom % 2 == 0,
-            odd:  rowFromBottom % 2 != 0
+            even: rowFromBottom == 0 ? false : rowFromBottom % 2 == 0,
+            odd:  rowFromBottom == 0 ? true  : rowFromBottom % 2 != 0
         )
-
+        
         // THEOREM 1: If n is odd, then every legal configuration corresponds to a 
         //            sequence with an even number of inversions
         let theorm1 = nIs.odd && inversionsIs.even
