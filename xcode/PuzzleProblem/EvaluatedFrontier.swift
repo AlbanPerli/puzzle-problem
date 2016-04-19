@@ -37,7 +37,7 @@ struct EvaluatedFrontier: Frontier {
     /// - Returns: The estimated path cost 
     ///
     mutating func distanceToGoal(node: Node) -> Int {
-        return node.distanceToGoal ?? self.evaluationFunction.calculateManhattanDistance(node)
+        return node.distanceToGoal ?? self.evaluationFunction.evaluate(node)
     }
     
     mutating func pop() -> Node? {
@@ -49,8 +49,8 @@ struct EvaluatedFrontier: Frontier {
         // Evaluate the distance of the state
         let distanceToGoal = self.distanceToGoal(node)
         // Find the index to insert at by finding that whose distance to goal result
-        // is equal to or larger than the distanceToGoal calculated for this particular
-        // state. If not found, then it's added to the end.
+        // is equal to or larger than the distanceToGoal calculated for this
+        // particular state. If not found, then it's added to the end.
         // E.g.:
         //
         //   Insert 7 where f(n) for all nodes in collection are [ 3, 5, 8 ]
