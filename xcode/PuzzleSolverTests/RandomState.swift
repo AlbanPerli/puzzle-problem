@@ -37,7 +37,7 @@ func randomState(rows: Int, cols: Int? = nil, isValid: Bool = true) -> State {
     }
     var state = generateState()
     while (isValid && !state.isValid) || (!isValid && state.isValid) {
-            state = generateState()
+        state = generateState()
     }
     return state
 }

@@ -20,8 +20,10 @@ class RandomStateSearchTests: XCTestCase {
             width:  Int(envWidth ) ?? Int(cs_arc4random_uniform(4) + 1),
             height: Int(envHeight) ?? Int(cs_arc4random_uniform(4) + 1)
         )
-        let startState = randomState(dimensions.width, cols: dimensions.height)
-        let goalState =  randomState(dimensions.width, cols: dimensions.height)
+        let startState = randomState(dimensions.height, cols: dimensions.width)
+        let goalState =  State(sequence: startState.sequence.sort(),
+                               height: dimensions.height,
+                               width: dimensions.width)
         print("Dimensions:")
         print("\(dimensions.width)x\(dimensions.height)")
         print("Start state:")
