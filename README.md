@@ -2,7 +2,7 @@
 
 AI to solve a dynamic [15 puzzle](https://en.wikipedia.org/wiki/15_puzzle) using an assortment of AI techniques.
 
-Perfomed under a course conducted at Swinburne University for [Artificial Intelligence](http://www.swinburne.edu.au/study/courses/units/Introduction-to-Artificial-Intelligence-COS30019/local)
+Performed under a course conducted at Swinburne University for [Artificial Intelligence](http://www.swinburne.edu.au/study/courses/units/Introduction-to-Artificial-Intelligence-COS30019/local)
 
 ## Getting started
 
