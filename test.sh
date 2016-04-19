@@ -12,16 +12,4 @@ function run_test() {
   echo "Done"
 }
 
-run_test 2 2
-run_test 2 3
-run_test 3 2
-run_test 2 4
-run_test 4 2
-run_test 5 2
-run_test 2 5
-run_test 6 2
-run_test 2 6
-run_test 3 3
-run_test 3 4
-run_test 4 3
-run_test 4 4
+run_test $@
