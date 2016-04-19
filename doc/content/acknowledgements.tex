@@ -1,4 +1,4 @@
-\section{Acknowledgements}
+\section*{Acknowledgements}
 \label{sec:Acknowledgements}
 
 I would like to acknolwedge \citet{rbruce1998} and \citet{amackworth1998} for
@@ -9,7 +9,11 @@ reference in all required search implementations also, chiefly in their provided
 psuedo-code for the algorithms.
 
 Additionally, the article provided by \citet{redblob2014} helped me optimise
-my search algorithms significantly, with the \texttt{came\_from} hashmap data
-structure rather than using a set of explored nodes. This reduced search time
-for all search methods, especially with \texttt{BFS} which dropped from about 30
-seconds to 8 seconds.
+my search algorithms significantly. For random state generation, I utilised
+several theorms devised by \citet{gong2000}, which you can see implemented in
+the \texttt{RandomState.swift} file.
+
+When researching variant heuristics, I utilised works by \citet{deza2009} for
+implementing Euclidean distance, \citet{cantrell2000modern} for Chebyshev
+distance, and lastly \citet{krause2012taxicab} for Manhattan distance
+implementation.

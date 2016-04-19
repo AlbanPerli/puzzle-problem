@@ -1,5 +1,4 @@
 \section{Features}
-\label{sec:Features}
 
 A more extensive list of search features can be shown using the \texttt{--help}
 switch.
@@ -40,10 +39,10 @@ to the evaluation function result that will be accepted for searches
   \vspace{1em}
 \end{center}
 
-By default, the heuristic used for informed searches is the \emph{Distance to
-Goal} heuristic. This can be changed to the \emph{Misplaced Tiles} heuristic by
-using the \texttt{--heuristic} switch and providing the \texttt{misplaced}
-argument.
+By default, the heuristic used for informed searches is the Manhattan Distance
+heuristic. This can be changed to other heuristics by using the \texttt{--heuristic}
+switch and providing one of: \texttt{manhattan}, \texttt{euclidean},
+\texttt{manhattan}, or \texttt{misplaced}. Refer to the help for more instructions.
 
 
 \subsection{Graphical Solver}
