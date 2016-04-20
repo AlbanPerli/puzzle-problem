@@ -51,9 +51,14 @@ in which to insert in its collection, as you can read in Listing~\ref{lst:indexi
 \subsection{Performance Testing}
 \label{sub:randomstategeneration}
 
+The codebase was ensured for optimal unit test coverage. For tests, refer to
+the the \texttt{test} directory.
+
 As you can see in \texttt{RandomState.swift}, random $n$ by $m$ states were
-generated for extensive testing. The codebase was ensured for optimal unit test
-coverage (refer to the \texttt{test} directory).
+generated for extensive testing. It was ensured that these generated states are
+\emph{solvable} using a State's \texttt{isSolvable} method. Refer to
+\texttt{State.swift:140-205} for the three theorms used to calculate solvability
+and \texttt{IsStateSolvableTests.swift} for test coverage of these theorms.
 
 Each test had a variant state size, and the results were averaged over 10
 different tests for each. Results from aggregating these performance tests are
