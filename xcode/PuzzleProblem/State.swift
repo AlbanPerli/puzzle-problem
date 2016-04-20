@@ -130,11 +130,14 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
     let sequence: [Int]
 
     ///
-    /// Property to compute if a state is valid
+    /// Property to compute if a state is solvable to an ascending order, i.e.:
+    /// ```
+    /// [0,1,2,3,4,5,6,7]
+    /// ```
     /// - Remarks: Refer to the proof written by
     ///            [Kevin Gong](http://kevingong.com/Math/SixteenPuzzle.html)
     ///
-    var isValid: Bool {
+    var isSolvable: Bool {
         // Immediately invalid if no width or height
         if self.height == 0 || self.width == 0 {
             return false

@@ -10,11 +10,12 @@
 /// Generates a random state
 /// - Parameter rows: The number of rows this state will have
 /// - Parameter cols: The number of columns this state will have
-/// - Parameter isValid: Whether or not the state generated is valid. If `false` is provided
-///                      here, then only invalid states will be generated. Default is `true`.
+/// - Parameter isSolvable: Whether or not the state generated is solvable or not.
+///                         If `false` is provided here, then only insolvable states
+///                         will be generated. Default is `true`.
 /// - Returns: A new random state
 ///
-func randomState(rows: Int, cols: Int? = nil, isValid: Bool = true) -> State {
+func randomState(rows: Int, cols: Int? = nil, isSolvable: Bool = true) -> State {
     let cols = cols ?? rows
     let width = cols
     let height = rows
@@ -36,7 +37,7 @@ func randomState(rows: Int, cols: Int? = nil, isValid: Bool = true) -> State {
         return State(sequence: data, height: height, width: width)
     }
     var state = generateState()
-    while (isValid && !state.isValid) || (!isValid && state.isValid) {
+    while (isSolvable && !state.isSolvable) || (!isSolvable && state.isSolvable) {
         state = generateState()
     }
     return state
