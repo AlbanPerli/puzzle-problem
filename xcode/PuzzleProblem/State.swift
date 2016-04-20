@@ -132,7 +132,7 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     /// Property to compute if a state is solvable to an ascending order, i.e.:
     /// ```
-    /// [0,1,2,3,4,5,6,7]
+    /// [ 0, 1, 2, 3, 4, 5, 6, 7 ]
     /// ```
     /// - Remarks: Refer to the proof written by
     ///            [Kevin Gong](http://kevingong.com/Math/SixteenPuzzle.html)
@@ -153,12 +153,9 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
         let inversions = self.sequence.enumerate().reduce(0) { (memo, value) -> Int in
             let startAt = value.index + 1
             let element = value.element
-            var numInversionsForElement = 0
-            for num in self.sequence.suffixFrom(startAt) {
-                if element > num && num != kEmptyTile {
-                    numInversionsForElement += 1
-                }
-            }
+            let numInversionsForElement = self.sequence.suffixFrom(startAt).filter({ num in
+                element > num && num != kEmptyTile
+            }).count
             return memo + numInversionsForElement
         }
 
