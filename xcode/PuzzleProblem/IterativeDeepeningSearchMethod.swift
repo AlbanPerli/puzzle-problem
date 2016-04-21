@@ -7,7 +7,20 @@
 //
 
 ///
-/// Defines a search method that iteratively traverses a graph for its target node
+/// Defines a search method that iteratively traverses a graph for its target node.
+/// When a node's value exceeds the threshold (as determined by a value returned from
+/// the `nodeThresholdComparatorBlock`), then the node is not added to the standard,
+/// concrete frontier implemented by whatever search algorithm implements the protocol,
+/// rather it is added to a FifoFrontier (`fallbackFrontier`) that will be considered
+/// once the frontier is empty. Consider a frontier below with a threshold of `4`
+/// ```
+/// [ 1 , 2 , 3 , 4 ]
+/// ```
+/// Any new values greater than 4 are added to the `fallbackFrontier` instead. Once
+/// the frontier above is popped of all its nodes, then the `fallbackFrontier`'s values
+/// are added to the frontier (all those that are still within the threshold of course)
+/// and the `threshold` value is doubled. This simulates a new iterative search without
+/// the recursive search.
 ///
 protocol IterativeDeepeningSearchMethod: SearchMethod {
     ///
