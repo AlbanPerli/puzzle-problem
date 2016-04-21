@@ -44,7 +44,7 @@ class Solver: SearchMethodObserver {
     ///
     /// The search method used to solve the puzzle
     ///
-    let searchMethod: SearchMethod
+    var searchMethod: SearchMethod
 
     ///
     /// Initialises a Puzzle Solver with the root node and search method to use

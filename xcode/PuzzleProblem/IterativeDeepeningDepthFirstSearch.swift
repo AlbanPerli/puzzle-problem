@@ -7,39 +7,46 @@
 //
 
 ///
-/// Depth Limited Seach is essentially Depth First Search, however it will stop expanding
-/// the next unexpanded node if that node is beyond its threshold point, such that the maximum
-/// depth of the search tree is limited to the specified `threshold`, or `t`
+/// Iterative deepening depth first search Depth First Search, however it 
+/// will stop expanding the next unexpanded node if that node is beyond its
+/// threshold point, such that the maximum depth of the search tree is limited
+/// to the specified `threshold`, or `t`. When there are no more nodes in its
+/// frontier it will revert to its fallback frontier and perform a depth first
+/// search on nodes it expands from its fallback; thus iterative deepening.
 /// - Complexity:
 ///     - **Time:**  O(b<sup>t</sup>)
 ///     - **Space:** O(bt)
 ///
-class DepthLimitedSearch: IterativeDeepeningSearchMethod {
+class IterativeDeepeningDepthFirstSearch: IterativeDeepeningSearchMethod {
     // MARK: Implement SearchMethod
-    static var name: String = "Depth Limited Search"
-    static var code: String = "DLS"
+    static var name: String = "Iterative Deepening Depth First Search"
+    static var code: String = "IDS"
     var goalState: State
     var frontier: Frontier
-    
+
     // MARK: Implement IterativeDeepeningSearchMethod
-    var nodeThresholdComparatorValue: (Node) -> Int = { node in
-        // Just compares against a node's path cost (i.e., it's depth in the context
-        // of the n by m puzzle solver)
-        return node.pathCost
-    }
     var threshold: Int
-    var fallbackFrontier = FifoFrontier()
+    var fallbackFrontier: FifoFrontier = FifoFrontier()
+    var nodeThresholdComparatorBlock: (Node) -> Int
     
     ///
-    /// Initaliser for a Depth First Search
+    /// Initaliser for a Iterative Deepening Depth First Search
     /// - Parameter goalState: The search's goal state
-    /// - Parameter threshold: Do not traverse nodes whose path costs are greater than the
-    ///                        threshold
+    /// - Parameter threshold: Do not traverse nodes whose path costs are greater
+    ///                        than the threshold
     ///
     init(goalState: State, threshold: Int) {
         self.goalState = goalState
-        // Breadth First Search uses a LIFO frontier
+        // Depth First Search uses LIFO Frontier (wrapped in a fallback supported
+        // frontier)
         self.frontier = LifoFrontier()
+        // Implement comparator block
+        self.nodeThresholdComparatorBlock = { node in
+            // IDS compares against a node's path cost (i.e., it's depth in the
+            // context of the n by m puzzle solver)
+            return node.pathCost
+        }
+        // Intialise the current threshold
         self.threshold = threshold
     }
 }

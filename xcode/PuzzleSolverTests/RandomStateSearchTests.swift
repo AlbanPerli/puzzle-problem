@@ -103,8 +103,8 @@ class RandomStateSearchTests: XCTestCase {
         let method = BogosortSearch(goalState: goalState)
         randomSearch(method)
     }
-    func testDLS_Random() {
-        let method = DepthLimitedSearch(goalState: goalState, threshold: 40)
+    func testIDS_Random() {
+        let method = IterativeDeepeningDepthFirstSearch(goalState: goalState, threshold: 40)
         randomSearch(method)
     }
     func testIDAS_Random_MisplacedTilesCount() {

@@ -93,8 +93,8 @@ class StaticStateSearchTests: XCTestCase {
         let method = BogosortSearch(goalState: hardGoalState)
         easySearch(method)
     }
-    func testDLS_Easy() {
-        let method = DepthLimitedSearch(goalState: hardGoalState, threshold: 40)
+    func testIDS_Easy() {
+        let method = IterativeDeepeningDepthFirstSearch(goalState: hardGoalState, threshold: 40)
         easySearch(method)
     }
     func testIDAS_Easy_MisplacedTilesCount() {
@@ -172,8 +172,8 @@ class StaticStateSearchTests: XCTestCase {
         let method = BogosortSearch(goalState: hardGoalState)
         hardSearch(method)
     }
-    func testDLS_Hard() {
-        let method = DepthLimitedSearch(goalState: hardGoalState, threshold: 40)
+    func testIDS_Hard() {
+        let method = IterativeDeepeningDepthFirstSearch(goalState: hardGoalState, threshold: 40)
         hardSearch(method)
     }
     func testIDAS_Hard_MisplacedTilesCount() {

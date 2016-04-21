@@ -7,8 +7,8 @@
 //
 
 ///
-/// A Star Search is an *informed* search method that traverses nodes in a priority queue
-/// ordered by its heuristic function and cost to the node, that is:
+/// A Star Search is an *informed* search method that traverses nodes in a priority
+/// queue ordered by its heuristic function and cost to the node, that is:
 /// ```
 /// f(n) = h(n) + g(n)
 /// ```
@@ -16,7 +16,7 @@
 ///     - **Time:**  O(b<sup>m</sup>)
 ///     - **Space:** O(b<sup>m</sup>)
 ///
-struct AStarSearch: SearchMethod {
+class AStarSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "A Star Search"
     static var code: String = "AS"

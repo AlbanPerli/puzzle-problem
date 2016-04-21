@@ -25,8 +25,8 @@ struct EuclideanDistance: HeuristicFunction {
     init(goalState: State) {
         self.goalState = goalState
     }
-    func visit(node: Node) -> Int {
-        return node.state.sequence.reduce(0) { (memo, tile) -> Int in
+    func calculate(node: Node) -> Float {
+        return node.state.sequence.reduce(0) { (memo, tile) -> Float in
             // Do not consider the blank tile
             if tile == kEmptyTile {
                 return memo
@@ -50,7 +50,7 @@ struct EuclideanDistance: HeuristicFunction {
             let sumOfDiffsPower = sqrt( pow(delta.x, 2) + pow(delta.y, 2) )
             
             // Add this to the memo
-            return memo + Int(sumOfDiffsPower)
+            return memo + sumOfDiffsPower
         }
     }
 }

@@ -25,8 +25,8 @@ struct ChebyshevDistance: HeuristicFunction {
     init(goalState: State) {
         self.goalState = goalState
     }
-    func visit(node: Node) -> Int {
-        return node.state.sequence.reduce(0) { (memo, tile) -> Int in
+    func calculate(node: Node) -> Float {
+        return node.state.sequence.reduce(0) { (memo, tile) -> Float in
             // Do not consider the blank tile
             if tile == kEmptyTile {
                 return memo
@@ -40,17 +40,17 @@ struct ChebyshevDistance: HeuristicFunction {
                     return memo + 0
             }
             
-            // Calculate the difference of the cols (x) and rows (y)
+            // Calculate the absolute difference of the cols (x) and rows (y)
             let delta = (
-                x: currPos.col - goalPos.col,
-                y: currPos.row - goalPos.row
+                x: abs(currPos.col - goalPos.col),
+                y: abs(currPos.row - goalPos.row)
             )
             
             // Return the max of the differences
             let maxOfTwoDeltas = max(delta.x, delta.y)
             
             // Add this to the memo
-            return memo + maxOfTwoDeltas
+            return memo + Float(maxOfTwoDeltas)
         }
     }
 }

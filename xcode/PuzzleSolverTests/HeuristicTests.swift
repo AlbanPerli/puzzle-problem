@@ -76,12 +76,12 @@ class HeuristicTests: XCTestCase {
             [5, 0, 8],
             [4, 2, 1],
             [7, 3, 6],
-            ])
+        ])
         let goalState = State(matrix: [
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 0],
-            ])
+        ])
         let rootNode = Node(initialState: rootState)
         let function = ChebyshevDistance(goalState: goalState)
         let distance = function.calculate(rootNode)

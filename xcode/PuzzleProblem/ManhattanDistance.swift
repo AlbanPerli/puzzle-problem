@@ -25,13 +25,13 @@ struct ManhattanDistance: HeuristicFunction {
     init(goalState: State) {
         self.goalState = goalState
     }
-    func visit(node: Node) -> Int {
-        return node.state.sequence.reduce(0) { memo, tile -> Int in
+    func calculate(node: Node) -> Float {
+        return node.state.sequence.reduce(0) { memo, tile -> Float in
             // Do not consider the blank tile
             if tile == kEmptyTile {
                 return memo
             }
-            
+
             // Get the positions of the current tile on both the
             // current and goal states
             guard
@@ -50,7 +50,7 @@ struct ManhattanDistance: HeuristicFunction {
             let sumOfAbs = abs(delta.x) + abs(delta.y)
             
             // Add this to the memo
-            return memo + sumOfAbs
+            return memo + Float(sumOfAbs)
         }
     }
 }

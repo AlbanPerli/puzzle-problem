@@ -139,29 +139,6 @@ class NodesTraversedTests: XCTestCase, SearchMethodObserver {
         XCTAssert(nodesTraversed == expectedTraversal)
     }
     
-    
-    func testDLSTraversal() {
-        // Goes by depth first LIFO
-        // Expect A B F G C H I D J K E L M
-        DepthLimitedSearch(goalState: goalState, threshold: 3).traverse(nodes["A"]!)
-        let expectedTraversal = [
-            nodes["A"]!,
-            nodes["B"]!,
-            nodes["F"]!,
-            nodes["G"]!,
-            nodes["C"]!,
-            nodes["H"]!,
-            nodes["I"]!,
-            nodes["D"]!,
-            nodes["J"]!,
-            nodes["K"]!,
-            nodes["E"]!,
-            nodes["L"]!,
-            nodes["M"]!,
-        ]
-        XCTAssert(nodesTraversed == expectedTraversal)
-    }
-    
     func testGBFSTraversal() {
         // Goes by best evaluation function
         // Expect A E M

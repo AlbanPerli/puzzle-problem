@@ -14,7 +14,7 @@
 ///     - **Time:**  O(b<sup>m</sup>)
 ///     - **Space:** O(bm)
 ///
-struct DepthFirstSearch: SearchMethod {
+class DepthFirstSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Depth First Search"
     static var code: String = "DFS"

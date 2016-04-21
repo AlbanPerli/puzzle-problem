@@ -38,13 +38,13 @@ struct Launcher {
         var message: String {
             switch self {
             case .NotEnoughArgumentsProvided:
-                return "Invalid arguments. Use `help` for more info."
+                return "Invalid arguments. Use `help` for more info"
             case .InvalidMethodProvided:
-                return "Invalid search method provided. Use `help` for more info."
+                return "Invalid search method provided. Use `help` for more info"
             case .FileUnreadable:
                 return "File provided was unreadable"
             case .InvalidDataLInes:
-                return "Not enough data lines in file. Expects two sequence lines"
+                return "Invalid data lines in file. Expects ONLY two sequence lines."
             case .NoSizeLine:
                 return "Size line was missing or invalid. Expects first line to be in format NxM"
             case .UnexpectedCharacterInDataLine:
@@ -52,17 +52,17 @@ struct Launcher {
             case .DataLineSizeMismatch:
                 return "Expects data line size to match size of N*M"
             case .InvalidThresholdSpecified:
-                return "Threshold value specified should be a numerical value greater than 2"
+                return "Threshold value specified should be a numerical value greater than 1"
             case .ThresholdNotAllowed:
-                return "You can only specify a threshold using a DLS or IDAS method"
+                return "You can only specify a threshold using a IDS or IDAS method"
             case .InvalidHeuristicSpecified:
-                return "Heuristic provided is invalid. Use `help` for more info."
+                return "Heuristic provided is invalid. Use `help` for more info"
             case .ProvidedHeuristicToUninformed:
                 return "You can only provide a heuristic to an informed search"
             case .ThresholdRequired:
                 return  "You must provide a threshold for this search. " +
-                        "If DLS, the threshold is the maximum allowed depth before backtracking. " +
-                        "If IDAS, the threshold is the maximum allowed distance to goal before backtracking."
+                        "If IDS, the threshold is the maximum allowed depth before backtracking. " +
+                        "If IDAS, the threshold is the maximum allowed distance to goal before backtracking"
             }
         }
     }
@@ -149,7 +149,7 @@ struct Launcher {
             "   whatever value is specified when an uniformed search is used.",
             "",
             " --threshold=[n]",
-            "   Valid to DLS and IDAS searches for threshold. For DLS, this value",
+            "   Valid to IDS and IDAS searches for threshold. For IDS, this value",
             "   indicates the maximum allowed depth before backtracing, and for",
             "   IDAS this value indicates the maximum allowed distance to goal",
             "   value before backtracking."
@@ -164,13 +164,13 @@ struct Launcher {
             "  Uninformed:",
             "  [BFS]        run search using Breadth First Search",
             "  [DFS]        run search using Depth First Search",
-            "  [DLS|CUS1]   run search using Depth Limited Search. Requires --threshold parameter",
+            "  [IDS|CUS1]   run search using Iterative Deepening Depth First Search. Requires --threshold parameter",
             "  [BOGO|CUS3]  run search using Bogosort Search",
             "",
             "  Informed:",
             "  [GBFS]       run search using Greedy Best First Search",
-            "  [AS]         run search using A Star Search",
-            "  [IDAS|CUS2]  run search using IDA Star Search. Requires --threshold parameter",
+            "  [AS]         run search using A* Search",
+            "  [IDAS|CUS2]  run search using Iterative Deepening A* Search. Requires --threshold parameter",
         ]
         return str.joinWithSeparator("\n")
     }
@@ -209,9 +209,9 @@ struct Launcher {
             return GreedyBestFirstSearch(goalState: goalState, heuristicFunction: heuristic)
         case AStarSearch.code:
             return AStarSearch(goalState: goalState, heuristicFunction: heuristic)
-        case DepthLimitedSearch.code, "CUS1":
+        case IterativeDeepeningDepthFirstSearch.code, "CUS1":
             try testShouldntHaveHeuristic()
-            return DepthLimitedSearch(goalState: goalState, threshold: threshold!)
+            return IterativeDeepeningDepthFirstSearch(goalState: goalState, threshold: threshold!)
         case BogosortSearch.code, "CUS3":
             try testShouldntHaveHeuristic()
             return BogosortSearch(goalState: goalState)
@@ -291,16 +291,16 @@ struct Launcher {
         var method: SearchMethod? = nil
         // Default threshold
         var threshold: Int?
-        let thresholdRequired = Process.arguments[2] == DepthLimitedSearch.code ||
+        let thresholdRequired = Process.arguments[2] == IterativeDeepeningDepthFirstSearch.code ||
                                 Process.arguments[2] == IterativeDeepeningAStarSearch.code
         // Check for threshold
         for arg in args {
             if arg.element.characters.split("=").first?.elementsEqual("--threshold".characters) ?? false {
-                // Only allow cuttoff for DLS or IDAS search
+                // Only allow cuttoff for IDS or IDAS search
                 if thresholdRequired {
                     guard
                         let thresholdProvided = arg.element.characters.split("=").map({ Int(String($0)) }).last
-                        where thresholdProvided > 2 else {
+                        where thresholdProvided > 1 else {
                         throw LaunchError.InvalidThresholdSpecified
                     }
                     threshold = thresholdProvided!

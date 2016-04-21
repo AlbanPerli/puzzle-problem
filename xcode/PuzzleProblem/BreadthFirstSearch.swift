@@ -14,7 +14,7 @@
 ///     - **Time:**  O(b<sup>d</sup>)
 ///     - **Space:** O(b<sup>d</sup>)
 ///
-struct BreadthFirstSearch: SearchMethod {
+class BreadthFirstSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Breadth First Search"
     static var code: String = "BFS"

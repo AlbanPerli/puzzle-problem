@@ -26,5 +26,5 @@ protocol EvaluationFunction {
     /// Calculates the distance of a state to its goal state
     /// - Parameter node: The node's state to calculate distance
     ///
-    func evaluate(node: Node) -> Int
+    func evaluate(node: Node) -> Float
 }

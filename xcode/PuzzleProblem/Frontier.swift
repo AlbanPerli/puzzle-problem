@@ -64,4 +64,12 @@ extension Frontier {
     mutating func push(node: Node) {
         self.collection.append(node)
     }
+    // Default implementation of pushing multiple nodes just does it via a simple
+    // for loop, although there are improved ways of doing this when applicable
+    // to a simple frontier (i.e., stack and queue based)
+    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
+        for node in nodes {
+            self.push(node)
+        }
+    }
 }

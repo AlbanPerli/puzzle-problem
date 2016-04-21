@@ -24,5 +24,5 @@ protocol HeuristicFunction {
     /// - Parameter node: The node to visit and estimate path cost
     /// - Returns: The estimated path cost
     ///
-    func visit(node: Node) -> Int
+    func calculate(node: Node) -> Float
 }

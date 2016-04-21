@@ -17,7 +17,7 @@
 ///     - **Time:**  O(b<sup>m</sup>)
 ///     - **Space:** O(b<sup>m</sup>)
 ///
-struct GreedyBestFirstSearch: SearchMethod {
+class GreedyBestFirstSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Greedy Best First Search"
     static var code: String = "GBFS"

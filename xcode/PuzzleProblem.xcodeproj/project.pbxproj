@@ -32,7 +32,9 @@
 		FA4335131CAB540500FE5C24 /* AStarSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4335121CAB540500FE5C24 /* AStarSearch.swift */; };
 		FA4335141CAB545B00FE5C24 /* AStarSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4335121CAB540500FE5C24 /* AStarSearch.swift */; };
 		FA4335151CAB54A900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */; };
-		FA4B2B901CAE691F005878E1 /* DepthLimitedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4B2B8F1CAE691F005878E1 /* DepthLimitedSearch.swift */; };
+		FA4B2B901CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4B2B8F1CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift */; };
+		FA58BAE01CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA58BADF1CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift */; };
+		FA58BAE11CC89B6C00A3C0FB /* IterativeDeepeningSearchMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA58BADF1CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift */; };
 		FA5A2E331C9AE3020041F55E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E321C9AE3020041F55E /* main.swift */; };
 		FA5A2E461C9AE32F0041F55E /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E451C9AE32F0041F55E /* Node.swift */; };
 		FA5A2E481C9AE3470041F55E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E471C9AE3470041F55E /* State.swift */; };
@@ -41,7 +43,7 @@
 		FA5A2E911C9AECD20041F55E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E471C9AE3470041F55E /* State.swift */; };
 		FA5A2E921C9AECD40041F55E /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E491C9AE3530041F55E /* Direction.swift */; };
 		FA5A2E941C9AF2570041F55E /* FileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5A2E931C9AF2570041F55E /* FileParser.swift */; };
-		FA5C595D1CAE752600B7048C /* DepthLimitedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4B2B8F1CAE691F005878E1 /* DepthLimitedSearch.swift */; };
+		FA5C595D1CAE752600B7048C /* IterativeDeepeningDepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4B2B8F1CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift */; };
 		FA5C595F1CAE98A500B7048C /* RandomisedFrontier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C595E1CAE98A500B7048C /* RandomisedFrontier.swift */; };
 		FA5C59611CAE994000B7048C /* MutableCollectionType+Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C59601CAE994000B7048C /* MutableCollectionType+Shuffle.swift */; };
 		FA5C59631CAE99D100B7048C /* CrossPlatformRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5C59621CAE99D100B7048C /* CrossPlatformRandom.swift */; };
@@ -129,7 +131,8 @@
 		FA43350B1CAA0F0800FE5C24 /* HeuristicOnlyEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicOnlyEvaluation.swift; sourceTree = "<group>"; };
 		FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeuristicAndPathCostEvaluation.swift; sourceTree = "<group>"; };
 		FA4335121CAB540500FE5C24 /* AStarSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AStarSearch.swift; sourceTree = "<group>"; };
-		FA4B2B8F1CAE691F005878E1 /* DepthLimitedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepthLimitedSearch.swift; sourceTree = "<group>"; };
+		FA4B2B8F1CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IterativeDeepeningDepthFirstSearch.swift; sourceTree = "<group>"; };
+		FA58BADF1CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IterativeDeepeningSearchMethod.swift; sourceTree = "<group>"; };
 		FA5A2E2F1C9AE3020041F55E /* PuzzleProblem */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PuzzleProblem; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA5A2E321C9AE3020041F55E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FA5A2E451C9AE32F0041F55E /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
@@ -308,9 +311,10 @@
 				FA43350A1CAA0EC300FE5C24 /* Evaluation Functions */,
 				FAD0AEAA1CA54C12005BA51E /* Heuristic Functions */,
 				FA7439341CA285C1009411C2 /* SearchMethod.swift */,
+				FA58BADF1CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift */,
 				FA17F59E1CAF95CD009D3EBD /* SearchMethodObserver.swift */,
 				FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */,
-				FA4B2B8F1CAE691F005878E1 /* DepthLimitedSearch.swift */,
+				FA4B2B8F1CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift */,
 				FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */,
 				FA4335061CAA064D00FE5C24 /* GreedyBestFirstSearch.swift */,
 				FA4335121CAB540500FE5C24 /* AStarSearch.swift */,
@@ -442,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA5C596C1CAE9EC900B7048C /* X11.swift in Sources */,
+				FA58BAE01CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift in Sources */,
 				FA7439351CA285C1009411C2 /* SearchMethod.swift in Sources */,
 				FA5A2E941C9AF2570041F55E /* FileParser.swift in Sources */,
 				FA17F5951CAF69DB009D3EBD /* TileRenderer.swift in Sources */,
@@ -449,7 +454,7 @@
 				FA4335091CAA0C2F00FE5C24 /* EvaluationFunction.swift in Sources */,
 				FAD0AEB41CA55B46005BA51E /* ManhattanDistance.swift in Sources */,
 				FA0BE8301C9B9D270007E49D /* Action.swift in Sources */,
-				FA4B2B901CAE691F005878E1 /* DepthLimitedSearch.swift in Sources */,
+				FA4B2B901CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift in Sources */,
 				FA43350E1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift in Sources */,
 				FAD276301C9BA7FB006819FF /* Solver.swift in Sources */,
 				FA5A2E331C9AE3020041F55E /* main.swift in Sources */,
@@ -513,11 +518,12 @@
 				FA2293711CA7EA5400032463 /* EvaluatedFrontier.swift in Sources */,
 				FA88CECA1C9B835500DF8B66 /* Position.swift in Sources */,
 				FA17F59A1CAF797B009D3EBD /* X11.swift in Sources */,
-				FA5C595D1CAE752600B7048C /* DepthLimitedSearch.swift in Sources */,
+				FA5C595D1CAE752600B7048C /* IterativeDeepeningDepthFirstSearch.swift in Sources */,
 				FA5A2E921C9AECD40041F55E /* Direction.swift in Sources */,
 				FA17F5A01CAF97E3009D3EBD /* SearchMethodObserver.swift in Sources */,
 				FABCA38C1CAE5EBD0060CC07 /* SearchTraversalTests.swift in Sources */,
 				FA8642901C9B8B26009FC7D1 /* PositionTests.swift in Sources */,
+				FA58BAE11CC89B6C00A3C0FB /* IterativeDeepeningSearchMethod.swift in Sources */,
 				FA43350F1CAA13B900FE5C24 /* EvaluationFunction.swift in Sources */,
 				FAB1A97A1CB1E4510033B8B7 /* IsStateSolvableTests.swift in Sources */,
 				FA5C59671CAE9BF700B7048C /* RandomisedFrontier.swift in Sources */,
@@ -629,7 +635,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -637,7 +643,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -645,7 +651,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -653,7 +659,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/local/include/X11";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Release;
 		};
@@ -661,7 +667,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = PuzzleSolverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -671,7 +677,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.alexcu.swin.ai.PuzzleSolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/X11/include";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -679,7 +685,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = PuzzleSolverTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -689,7 +695,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.alexcu.swin.ai.PuzzleSolverTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "${SRCROOT}/../lib/CX11 /usr/X11/include";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Release;
 		};

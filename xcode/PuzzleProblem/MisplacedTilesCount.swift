@@ -20,9 +20,9 @@ struct MisplacedTilesCount: HeuristicFunction {
         self.goalSequence = goalState.sequence
         self.goalState = goalState
     }
-    func visit(node: Node) -> Int {
+    func calculate(node: Node) -> Float {
         // Calculate the differences
-        return node.state.sequence.enumerate().reduce(0) { (diff, iteratee) -> Int in
+        return node.state.sequence.enumerate().reduce(0) { (diff, iteratee) -> Float in
             // If the index at goalSequence isn't the current element, add one
             // to the differences granted the current element isn't the empty
             // tile element

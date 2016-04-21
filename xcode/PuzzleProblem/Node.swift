@@ -94,12 +94,12 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     }
     
     ///
-    /// The distance to goal value, which is updated when the `calculateManhattanDistance`
+    /// The distance to goal value, which is updated when the `calculateDistanceToGoal`
     /// function is called on the node.
-    /// - Remarks: If the `calculateManhattanDistance` function has not yet been called, the
-    ///            value returned by this property will always be `nil`
+    /// - Remarks: If the `calculateDistanceToGoal` function has not yet been called,
+    ///            the value returned by this property will always be `nil`
     ///
-    var distanceToGoal: Int?
+    var distanceToGoal: Float?
 
     // MARK: Initialisers for nodes
 
@@ -124,11 +124,10 @@ class Node: Equatable, CustomDebugStringConvertible, Hashable {
     ///
     /// Performs the evaluation function on the node using the `heuristicFunction` provided
     /// by the rules determined by the `calculationBlock`
-    /// - Parameter heuristicFunction: The heuristic function used to perform the evaluation
     /// - Parameter calculationBlock: The way in which the evaluation is performed
     /// - Returns: The estimated path cost to get to the goal state
     ///
-    func calculateManhattanDistance(calculationBlock: (Node -> Int)) -> Int {
+    func calculateDistanceToGoal(calculationBlock: (Node -> Float)) -> Float {
         if self.distanceToGoal == nil {
             self.distanceToGoal = calculationBlock(self)
         }

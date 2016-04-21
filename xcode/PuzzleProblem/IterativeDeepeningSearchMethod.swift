@@ -1,19 +1,18 @@
 //
-//  IterativeDeepeningSearch.swift
-//  PuzzleProblem
-//
-//  Created by Alex on 21/04/2016.
-//  Copyright © 2016 Alex. All rights reserved.
+//  Author:         Alex Cummaudo
+//  Student ID:     1744070
+//  Program:        A1 - PuzzleProblem
+//  Unit:           COS30019 - Intro to AI
+//  Date:           21/04/2016
 //
 
+///
+/// Defines a search method that iteratively traverses a graph for its target node
+///
 protocol IterativeDeepeningSearchMethod: SearchMethod {
     ///
-    /// Block to calculate the value that is compared against a threshold
-    ///
-    var nodeThresholdCheck: (Node) -> Int { get set }
-
-    ///
-    /// The threshold value to not expand nodes when evaluated to be greater than this value
+    /// The threshold value to not expand nodes when evaluated to be greater
+    /// than this value
     ///
     var threshold: Int { get set }
 
@@ -22,43 +21,78 @@ protocol IterativeDeepeningSearchMethod: SearchMethod {
     /// the actual frontier is about to be empty. Adds new nodes in FIFO order.
     ///
     var fallbackFrontier: FifoFrontier { get set }
+
+    ///
+    /// Block to calculate the value that is compared against a threshold
+    ///
+    var nodeThresholdComparatorBlock: (Node) -> Int { get set }
 }
 
 extension IterativeDeepeningSearchMethod {
-    // Override the expand node and only expand if this node doesn't exceed the threshold
-    mutating func shouldTryToExpandNode(node: Node) -> Bool {
-        // Value to compare against threshold is implemented by nodeThresholdCheck:
-        let valueToCompare = nodeThresholdCheck(node)
-        // This node's path cost is lower than my threshold?
-        // print("Path cost \(node.pathCost) < Threshold \(self.threshold)")
-        // print("Frontier count: \(self.frontier.collection.count); fallback count: \(self.fallbackFrontier.collection.count)")
-        if valueToCompare < self.threshold {
-            return true
-        } else {
-            // This node's path cost is higher than the threshold. We need to insert
-            // this node at the right place in the frontier's collection. To do this
-            // we need to find the node with the smallest path cost
-            // get a 5
-            // 1 2 3 4 5
-            // 5 1 2 3 4
-            // 5 5 5 5 5 but threshold is 4
-            //           so increase threshold to 8
-            // 8 8 8 8 5
-            // 8 8 8 8 8 increase threshold to 10
-            // and so on...
-            self.fallbackFrontier.push(node)
-            // We are about to run out of nodes?
-            if self.frontier.collection.count == 1 {
-                // Double the allowed threshold
-                self.threshold *= 2
-                // No more left in frontier? Fallback to fallback frontier
-                self.frontier.push(self.fallbackFrontier.collection)
-                // Empty fallback frontier's collection
-                self.fallbackFrontier.collection.removeAll()
-            }
 
-            // Don't explore this node yet -- do it later
-            return false
+    // MARK: Override search method's pushing and popping extension
+
+    func pushToFrontier(nodes: [Node]) {
+        // Just wrap in for loop
+        for node in nodes {
+            pushToFrontier(node)
         }
     }
+
+    func pushToFrontier(node: Node) {
+        // If the node we want to push exceeds the threshold we currently have?
+        if self.nodeThresholdComparatorBlock(node) > self.threshold {
+            // Then we will push to our fallback - essentially add this node to the
+            // end of the queue and we will pop it only if we are completely out of
+            // nodes that are out of the threshold range
+            self.fallbackFrontier.push(node)
+        } else {
+            // We can push this node to the concrete frontier as it is within the
+            // threshold; essentially act as a normal frontier
+            self.frontier.push(node)
+        }
+    }
+
+    func popFrontier() -> Node? {
+        // We have some nodes in our frontier?
+        var poppedNode: Node?
+        if !self.frontier.isEmpty {
+            poppedNode = self.frontier.pop()
+        }
+        // Second if to see if we just made the entire frontier empty by popping
+        // above in nodeToPop
+        if self.frontier.isEmpty {
+            // Since we are now out of nodes, we have to **iteratively** traverse
+            // nodes in the fallback frontier instead (i.e., nodes which were too
+            // much beyond the threshold before but are now okay to test.
+            // Therefore append the fallback frontier's collection to the
+            // collection of frontier and double the threshold to support new nodes
+            // for iterative deepening.
+
+            // Double the threshold with each iteration
+            self.threshold *= 2
+
+            // Get the nodes which are in the fallback that do not exceed threshold
+            let nextIterationNodes = self.fallbackFrontier.collection.filter {
+                self.nodeThresholdComparatorBlock($0) < self.threshold
+            }
+
+            // Add in all nodes in the fallback
+            self.frontier.collection
+                .appendContentsOf(nextIterationNodes)
+            // Remove all nodes from the fallback part of this iteration
+            // We do this by reassigning the collection to the same collection filtered
+            // by not containing nodes in nextIterationNodes
+            self.fallbackFrontier.collection = self.fallbackFrontier.collection.filter {
+                !nextIterationNodes.contains($0)
+            }
+
+            // Pop if were never able to pop before (i.e., popped node is still nil)
+            if poppedNode == nil {
+                poppedNode = self.frontier.pop()
+            }
+        }
+        return poppedNode!
+    }
+    
 }

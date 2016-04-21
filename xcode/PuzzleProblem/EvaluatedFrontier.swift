@@ -36,7 +36,7 @@ struct EvaluatedFrontier: Frontier {
     /// - Paramater node: The node to calculate for
     /// - Returns: The estimated path cost 
     ///
-    mutating func distanceToGoal(node: Node) -> Int {
+    func distanceToGoal(node: Node) -> Float {
         return node.distanceToGoal ?? self.evaluationFunction.evaluate(node)
     }
     
@@ -66,11 +66,5 @@ struct EvaluatedFrontier: Frontier {
             self.distanceToGoal(node) >= distanceToGoal
         } ?? self.collection.count) 
         self.collection.insert(node, atIndex: indexToInsert)
-    }
-    
-    mutating func push<C : CollectionType where C.Generator.Element == Node>(nodes: C) {
-        for node in nodes {
-            self.push(node)
-        }
     }
 }

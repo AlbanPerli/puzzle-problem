@@ -9,7 +9,7 @@
 ///
 /// Sorts a search by randomly inserting nodes to the frontier
 ///
-struct BogosortSearch: SearchMethod {
+class BogosortSearch: SearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Bogosort Search"
     static var code: String = "BOGO"

@@ -9,7 +9,7 @@
 ///
 /// Defines a data type that can traverse nodes
 ///
-protocol SearchMethod {
+protocol SearchMethod: class {
     ///
     /// The code of this search method used to run the search method
     ///
@@ -21,18 +21,11 @@ protocol SearchMethod {
     ///
     /// The frontier which stores next traversable items
     ///
-    var frontier: Frontier { get }
+    var frontier: Frontier { get set }
     ///
     /// Desired goal state
     ///
     var goalState: State { get set }
-    ///
-    /// The should try expand node method returns whether or not the node provided
-    /// should be expanded.
-    /// - Parameter node: The node to try and expand
-    /// - Returns: Whether or not the node should be expanded
-    ///
-    func shouldTryToExpandNode(node: Node) -> Bool
     ///
     /// The traverse method accepts a node to traverse and returns back the goal node
     ///
@@ -40,6 +33,23 @@ protocol SearchMethod {
     /// - Returns: The goal node
     ///
     func traverse(node: Node) -> Node?
+    ///
+    /// Pop's the search method's frontier
+    /// - Returns: The next node to traverse
+    ///
+    func popFrontier() -> Node?
+
+    ///
+    /// Pushes a single node to the search method's frontier
+    /// - Parameter node: The node to push
+    ///
+    func pushToFrontier(node: Node)
+
+    ///
+    /// Pushes nodes to the search method's frontier
+    /// - Parameter node: The node to push
+    ///
+    func pushToFrontier(node: [Node])
 }
 
 // MARK: Provide default behaviour to the SearchMethod protocol
@@ -48,34 +58,33 @@ extension SearchMethod {
     func isGoalState(node: Node) -> Bool {
         return node.state == goalState
     }
-    func shouldTryToExpandNode(node: Node) -> Bool {
-        // Usually we always expand nodes, except if overriden with a special condition
-        return true
-    }
+
     func traverse(node: Node) -> Node? {
-        // Make a copy of frontier (frontier is a struct, so we aren't
-        // just copying a pointer here)
-        var frontier: Frontier = self.frontier
-        // Maintain a dictionary of hash values to test where the node has come from
-        // The root node has not come from anything, thus nil
+        // Clear the existing frontier we have as this is a new search
+        self.frontier.collection.removeAll()
+        // Maintain a dictionary of hash values to test where the node has come
+        // from for repeated state checking; that is, check if the node is on a
+        // path with a repeated state below. The root node has not come from
+        // anything, thus nil
         var cameFrom: Dictionary<Int, Int?> = [node.hashValue: nil]
         // Push the first node on
-        frontier.push(node)
+        self.frontier.push(node)
         // While the search method condition is true
         while !frontier.isEmpty {
             // Force unwrap of optional as frontier isn't empty
-            let currentNode = frontier.pop()!
+            let currentNode = self.popFrontier()!
+            // Goal test
             if self.isGoalState(currentNode) {
                 SearchMethodObservationCenter.sharedCenter
                     .notifyObservers(currentNode, isSolved: true)
                 return currentNode
-            } else if self.shouldTryToExpandNode(currentNode) {
+            } else {
                 // Only add the children whos hash values are not stored as keys
                 // in the nodes that this node has come from
                 let childrenToAdd = currentNode.children.filter {
                     !(cameFrom.keys.contains($0.hashValue))
                 }
-                // Update the nodesComeFrom for all the children we are about to add
+                // Update prvious states for the children we are about to add
                 for child in childrenToAdd {
                     cameFrom.updateValue(child.hashValue,
                                          forKey: currentNode.hashValue)
@@ -84,10 +93,29 @@ extension SearchMethod {
                 SearchMethodObservationCenter.sharedCenter
                     .notifyObservers(currentNode, isSolved: false)
                 // Push new children
-                frontier.push(childrenToAdd)
+                self.pushToFrontier(childrenToAdd)
             }
         }
         return nil
+    }
+
+    // MARK: Pushing and poping from frontier
+
+    // These are overrided for IterativeDeepeningSearchMethod's - they don't always
+    // push and pop from the same frontier (i.e., may push to the fallback frontier
+    // if the node value exceed's the threshold.
+    // See IterativeDeepeningSearchMethod.swift for more details
+
+    func popFrontier() -> Node? {
+        return self.frontier.pop()
+    }
+
+    func pushToFrontier(node: Node) {
+        self.frontier.push(node)
+    }
+
+    func pushToFrontier(nodes: [Node]) {
+        self.frontier.push(nodes)
     }
 }
 
