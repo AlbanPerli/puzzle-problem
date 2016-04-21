@@ -9,7 +9,7 @@
 import XCTest
 
 class HeuristicTests: XCTestCase {
-    func testEuclidean() {
+    func testMisplacedTileCount() {
         let rootState = State(matrix: [
             [5, 0, 8],
             [4, 2, 1],
@@ -22,8 +22,8 @@ class HeuristicTests: XCTestCase {
         ])
         let rootNode = Node(initialState: rootState)
         let function = MisplacedTilesCount(goalState: goalState)
-        let numEuclideans = function.visit(rootNode)
-        XCTAssertEqual(numEuclideans, 6)
+        let distance = function.calculate(rootNode)
+        XCTAssertEqual(distance, 6)
     }
 
     func testManhattanDistance() {
@@ -39,7 +39,63 @@ class HeuristicTests: XCTestCase {
         ])
         let rootNode = Node(initialState: rootState)
         let function = ManhattanDistance(goalState: goalState)
-        let numEuclideans = function.visit(rootNode)
-        XCTAssertEqual(numEuclideans, 13)
+        let distance = function.calculate(rootNode)
+        XCTAssertEqual(distance, 13)
+    }
+
+    func testEucledianDistance() {
+        let rootState = State(matrix: [
+            [5, 0, 8],
+            [4, 2, 1],
+            [7, 3, 6],
+        ])
+        let goalState = State(matrix: [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 0],
+        ])
+        let rootNode = Node(initialState: rootState)
+        let function = EuclideanDistance(goalState: goalState)
+        let distance = function.calculate(rootNode)
+        let expected =
+            rootState.sequence.reduce(Float(0)) { memo, val in
+                if val == kEmptyTile {
+                    return memo
+                }
+                return memo +
+                    sqrt(
+                        pow(Float(rootState.positionOf(val)!.col) - Float(goalState.positionOf(val)!.col), 2) +
+                        pow(Float(rootState.positionOf(val)!.row) - Float(goalState.positionOf(val)!.row), 2)
+                    )
+            }
+        XCTAssertEqual(distance, expected)
+    }
+
+    func testChebyshevDistance() {
+        let rootState = State(matrix: [
+            [5, 0, 8],
+            [4, 2, 1],
+            [7, 3, 6],
+            ])
+        let goalState = State(matrix: [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 0],
+            ])
+        let rootNode = Node(initialState: rootState)
+        let function = ChebyshevDistance(goalState: goalState)
+        let distance = function.calculate(rootNode)
+        let expected =
+            rootState.sequence.reduce(Float(0)) { memo, val in
+                if val == kEmptyTile {
+                    return memo
+                }
+                return memo +
+                    max(
+                        abs(Float(rootState.positionOf(val)!.col) - Float(goalState.positionOf(val)!.col)),
+                        abs(Float(rootState.positionOf(val)!.row) - Float(goalState.positionOf(val)!.row))
+                    )
+        }
+        XCTAssertEqual(distance, expected)
     }
 }

@@ -14,22 +14,21 @@
 ///     - **Time:**  O(b<sup>t</sup>)
 ///     - **Space:** O(bt)
 ///
-struct DepthLimitedSearch: SearchMethod {
+class DepthLimitedSearch: IterativeDeepeningSearchMethod {
     // MARK: Implement SearchMethod
     static var name: String = "Depth Limited Search"
     static var code: String = "DLS"
     var goalState: State
     var frontier: Frontier
     
-    // Override the expand node and only expand if this node doesn't exceed the threshold
-    func shouldTryToExpandNode(node: Node) -> Bool {
-        return node.pathCost < self.threshold
+    // MARK: Implement IterativeDeepeningSearchMethod
+    var nodeThresholdComparatorValue: (Node) -> Int = { node in
+        // Just compares against a node's path cost (i.e., it's depth in the context
+        // of the n by m puzzle solver)
+        return node.pathCost
     }
-    
-    ///
-    /// The depth at which to give up exploring
-    ///
-    let threshold: Int
+    var threshold: Int
+    var fallbackFrontier = FifoFrontier()
     
     ///
     /// Initaliser for a Depth First Search
