@@ -216,6 +216,7 @@
 		FA22936B1CA6A46000032463 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FA17F59E1CAF95CD009D3EBD /* SearchMethodObserver.swift */,
 				FA5A2E931C9AF2570041F55E /* FileParser.swift */,
 				FA5C59601CAE994000B7048C /* MutableCollectionType+Shuffle.swift */,
 				FA5C59621CAE99D100B7048C /* CrossPlatformRandom.swift */,
@@ -231,6 +232,36 @@
 				FA43350D1CAA116900FE5C24 /* HeuristicAndPathCostEvaluation.swift */,
 			);
 			name = "Evaluation Functions";
+			sourceTree = "<group>";
+		};
+		FA58BAEA1CC9247100A3C0FB /* Concrete Search Methods */ = {
+			isa = PBXGroup;
+			children = (
+				FA58BAEB1CC9249200A3C0FB /* Uninformed */,
+				FA58BAEC1CC9249900A3C0FB /* Informed */,
+			);
+			name = "Concrete Search Methods";
+			sourceTree = "<group>";
+		};
+		FA58BAEB1CC9249200A3C0FB /* Uninformed */ = {
+			isa = PBXGroup;
+			children = (
+				FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */,
+				FA4B2B8F1CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift */,
+				FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */,
+				FA5C59641CAE9AF200B7048C /* BogosortSearch.swift */,
+			);
+			name = Uninformed;
+			sourceTree = "<group>";
+		};
+		FA58BAEC1CC9249900A3C0FB /* Informed */ = {
+			isa = PBXGroup;
+			children = (
+				FA4335061CAA064D00FE5C24 /* GreedyBestFirstSearch.swift */,
+				FA4335121CAB540500FE5C24 /* AStarSearch.swift */,
+				FAFAA78A1CB380DF0018516F /* IterativeDeepeningAStarSearch.swift */,
+			);
+			name = Informed;
 			sourceTree = "<group>";
 		};
 		FA5A2E261C9AE3020041F55E = {
@@ -308,18 +339,11 @@
 		FAE0F9DC1C9E2CD40036C436 /* Search Methods */ = {
 			isa = PBXGroup;
 			children = (
-				FA43350A1CAA0EC300FE5C24 /* Evaluation Functions */,
-				FAD0AEAA1CA54C12005BA51E /* Heuristic Functions */,
 				FA7439341CA285C1009411C2 /* SearchMethod.swift */,
 				FA58BADF1CC895DB00A3C0FB /* IterativeDeepeningSearchMethod.swift */,
-				FA17F59E1CAF95CD009D3EBD /* SearchMethodObserver.swift */,
-				FAFB45EA1C9B6E6D0093DB92 /* DepthFirstSearch.swift */,
-				FA4B2B8F1CAE691F005878E1 /* IterativeDeepeningDepthFirstSearch.swift */,
-				FAD276381C9BF3D1006819FF /* BreadthFirstSearch.swift */,
-				FA4335061CAA064D00FE5C24 /* GreedyBestFirstSearch.swift */,
-				FA4335121CAB540500FE5C24 /* AStarSearch.swift */,
-				FA5C59641CAE9AF200B7048C /* BogosortSearch.swift */,
-				FAFAA78A1CB380DF0018516F /* IterativeDeepeningAStarSearch.swift */,
+				FA43350A1CAA0EC300FE5C24 /* Evaluation Functions */,
+				FAD0AEAA1CA54C12005BA51E /* Heuristic Functions */,
+				FA58BAEA1CC9247100A3C0FB /* Concrete Search Methods */,
 			);
 			name = "Search Methods";
 			sourceTree = "<group>";

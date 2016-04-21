@@ -18,13 +18,13 @@
 ///
 class AStarSearch: SearchMethod {
     // MARK: Implement SearchMethod
-    static var name: String = "A Star Search"
+    static var name: String = "A* Search"
     static var code: String = "AS"
     var goalState: State
     var frontier: Frontier
     
     ///
-    /// Initaliser for a Depth First Search
+    /// Initaliser for a A* Search
     /// - Parameter goalState: The search's goal state
     /// - Parameter heuristicFunction: The heuristic used in the evaluation function
     ///

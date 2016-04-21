@@ -25,7 +25,7 @@ class GreedyBestFirstSearch: SearchMethod {
     var frontier: Frontier
     
     ///
-    /// Initaliser for a Depth First Search
+    /// Initaliser for a GBFS
     /// - Parameter goalState: The search's goal state
     /// - Parameter heuristicFunction: The heuristic used in the evaluation function
     ///

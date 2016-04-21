@@ -18,7 +18,7 @@
 ///
 class IterativeDeepeningAStarSearch: IterativeDeepeningSearchMethod {
     // MARK: Implement SearchMethod
-    static var name: String = "Iterative Deepening A Star Search"
+    static var name: String = "Iterative Deepening A* Search"
     static var code: String = "IDAS"
     var goalState: State
     var frontier: Frontier
@@ -29,7 +29,7 @@ class IterativeDeepeningAStarSearch: IterativeDeepeningSearchMethod {
     var nodeThresholdComparatorBlock: (Node) -> Int
 
     ///
-    /// Initaliser for a Depth First Search
+    /// Initaliser for a IDA*
     /// - Parameter goalState: The search's goal state
     /// - Parameter heuristicFunction: The heuristic used in the evaluation function
     /// - Parameter threshold: Do not traverse nodes who evaluate to a value greater
