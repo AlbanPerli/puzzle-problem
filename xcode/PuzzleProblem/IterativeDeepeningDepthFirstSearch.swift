@@ -10,11 +10,11 @@
 /// Iterative deepening depth first search Depth First Search, however it 
 /// will stop expanding the next unexpanded node if that node is beyond its
 /// threshold point, such that the maximum depth of the search tree is limited
-/// to the specified `threshold`, or `t`. When there are no more nodes in its
-/// frontier it will revert to its fallback frontier and perform a depth first
+/// to the specified `threshold`. When there are no more nodes in its frontier 
+/// it will revert to its fallback frontier and perform a depth first
 /// search on nodes it expands from its fallback; thus iterative deepening.
 /// - Complexity:
-///     - **Time:**  O(b<sup>t</sup>)
+///     - **Time:**  O(b<sup>d</sup>)
 ///     - **Space:** O(bt)
 ///
 class IterativeDeepeningDepthFirstSearch: IterativeDeepeningSearchMethod {

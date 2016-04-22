@@ -150,14 +150,16 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
         )
 
         // Calculate inversions
-        let inversions = self.sequence.enumerate().reduce(0) { (memo, value) -> Int in
-            let startAt = value.index + 1
-            let element = value.element
-            let numInversionsForElement = self.sequence.suffixFrom(startAt).filter({ num in
-                element > num && num != kEmptyTile
-            }).count
-            return memo + numInversionsForElement
-        }
+        let inversions = self.sequence.enumerate().reduce(0) {
+            (memo, value) -> Int in
+                let startAt = value.index + 1
+                let element = value.element
+                let numInversionsForElement =
+                    self.sequence.suffixFrom(startAt).filter({ num in
+                        element > num && num != kEmptyTile
+                    }).count
+                return memo + numInversionsForElement
+            }
 
         // Parity of the inversions
         let inversionsIs = (

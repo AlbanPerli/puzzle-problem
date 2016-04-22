@@ -152,7 +152,10 @@ struct Launcher {
             "   Valid to IDS and IDAS searches for threshold. For IDS, this value",
             "   indicates the maximum allowed depth before backtracing, and for",
             "   IDAS this value indicates the maximum allowed distance to goal",
-            "   value before backtracking."
+            "   value before backtracking. When no nodes exist in the frontier at",
+            "   the threshold, then the threshold is doubled and the search iterates",
+            "   over children in the frontier that were not considered in the previous",
+            "   iteration."
         ]
         return str.joinWithSeparator("\n")
     }
