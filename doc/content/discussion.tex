@@ -17,7 +17,7 @@ frontier. Refer to Section~\ref{sub:Frontiers} for more.
 \lstinputlisting[
   label=lst:searchtraversal,
   caption=
-    Search traversal for searches use the following code,
+    Search traversal for searches is implemented using a protocol extension method,
   language=swift,
   linerange=62-100
 ]{../../src/SearchMethod.swift}
@@ -25,12 +25,12 @@ frontier. Refer to Section~\ref{sub:Frontiers} for more.
 \subsection{Iterative Depth Search Implementation}
 \label{sub:Iterative Depth Search Implementation}
 
-Where an iterative depth search is used, the pushing and popping of a fontier
-may cause a node to be pushed to it's \emph{fallback} frontier (a FIFO frontier),
+Where an iterative depth search is used, the pushing and popping of a frontier
+may cause a node to be pushed to its \emph{fallback} frontier (a FIFO frontier),
 that is, the frontier that stores all nodes that exceed the current threshold.
 
 An iterative search with threshold, $t$, a concrete frontier, $f$, and a
-fallback frontier $\bar{f}$ would use thje node threshold comparator
+fallback frontier, $\bar{f}$, would use the node threshold comparator
 function\footnote{Both comparators for \texttt{IDAS} and \texttt{IDS} are noted
 in Section~\ref{subs:Thresholds}.}, $T(n)$, to calculate values from a node,
 $n$, and see which frontier should be used. Thus:
@@ -105,12 +105,12 @@ in which to insert in its collection, as shown in Listing~\ref{lst:indexinsert}.
 \subsection{Random State Generation}
 \label{sub:random state generation}
 
-As you can see in \texttt{RandomState.swift}, random $n$ by $m$ states were
+As seen in \texttt{RandomState.swift}, random $n$ by $m$ states were
 generated for extensive testing. It was ensured that these generated states are
 \emph{solvable} using a State's \texttt{isSolvable} computed property.
 
 To implement \texttt{isSolveable}, three theorms devised by
-\citeauthor{gong2000} were used. The number of inversions, $k$, of a state is
+\citep{gong2000} were used. The number of inversions, $k$, of a state is
 calculated by of a state, $s$ by finding the sum of the each tile, $t$, at index
 $i$ that is higher than the \emph{next} tile position, $t_{i+1}$.
 
@@ -120,7 +120,8 @@ $i$ that is higher than the \emph{next} tile position, $t_{i+1}$.
   \ ) \ \text{where} \ K = \{ \ t \ | \ t_{i} > t_{i+1} \ \text{and} \ t_{i} \neq 0 \ \}
 \end{equation}
 
-The implementation of Equation~\ref{eq:inversions} is given in Listing~\ref{lst:solveable1}
+The implementation of Equation~\ref{eq:inversions} is given in
+Listing~\ref{lst:solveable1} below.
 
 \lstinputlisting[
   label=lst:solveable1,
@@ -132,7 +133,7 @@ The implementation of Equation~\ref{eq:inversions} is given in Listing~\ref{lst:
 
 By using Equation~\ref{eq:inversions}, we can then utilise three theorms to see
 if a given state is solvable. Theorms 2 and 3 make use of the number of
-the row of the blank, $i$, file from the bottom of the row, that is, for an $n \times m$
+the row of the blank tile, $i$, from the bottom of the row, that is, for an $n$ by $m$
 state $m - i$.
 
 \paragraph{Theorm 1}
@@ -167,7 +168,7 @@ Refer to
 \texttt{State.swift:140-204} for the three theorms used to calculate solvability
 and \texttt{IsStateSolvableTests.swift} for test coverage of these theorms.
 
-\subsection{Time Performance Testing}
+\subsection{Time Complexity Performance Testing}
 \label{sub:time performance tests}
 
 The codebase was ensured for optimal unit test coverage. For tests, refer to
@@ -177,42 +178,54 @@ results were averaged over 10 different tests for each.
 
 Results from aggregating these time performance tests are
 shown in Tables~\ref{tab:uninformed} to \ref{tab:gbfs} and are graphically
-represented in Figures~\ref{fig:unformed} to \ref{fig:gbfs}. All tests for
+represented in Figures~\ref{fig:uninformed} to \ref{fig:gbfs}. All tests for
 iterative deepening searches had an initial threshold value of 4.
 
-On analysis of Figures~\ref{fig:unformed}, it can be determined that the $3 \times 3$
-states take the longest for most tests. The maximum number of solvable states,
-$n$, as shown by \citet{gong2000}, is shown in \ref{eq:maxsolvable}:
+It can be determined that the $3 \times 3$ states generally take the longest for
+most tests. The maximum number of solvable states, $n$, as shown by
+\citet{gong2000}, is shown in Equation~\ref{eq:maxsolvable}:
 
 \begin{equation}\label{eq:maxsolvable}
   n_{n \times m} = \frac{(n \times m)!}{2}
 \end{equation}
 
 For the $3 \times 3$ tests, it can be shown that there are more legal configurations
-than the largest other dimensional state, $4 \times 2$ by applying \ref{eq:maxsolvable}
-on each state to prove \ref{eq:3by3larger}:
-
-\begin{equation}\label{eq:3by3larger}
+than the largest other dimensional state, $4 \times 2$ by applying
+Equation~\ref{eq:maxsolvable}:
+\begin{align*}\label{eq:3by3larger}
   n_{3 \times 3} = \frac{( 3 \times 3 )!}{2} = 181440 > n_{2 \times 4} = \frac{( 2 \times 4 )!}{2} = 20160
-\end{equation}
+\end{align*}
 
-Figure~\ref{fig:results}(b) highlights that \texttt{IDS} is indeed the slowest
-implemented algorithm, taking up to 110s to solve for a $3 \times 3$ puzzle. This
-may be caused by expensively implemented operations defined in
-Section~\ref{sub:Iterative Depth Search Implementation}.
+Uninformed searches are expectedly slower than their informed counterparts. BFS is
+shown to be the fastest here, consistently scoring speeds almost half of the
+other informed searches. Figure~\ref{fig:uninformed}(c) and (f) do show, however
+that IDDFS is somewhat close when one dimension is \emph{signficantly} larger than
+the other. \citet{amackworth1998} and \citet{canderson2012} demonstrate how both the time
+complexities of BFS and IDDFS share similar properties---that is, $O(b^{m})$---which
+reinforces these similarities.
 
-Factoring this outlier out---see Figure~\ref{fig:results}(a)---the \texttt{BFS} performs
-best on each of the tests, followed second by \texttt{BOGO} and lastly \texttt{DFS}.
+The non-optimal properites DFS are proved by these search tests, and Figure~\ref{fig:uninformed}
+highlights how poor DFS can perform on even the smallest of states. Where a solution
+is not on the initial vector, significant time is wasted---IDDFS, by combining
+the best of both DFS and BFS, emphasises the improvements of adding an increasing
+threshold to stop this problem.
 
-Similarly, the iterative-deepening A* search (\texttt{IDAS}) is also slower
-than its non-depth-limited counterpart \texttt{AS}. Whilst \texttt{IDAS} is still far
-improved than \texttt{GBFS} as shown in the summary Figure~\ref{fig:results}(f),
-there are cases where A* performs faster.
+When juxtaposed to the informed searched, immediatley it can be seen that the times
+improve significantly (Figure~\ref{fig:informed}). By averaging across all heuristics,
+Figure~\ref{fig:informed} highlights that IDA* perofmrs signficiantly well in all $n$ by $m$
+states, but \emph{not} for $n$ by $n$ states---in fact both A* and IDA* are outperformed
+by GBFS. Compare \ref{fig:informed}(a) and (d)---GBFS outperforms A* and IDA*, which
+could be due to implementation factors of heuristics calculations, as some heuristics
+in A* and IDA* significantly disadvantage them to GBFS (contrast the signficiantly
+high values of the Chebyshev Distance heuristic among A* and IDA* in Figures~\ref{fig:as}
+and \ref{fig:idas}, and then the relatively \emph{lower} GBFS average of Chebyshev in
+Figure~\ref{fig:gbfs}.
 
-Figures~\ref{fig:results}(c) to Figures~\ref{fig:results}(g) also show that the Chebyshev
-distance is consistently the slowest-calculating heursitic to use for informed
-searches. Manhattan and Euclidean distances are shown to be faster; this may
-be due to their simplier implementations.
+Indeed, Chebyshev is shown to be quite a poor heuristic consistently for A* and IDA*
+regardless of state, especially in Figures\ref{fig:as}(d) and Figures\ref{fig:idas}(d)
+where it is a significant outlier. For most heuristics, Manhattan is generally the
+best performer, although when it comes to $n$ by $n$ matrices using A*, Euclidean comes
+very close---compare Figure~\ref{fig:as}(a) and (d) and Figure~\ref{fig:idas}(a) and (d).
 
 \begin{figure}[h!]
   \centering

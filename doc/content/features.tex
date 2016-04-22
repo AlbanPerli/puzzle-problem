@@ -47,9 +47,10 @@ only if there are no more nodes to search for, thereby initialising the next
 \label{subs:Heuristics}
 
 By default, the heuristic used for informed searches is the Manhattan Distance
-heuristic, shown below. The distance of state, $s$, of an $n$ by $m$ puzzle
-is calculated by the sum of the absolute differences of a tile $t$'s coordinates
-from the state to it's goal state, $\bar{s}$. See \ref{eq:manhattan} below.
+heuristic, shown below in Equiation \ref{eq:manhattan}. The distance of state,
+$s$, of an $n$ by $m$ puzzle is calculated by the sum of the absolute
+differences of a tile $t$'s coordinates from the state to it's goal state,
+$\bar{s}$.
 
 \begin{equation} \label{eq:manhattan}
   h(s)_{\text{manhattan}} =
@@ -96,17 +97,17 @@ represented by the $n$ by $m$ matrix as coloured tiles. See Figure~\ref{fig:gui}
   \label{fig:gui}
 \end{figure}
 
-You can initate the GUI by using the following switches:
+The GUI can be initiated using the following switches:
 
 \begin{itemize}
   \item \texttt{\bfseries --gui=solved}
   Show only the solved puzzle. Traverse the search tree from the root node to
   the goal node using the \texttt{B} or $\uparrow$ Keys and down the tree using
   the \texttt{F} or $\downarrow$ Keys
-  \item \texttt{\bfseries --gui=solving}\footnote{Not that when using the
+  \item \texttt{\bfseries --gui=solving}\footnote{Note that when using the
   solving GUI, the search algorithm may appear to be slower than when not using
   the GUI. This is due to render lag caused by X11, used to render the GUI.}
   Show the search algorithm solving the puzzle. When solving the GUI will not be
-  responsive, so should you want to quit the solver, you will need to terminate
-  at the command line using \texttt{\^{}C}
+  responsive, so should the solver need to be quit, termination at the command
+  line using \texttt{\^{}C} is required
 \end{itemize}
