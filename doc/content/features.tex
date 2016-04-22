@@ -13,41 +13,77 @@ The solver implements the following search methods:
   \begin{itemize}
     \item Breadth-First Search, \texttt{BFS}
     \item Depth-First Search, \texttt{DFS}
-    \item Depth-Limited Search, \texttt{DLS,CUS1}
+    \item Iterative-Deepening Depth First Search (IDDFS), \texttt{IDS,CUS1}
     \item Bogosort Search, \texttt{BOGO,CUS3}
   \end{itemize}
   \item Informed:
   \begin{itemize}
     \item Greedy Best-First Search, \texttt{GBFS}
-    \item A-Star Search, \texttt{AS}
-    \item Iterative-Deepening A-Star Search, \texttt{IDAS,CUS2}
+    \item A* Search, \texttt{AS}
+    \item Iterative-Deepening A-Star Search (IDA*), \texttt{IDAS,CUS2}
   \end{itemize}
 \end{itemize}
 
-Note that \texttt{DLS} and \texttt{IDAS} searches can utilise the
-\texttt{--threshold} switch when executing, which will specify the
-maximum node path cost to traverse (for \texttt{DLS}) or the limit
-to the evaluation function result that will be accepted for searches
-(for \texttt{IDAS}), that is:
+\subsubsection{Thresholds}
+\label{subs:Thresholds}
 
-\begin{center}
-  \vspace{1em}
-  \noindent
-  $pc(n) < threshold_{DLS}$
-  \\
-  $f(n) < threshold_{IDAS}$
-  \vspace{1em}
-\end{center}
+IDDFS and IDA* searches can utilise the \texttt{--threshold}
+switch when executing, which will specify the initial maximum node path cost, or
+$pc(n)$, to traverse, for IDS, or the limit to the evaluation function
+result, $f(n)$, that will be accepted for searches, for \texttt{IDAS}).
+That is, for a threshold of $t$, the following:
+\begin{align}\label{eq:thresholds}
+  pc(n) < t_{\text{IDDFS}}\\
+  f(n) < t_{\text{IDA*}}
+\end{align}
+
+As these are iterative depth searches, the initial threshold is \emph{doubled}
+each time nodes are calculated to no longer be within the current threshold.
+These nodes are temporarily stored in a \emph{fallback} frontier and are used
+only if there are no more nodes to search for, thereby initialising the next
+\emph{iteration}. Refer to Section~\ref{sub:Search Traversal} for more detail.
+
+\subsubsection{Heuristics}
+\label{subs:Heuristics}
 
 By default, the heuristic used for informed searches is the Manhattan Distance
-heuristic. This can be changed to other heuristics by using the \texttt{--heuristic}
-switch and providing one of: \texttt{manhattan}, \texttt{euclidean},
-\texttt{manhattan}, or \texttt{misplaced}. Refer to the help for more instructions.
+heuristic, shown below. The distance of state, $s$, of an $n$ by $m$ puzzle
+is calculated by the sum of the absolute differences of a tile $t$'s coordinates
+from the state to it's goal state, $\bar{s}$. See \ref{eq:manhattan} below.
 
+\begin{equation} \label{eq:manhattan}
+  h(s)_{\text{manhattan}} =
+    \sum_{t=1}^{n \times m} \ ( \
+      | \ x_{t}(s) - x_{t}(\bar{s}) \ | \ + \ | \ y_{t}(s) - y_{t}(\bar{s}) \ |
+    \ )
+\end{equation}
+
+Similarly, the Chebyshev and Euclidean Distances are also avaliable for
+heuristics calculation. See \ref{eq:chebyshev} and \ref{eq:euclidean},
+respectively. The last avaliable heuristic is the misplaced tiles count,
+which is simply the number of mismatches in the position tiles
+
+\begin{equation} \label{eq:chebyshev}
+  h(s)_{\text{chebyshev}} =
+    \sum_{t=1}^{n \times m} \ ( \
+      \mathbf{max}( \ | \ x_{t}(s) - x_{t}(\bar{s}) \ | \ , \ | \ y_{t}(s) - y_{t}(\bar{s}) \ | \ )
+    \ )
+\end{equation}
+
+\begin{equation} \label{eq:euclidean}
+  h(s)_{\text{euclidean}} =
+    \sum_{t=1}^{n \times m} \ ( \
+      \sqrt{ ( \ x_{t}(s) - x_{t}(\bar{s}) \ )^{2} + ( \ y_{t}(s) - y_{t}(\bar{s}) \ )^{2} }
+    \ )
+\end{equation}
+
+The heuristic used on an informed search can be changed to other heuristics by
+using the  \texttt{--heuristic} switch and providing one of: \texttt{manhattan},
+\texttt{euclidean}, \texttt{manhattan}, \texttt{chebyshev} or
+\texttt{misplaced}. Refer to the help for more instructions.
 
 \subsection{Graphical Solver}
 \label{sub:Graphical Solver}
-
 
 A graphical solver can show both the search method solving the puzzle
 as well as a solution to the puzzle where state's in the node tree are
