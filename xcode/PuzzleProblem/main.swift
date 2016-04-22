@@ -295,7 +295,9 @@ struct Launcher {
         // Default threshold
         var threshold: Int?
         let thresholdRequired = Process.arguments[2] == IterativeDeepeningDepthFirstSearch.code ||
-                                Process.arguments[2] == IterativeDeepeningAStarSearch.code
+                                Process.arguments[2] == IterativeDeepeningAStarSearch.code ||
+                                Process.arguments[2] == "CUS1" ||
+                                Process.arguments[2] == "CUS2"
         // Check for threshold
         for arg in args {
             if arg.element.characters.split("=").first?.elementsEqual("--threshold".characters) ?? false {
