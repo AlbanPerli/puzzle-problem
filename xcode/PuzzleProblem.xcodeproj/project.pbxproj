@@ -351,6 +351,7 @@
 		FAE0F9DE1C9E2D080036C436 /* Search Data Structures */ = {
 			isa = PBXGroup;
 			children = (
+				FA5A2E471C9AE3470041F55E /* State.swift */,
 				FAE0F9CC1C9D35D40036C436 /* Frontier.swift */,
 				FAE0F9D31C9E2C380036C436 /* LifoFrontier.swift */,
 				FAE0F9D51C9E2C480036C436 /* FifoFrontier.swift */,
@@ -364,7 +365,6 @@
 			isa = PBXGroup;
 			children = (
 				FA5A2E451C9AE32F0041F55E /* Node.swift */,
-				FA5A2E471C9AE3470041F55E /* State.swift */,
 				FA88CEC81C9B831600DF8B66 /* Position.swift */,
 				FA5A2E491C9AE3530041F55E /* Direction.swift */,
 				FA0BE82F1C9B9D270007E49D /* Action.swift */,

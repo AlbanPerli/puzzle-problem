@@ -132,7 +132,7 @@ class State: Equatable, Hashable, CustomDebugStringConvertible {
     ///
     /// Property to compute if a state is solvable to an ascending order, i.e.:
     /// ```
-    /// [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+    /// [ 1, 2, 3, 4, 5, 6, 7, 0 ]
     /// ```
     /// - Remarks: Refer to the proof written by
     ///            [Kevin Gong](http://kevingong.com/Math/SixteenPuzzle.html)

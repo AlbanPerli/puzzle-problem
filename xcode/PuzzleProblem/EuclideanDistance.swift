@@ -42,15 +42,15 @@ struct EuclideanDistance: HeuristicFunction {
             
             // Calculate the difference of the cols (x) and rows (y)
             let delta = (
-                x: Float(currPos.col - goalPos.col),
-                y: Float(currPos.row - goalPos.row)
+                x: Double(currPos.col - goalPos.col),
+                y: Double(currPos.row - goalPos.row)
             )
             
             // Sum the powers of both and square-root the result
             let sumOfDiffsPower = sqrt( pow(delta.x, 2) + pow(delta.y, 2) )
             
             // Add this to the memo
-            return memo + sumOfDiffsPower
+            return memo + Float(sumOfDiffsPower)
         }
     }
 }

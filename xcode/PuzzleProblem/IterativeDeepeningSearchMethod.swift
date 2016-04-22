@@ -94,11 +94,12 @@ extension IterativeDeepeningSearchMethod {
             self.frontier.collection
                 .appendContentsOf(nextIterationNodes)
             // Remove all nodes from the fallback part of this iteration
-            // We do this by reassigning the collection to the same collection filtered
-            // by not containing nodes in nextIterationNodes
-            self.fallbackFrontier.collection = self.fallbackFrontier.collection.filter {
-                !nextIterationNodes.contains($0)
-            }
+            // We do this by reassigning the collection to the same collection
+            // filtered by not containing nodes in nextIterationNodes
+            self.fallbackFrontier.collection =
+                self.fallbackFrontier.collection.filter {
+                    !nextIterationNodes.contains($0)
+                }
 
             // Pop if were never able to pop before (i.e., popped node is still nil)
             if poppedNode == nil {
